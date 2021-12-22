@@ -1,4 +1,4 @@
-import 'package:chantech/screens/splashScreen.dart';
+import 'package:chantech/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
