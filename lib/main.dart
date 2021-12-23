@@ -1,4 +1,5 @@
 import 'package:chantech/screens/login.dart';
+import 'package:chantech/screens/register.dart';
 import 'package:chantech/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +10,8 @@ void main() {
     initialRoute: '/register',
     routes: {
       '/': (context) => const SplashScreen(),
-      '/register': (context) => const Login(),
+      '/login': (context) => const Login(),
+      '/register': (context) => Register(),
     },
   ));
 }

@@ -12,13 +12,15 @@ class Login extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 40),
         color: myBlue,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            const SizedBox(height: 30),
             Image.asset(
               'assets/outlinedLogo.png',
               width: 180,
               fit: BoxFit.scaleDown,
             ),
+            const SizedBox(height: 30),
             const LoginCard(),
           ],
         ),
@@ -79,7 +81,9 @@ class LoginCard extends StatelessWidget {
               ),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, '/register');
+              },
               child: const Text(
                 'Creer un nouveau compte',
                 style: TextStyle(
@@ -89,7 +93,7 @@ class LoginCard extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 50),
+            const SizedBox(height: 30),
 
             Row(
               children: [
