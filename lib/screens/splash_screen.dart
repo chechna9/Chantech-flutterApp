@@ -16,6 +16,8 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
+    Future.delayed(Duration(seconds: 5))
+        .then((value) => Navigator.pushReplacementNamed(context, '/login'));
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 1),
@@ -59,7 +61,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void dispose() {
     // TODO: implement dispose
-    super.dispose();
     _animationController!.dispose();
+    super.dispose();
   }
 }

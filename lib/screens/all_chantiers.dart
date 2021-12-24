@@ -1,3 +1,4 @@
+import 'package:chantech/components/chantier_card.dart';
 import 'package:chantech/consts.dart';
 import 'package:flutter/material.dart';
 
@@ -17,12 +18,65 @@ class _AllChantiersState extends State<AllChantiers> {
     enCours = true;
   }
 
+  List<ChantierCard> listChantiers = [
+    ChantierCard(
+      nom: 'La tour Eiffel',
+      respo: 'Aboud',
+      prop: 'Rachid Nekaz',
+    ),
+    ChantierCard(
+      nom: 'La tour Eiffel',
+      respo: 'Aboud',
+      prop: 'Rachid Nekaz',
+    ),
+    ChantierCard(
+      nom: 'La tour Eiffel',
+      respo: 'Aboud',
+      prop: 'Rachid Nekaz',
+    ),
+    ChantierCard(
+      nom: 'La tour Eiffel',
+      respo: 'Aboud',
+      prop: 'Rachid Nekaz',
+    ),
+    ChantierCard(
+      nom: 'La tour Eiffel',
+      respo: 'Aboud',
+      prop: 'Rachid Nekaz',
+    ),
+    ChantierCard(
+      nom: 'La tour Eiffel',
+      respo: 'Aboud',
+      prop: 'Rachid Nekaz',
+    ),
+    ChantierCard(
+      nom: 'La tour Eiffel',
+      respo: 'Aboud',
+      prop: 'Rachid Nekaz',
+    ),
+    ChantierCard(
+      nom: 'La tour Eiffel',
+      respo: 'Aboud',
+      prop: 'Rachid Nekaz',
+    ),
+    ChantierCard(
+      nom: 'La tour Eiffel',
+      respo: 'Aboud',
+      prop: 'Rachid Nekaz',
+    ),
+    ChantierCard(
+      nom: 'La tour Eiffel',
+      respo: 'Aboud',
+      prop: 'Rachid Nekaz',
+    ),
+  ];
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 40),
       child: Column(
         children: [
+          //Buttons
           Row(
             children: [
               TextButton(
@@ -60,6 +114,19 @@ class _AllChantiersState extends State<AllChantiers> {
                 ),
               ),
             ],
+          ),
+          const SizedBox(height: 10),
+          SizedBox(
+            height: 400,
+            child: ListView.builder(
+              itemCount: listChantiers.length,
+              itemBuilder: (context, index) => Column(
+                children: [
+                  listChantiers[index],
+                  const SizedBox(height: 10),
+                ],
+              ),
+            ),
           ),
         ],
       ),

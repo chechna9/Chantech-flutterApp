@@ -207,9 +207,11 @@ class _SecondRegisterCardState extends State<SecondRegisterCard> {
                 Expanded(
                   child: TextButton(
                     style: myBottomStyle(myBlue),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(context, '/home');
+                    },
                     child: const Text(
-                      'Se Connecter',
+                      'S\'inscrire',
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w900,
