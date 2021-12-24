@@ -1,15 +1,33 @@
+import 'package:chantech/components/chantier_card.dart';
+import 'package:chantech/components/equipement_card.dart';
+import 'package:chantech/components/ouvrier_card.dart';
 import 'package:chantech/consts.dart';
 import 'package:chantech/screens/all_chantiers.dart';
 import 'package:chantech/screens/all_equipements.dart';
 import 'package:chantech/screens/all_ouvriers.dart';
 import 'package:flutter/material.dart';
 
-List<String> titles = [
-  'List des chantiers',
-  'List des ouvriers',
-  'List des equipements',
-];
 int? index;
+List<ChantierCard> listChantiers = [
+  ChantierCard(nom: 'La tour Eiffel', respo: 'Aboud', prop: 'Rachid Nekaz'),
+];
+List<EquipementCard> listEquipements = [
+  EquipementCard(libelle: 'Marteau', num: 12, rest: 25),
+  EquipementCard(libelle: 'Marteau', num: 12, rest: 25),
+  EquipementCard(libelle: 'Marteau', num: 12, rest: 25),
+  EquipementCard(libelle: 'Marteau', num: 12, rest: 25),
+  EquipementCard(libelle: 'Marteau', num: 12, rest: 25),
+  EquipementCard(libelle: 'Marteau', num: 12, rest: 25),
+  EquipementCard(libelle: 'Marteau', num: 12, rest: 25),
+];
+List<OuvrierCard> listOuvriers = [
+  OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
+  OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
+  OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
+  OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
+  OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
+  OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
+];
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -30,22 +48,6 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: myBlue,
-      appBar: AppBar(
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        backgroundColor: myBlue,
-        title: Text(
-          titles[index!],
-          style: const TextStyle(
-            fontWeight: FontWeight.w900,
-            fontSize: 20,
-          ),
-        ),
-        actions: [
-          Image.asset('assets/outlinedLogo.png'),
-          const SizedBox(width: 20),
-        ],
-      ),
       bottomNavigationBar: Container(
         height: 60,
         decoration: const BoxDecoration(
@@ -96,21 +98,17 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        elevation: 0,
-        backgroundColor: myYellow,
-        child: const Icon(
-          Icons.add,
-          size: 50,
-          color: myBlue,
-        ),
-        onPressed: () {},
-      ),
       body: index == 0
-          ? AllChantiers()
+          ? AllChantiers(
+              listChantiers: listChantiers,
+            )
           : index == 1
-              ? AllOuvriers()
-              : AllEquipements(),
+              ? AllOuvriers(
+                  listOuvriers: listOuvriers,
+                )
+              : AllEquipements(
+                  listEquipements: listEquipements,
+                ),
     );
   }
 }
