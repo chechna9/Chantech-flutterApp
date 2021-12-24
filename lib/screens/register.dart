@@ -40,9 +40,14 @@ class _RegisterState extends State<Register> {
               fit: BoxFit.scaleDown,
             ),
             const SizedBox(height: 30),
-            firstReg == true
-                ? FirstRegisterCard(nextStep: nextStep)
-                : SecondRegisterCard(nextStep: nextStep),
+            Expanded(
+              // height: 400,
+              child: SingleChildScrollView(
+                child: firstReg == true
+                    ? FirstRegisterCard(nextStep: nextStep)
+                    : SecondRegisterCard(nextStep: nextStep),
+              ),
+            )
           ],
         ),
       ),
@@ -62,6 +67,9 @@ class FirstRegisterCard extends StatefulWidget {
 }
 
 class _FirstRegisterCardState extends State<FirstRegisterCard> {
+  final _formKey = GlobalKey<FormState>();
+  String nom = "";
+  String prenom = "";
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -71,29 +79,22 @@ class _FirstRegisterCardState extends State<FirstRegisterCard> {
           borderRadius: BorderRadius.all(Radius.circular(20))),
       padding: const EdgeInsets.all(20),
       child: Form(
+        key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             //Nom
-            Container(
-              decoration: const BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-              child: TextFormField(
-                decoration: myTFFDecoration('Nom'),
-              ),
+            TextFormField(
+              decoration: myTFFDecoration('Nom'),
+              onChanged: (value) => nom = value,
+              validator: (val) => val!.isEmpty ? 'Remplir ce champ' : null,
             ),
             const SizedBox(height: 20),
             //Prénom
-            Container(
-              decoration: const BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-              child: TextFormField(
-                decoration: myTFFDecoration('Prénom'),
-              ),
+            TextFormField(
+              decoration: myTFFDecoration('Prénom'),
+              onChanged: (value) => prenom = value,
+              validator: (val) => val!.isEmpty ? 'Remplir ce champ' : null,
             ),
             const SizedBox(height: 10),
             TextButton(
@@ -116,7 +117,7 @@ class _FirstRegisterCardState extends State<FirstRegisterCard> {
                   child: TextButton(
                     style: myBottomStyle(myBlue),
                     onPressed: () {
-                      widget.nextStep();
+                      if (_formKey.currentState!.validate()) widget.nextStep();
                     },
                     child: const Text(
                       'Suivant',
@@ -148,6 +149,10 @@ class SecondRegisterCard extends StatefulWidget {
 }
 
 class _SecondRegisterCardState extends State<SecondRegisterCard> {
+  final _formKey = GlobalKey<FormState>();
+  String email = "";
+  String phoneNumber = "";
+  String password = "";
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -157,29 +162,30 @@ class _SecondRegisterCardState extends State<SecondRegisterCard> {
           borderRadius: BorderRadius.all(Radius.circular(20))),
       padding: const EdgeInsets.all(20),
       child: Form(
+        key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             //Email
-            Container(
-              decoration: const BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-              child: TextFormField(
-                decoration: myTFFDecoration('E-mail'),
-              ),
+            TextFormField(
+              decoration: myTFFDecoration('E-mail'),
+              onChanged: (value) => email = value,
+              validator: (val) => val!.isEmpty ? 'Remplir ce champ' : null,
+            ),
+            const SizedBox(height: 20),
+            TextFormField(
+              decoration: myTFFDecoration('Numéro de Telephone'),
+              onChanged: (value) => phoneNumber = value,
+              validator: (val) => val!.isEmpty ? 'Remplir ce champ' : null,
             ),
             const SizedBox(height: 20),
             //Password
-            Container(
-              decoration: const BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-              child: TextFormField(
-                decoration: myTFFDecoration('Mot de passe'),
-              ),
+            TextFormField(
+              obscureText: true,
+              decoration: myTFFDecoration('Mot de passe'),
+              onChanged: (value) => password = value,
+              validator: (val) =>
+                  val!.length < 6 ? '6 caractères au minimum' : null,
             ),
             const SizedBox(height: 40),
 
@@ -208,7 +214,8 @@ class _SecondRegisterCardState extends State<SecondRegisterCard> {
                   child: TextButton(
                     style: myBottomStyle(myBlue),
                     onPressed: () {
-                      Navigator.pushReplacementNamed(context, '/home');
+                      if (_formKey.currentState!.validate())
+                        Navigator.pushReplacementNamed(context, '/home');
                     },
                     child: const Text(
                       'S\'inscrire',

@@ -5,15 +5,17 @@ import 'package:chantech/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MaterialApp(
-    theme: ThemeData(fontFamily: 'Poppins'),
-    debugShowCheckedModeBanner: false,
-    initialRoute: '/home',
-    routes: {
-      '/': (context) => const SplashScreen(),
-      '/login': (context) => const Login(),
-      '/register': (context) => Register(),
-      '/home': (context) => const Home(),
-    },
-  ));
+  runApp(
+    MaterialApp(
+      theme: ThemeData(fontFamily: 'Poppins'),
+      debugShowCheckedModeBanner: false,
+      initialRoute: '/register',
+      routes: {
+        '/': (context) => const SplashScreen(),
+        '/login': (context) => const Login(),
+        '/register': (context) => Register(),
+        '/home': (context) => const Home(),
+      },
+    ),
+  );
 }
