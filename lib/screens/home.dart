@@ -1,5 +1,6 @@
 import 'package:chantech/consts.dart';
 import 'package:chantech/screens/all_chantiers.dart';
+import 'package:chantech/screens/all_equipements.dart';
 import 'package:chantech/screens/all_ouvriers.dart';
 import 'package:flutter/material.dart';
 
@@ -105,7 +106,11 @@ class _HomeState extends State<Home> {
         ),
         onPressed: () {},
       ),
-      body: AllOuvriers(),
+      body: index == 0
+          ? AllChantiers()
+          : index == 1
+              ? AllOuvriers()
+              : AllEquipements(),
     );
   }
 }
