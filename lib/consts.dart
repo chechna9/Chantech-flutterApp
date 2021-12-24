@@ -17,3 +17,10 @@ InputDecoration myTFFDecoration(String hint) => InputDecoration(
         borderSide: const BorderSide(color: Colors.white),
       ),
     );
+ButtonStyle myBottomStyle(Color color) => TextButton.styleFrom(
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      backgroundColor: color,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+    );

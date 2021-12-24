@@ -114,14 +114,7 @@ class _FirstRegisterCardState extends State<FirstRegisterCard> {
               children: [
                 Expanded(
                   child: TextButton(
-                    style: TextButton.styleFrom(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                      backgroundColor: myBlue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
+                    style: myBottomStyle(myBlue),
                     onPressed: () {
                       widget.nextStep();
                     },
@@ -213,14 +206,7 @@ class _SecondRegisterCardState extends State<SecondRegisterCard> {
               children: [
                 Expanded(
                   child: TextButton(
-                    style: TextButton.styleFrom(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                      backgroundColor: myBlue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
+                    style: myBottomStyle(myBlue),
                     onPressed: () {},
                     child: const Text(
                       'Se Connecter',
