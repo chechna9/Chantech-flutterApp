@@ -19,56 +19,16 @@ class _AllChantiersState extends State<AllChantiers> {
   }
 
   List<ChantierCard> listChantiers = [
-    ChantierCard(
-      nom: 'La tour Eiffel',
-      respo: 'Aboud',
-      prop: 'Rachid Nekaz',
-    ),
-    ChantierCard(
-      nom: 'La tour Eiffel',
-      respo: 'Aboud',
-      prop: 'Rachid Nekaz',
-    ),
-    ChantierCard(
-      nom: 'La tour Eiffel',
-      respo: 'Aboud',
-      prop: 'Rachid Nekaz',
-    ),
-    ChantierCard(
-      nom: 'La tour Eiffel',
-      respo: 'Aboud',
-      prop: 'Rachid Nekaz',
-    ),
-    ChantierCard(
-      nom: 'La tour Eiffel',
-      respo: 'Aboud',
-      prop: 'Rachid Nekaz',
-    ),
-    ChantierCard(
-      nom: 'La tour Eiffel',
-      respo: 'Aboud',
-      prop: 'Rachid Nekaz',
-    ),
-    ChantierCard(
-      nom: 'La tour Eiffel',
-      respo: 'Aboud',
-      prop: 'Rachid Nekaz',
-    ),
-    ChantierCard(
-      nom: 'La tour Eiffel',
-      respo: 'Aboud',
-      prop: 'Rachid Nekaz',
-    ),
-    ChantierCard(
-      nom: 'La tour Eiffel',
-      respo: 'Aboud',
-      prop: 'Rachid Nekaz',
-    ),
-    ChantierCard(
-      nom: 'La tour Eiffel',
-      respo: 'Aboud',
-      prop: 'Rachid Nekaz',
-    ),
+    ChantierCard(nom: 'La tour Eiffel', respo: 'Aboud', prop: 'Rachid Nekaz'),
+    ChantierCard(nom: 'La tour Eiffel', respo: 'Aboud', prop: 'Rachid Nekaz'),
+    ChantierCard(nom: 'La tour Eiffel', respo: 'Aboud', prop: 'Rachid Nekaz'),
+    ChantierCard(nom: 'La tour Eiffel', respo: 'Aboud', prop: 'Rachid Nekaz'),
+    ChantierCard(nom: 'La tour Eiffel', respo: 'Aboud', prop: 'Rachid Nekaz'),
+    ChantierCard(nom: 'La tour Eiffel', respo: 'Aboud', prop: 'Rachid Nekaz'),
+    ChantierCard(nom: 'La tour Eiffel', respo: 'Aboud', prop: 'Rachid Nekaz'),
+    ChantierCard(nom: 'La tour Eiffel', respo: 'Aboud', prop: 'Rachid Nekaz'),
+    ChantierCard(nom: 'La tour Eiffel', respo: 'Aboud', prop: 'Rachid Nekaz'),
+    ChantierCard(nom: 'La tour Eiffel', respo: 'Aboud', prop: 'Rachid Nekaz'),
   ];
   @override
   Widget build(BuildContext context) {

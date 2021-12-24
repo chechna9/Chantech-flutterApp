@@ -8,7 +8,7 @@ void main() {
   runApp(MaterialApp(
     theme: ThemeData(fontFamily: 'Poppins'),
     debugShowCheckedModeBanner: false,
-    initialRoute: '/',
+    initialRoute: '/home',
     routes: {
       '/': (context) => const SplashScreen(),
       '/login': (context) => const Login(),
