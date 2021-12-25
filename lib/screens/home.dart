@@ -10,20 +10,13 @@ import 'package:flutter/material.dart';
 int? index;
 List<ChantierCard> listChantiers = [
   ChantierCard(nom: 'La tour Eiffel', respo: 'Aboud', prop: 'Rachid Nekaz'),
+  ChantierCard(nom: 'La tour Eiffel', respo: 'Aboud', prop: 'Rachid Nekaz'),
 ];
 List<EquipementCard> listEquipements = [
-  EquipementCard(libelle: 'Marteau', num: 12, rest: 25),
-  EquipementCard(libelle: 'Marteau', num: 12, rest: 25),
-  EquipementCard(libelle: 'Marteau', num: 12, rest: 25),
-  EquipementCard(libelle: 'Marteau', num: 12, rest: 25),
-  EquipementCard(libelle: 'Marteau', num: 12, rest: 25),
-  EquipementCard(libelle: 'Marteau', num: 12, rest: 25),
-  EquipementCard(libelle: 'Marteau', num: 12, rest: 25),
+  EquipementCard(libelle: 'Marteau', num: '12', rest: 25),
+  EquipementCard(libelle: 'Marteau', num: '12', rest: 25),
 ];
 List<OuvrierCard> listOuvriers = [
-  OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
-  OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
-  OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
   OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
   OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
   OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),

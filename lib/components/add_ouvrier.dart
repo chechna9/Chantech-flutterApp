@@ -1,23 +1,25 @@
 import 'package:chantech/components/chantier_card.dart';
+import 'package:chantech/components/ouvrier_card.dart';
 import 'package:chantech/consts.dart';
 import 'package:flutter/material.dart';
 
-class AddChantier extends StatelessWidget {
+class AddOuvrier extends StatelessWidget {
   final Function updateList;
 
-  AddChantier({Key? key, required this.updateList}) : super(key: key);
+  AddOuvrier({Key? key, required this.updateList}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final _formkey = GlobalKey<FormState>();
     String nom = "";
-    String prop = "";
-    String respo = "";
-    double dure = 0;
+    String prenom = "";
+    String spec = "";
+    int numTele = 0;
+    String email = "";
     return Scaffold(
       backgroundColor: const Color(0x44ffffff),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(40, 80, 40, 0),
+        padding: const EdgeInsets.fromLTRB(40, 40, 40, 0),
         child: Container(
           decoration: const BoxDecoration(
               color: myYellow,
@@ -38,28 +40,35 @@ class AddChantier extends StatelessWidget {
                           val!.isEmpty ? 'Remplir ce champ' : null,
                     ),
                     const SizedBox(height: 20),
-                    //proprietaire
+                    //prenom
                     TextFormField(
-                      decoration: myTFFDecoration('Proprietaire'),
-                      onChanged: (value) => prop = value,
+                      decoration: myTFFDecoration('Prénom'),
+                      onChanged: (value) => prenom = value,
                       validator: (val) =>
                           val!.isEmpty ? 'Remplir ce champ' : null,
                     ),
                     const SizedBox(height: 20),
-                    //responsable
+                    //Specialité
                     TextFormField(
-                      decoration: myTFFDecoration('Responsable'),
-                      onChanged: (value) => respo = value,
+                      decoration: myTFFDecoration('Specialité'),
+                      onChanged: (value) => spec = value,
                       validator: (val) =>
                           val!.isEmpty ? 'Remplir ce champ' : null,
                     ),
                     const SizedBox(height: 20),
-                    //duree
+                    //Numero de telephone
                     TextFormField(
-                      keyboardType: const TextInputType.numberWithOptions(
-                          decimal: true, signed: false),
-                      decoration: myTFFDecoration('Duré'),
-                      onChanged: (value) => dure = double.parse(value),
+                      keyboardType: TextInputType.phone,
+                      decoration: myTFFDecoration('Numero de télephone'),
+                      onChanged: (value) => numTele = int.parse(value),
+                      validator: (val) =>
+                          val!.isEmpty ? 'Remplir ce champ' : null,
+                    ),
+                    const SizedBox(height: 20),
+                    //email
+                    TextFormField(
+                      decoration: myTFFDecoration('Email'),
+                      onChanged: (value) => email = value,
                       validator: (val) =>
                           val!.isEmpty ? 'Remplir ce champ' : null,
                     ),
@@ -89,10 +98,8 @@ class AddChantier extends StatelessWidget {
                             style: myBottomStyle(myBlue),
                             onPressed: () {
                               if (_formkey.currentState!.validate()) {
-                                updateList(
-                                  ChantierCard(
-                                      nom: nom, respo: respo, prop: prop),
-                                );
+                                updateList(OuvrierCard(
+                                    nom: nom, prenom: prenom, spec: spec));
                                 Navigator.pop(context);
                               }
                             },

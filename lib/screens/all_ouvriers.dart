@@ -1,5 +1,7 @@
+import 'package:chantech/components/add_ouvrier.dart';
 import 'package:chantech/components/ouvrier_card.dart';
 import 'package:chantech/consts.dart';
+import 'package:chantech/screens/home.dart';
 import 'package:flutter/material.dart';
 
 class AllOuvriers extends StatefulWidget {
@@ -11,6 +13,24 @@ class AllOuvriers extends StatefulWidget {
 }
 
 class _AllOuvriersState extends State<AllOuvriers> {
+  void updateList(OuvrierCard e) {
+    setState(() {
+      listOuvriers.add(e);
+    });
+  }
+
+  void addOuvrier() {
+    showDialog(
+      barrierColor: Colors.transparent,
+      context: context,
+      builder: (context) {
+        return AddOuvrier(
+          updateList: updateList,
+        );
+      },
+    );
+  }
+
   bool? disponible;
   @override
   void initState() {
@@ -46,7 +66,9 @@ class _AllOuvriersState extends State<AllOuvriers> {
           size: 50,
           color: myBlue,
         ),
-        onPressed: () {},
+        onPressed: () {
+          addOuvrier();
+        },
       ),
       backgroundColor: myBlue,
       body: Container(

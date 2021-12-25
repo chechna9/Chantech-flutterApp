@@ -1,19 +1,22 @@
+import 'dart:ffi';
+
 import 'package:chantech/components/chantier_card.dart';
+import 'package:chantech/components/equipement_card.dart';
 import 'package:chantech/consts.dart';
 import 'package:flutter/material.dart';
 
-class AddChantier extends StatelessWidget {
+class AddEquipement extends StatelessWidget {
   final Function updateList;
 
-  AddChantier({Key? key, required this.updateList}) : super(key: key);
+  AddEquipement({Key? key, required this.updateList}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final _formkey = GlobalKey<FormState>();
-    String nom = "";
-    String prop = "";
-    String respo = "";
-    double dure = 0;
+    String libelle = "";
+    String num = "";
+    double prix = 0;
+    int rest = 0;
     return Scaffold(
       backgroundColor: const Color(0x44ffffff),
       body: Padding(
@@ -30,36 +33,38 @@ class AddChantier extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    //nom du chantier
+                    //Libellé
                     TextFormField(
-                      decoration: myTFFDecoration('Nom du chantier'),
-                      onChanged: (value) => nom = value,
+                      decoration: myTFFDecoration('Libellé'),
+                      onChanged: (value) => libelle = value,
                       validator: (val) =>
                           val!.isEmpty ? 'Remplir ce champ' : null,
                     ),
                     const SizedBox(height: 20),
-                    //proprietaire
+                    //Numéro
                     TextFormField(
-                      decoration: myTFFDecoration('Proprietaire'),
-                      onChanged: (value) => prop = value,
+                      decoration: myTFFDecoration('Numéro'),
+                      onChanged: (value) => num = value,
                       validator: (val) =>
                           val!.isEmpty ? 'Remplir ce champ' : null,
                     ),
                     const SizedBox(height: 20),
-                    //responsable
-                    TextFormField(
-                      decoration: myTFFDecoration('Responsable'),
-                      onChanged: (value) => respo = value,
-                      validator: (val) =>
-                          val!.isEmpty ? 'Remplir ce champ' : null,
-                    ),
-                    const SizedBox(height: 20),
-                    //duree
+                    //Prix de vent
                     TextFormField(
                       keyboardType: const TextInputType.numberWithOptions(
                           decimal: true, signed: false),
-                      decoration: myTFFDecoration('Duré'),
-                      onChanged: (value) => dure = double.parse(value),
+                      decoration: myTFFDecoration('Prix de vent'),
+                      onChanged: (value) => prix = double.parse(value),
+                      validator: (val) =>
+                          val!.isEmpty ? 'Remplir ce champ' : null,
+                    ),
+                    const SizedBox(height: 20),
+                    //quantité
+                    TextFormField(
+                      keyboardType: const TextInputType.numberWithOptions(
+                          decimal: false, signed: false),
+                      decoration: myTFFDecoration('Quantitée'),
+                      onChanged: (value) => rest = int.parse(value),
                       validator: (val) =>
                           val!.isEmpty ? 'Remplir ce champ' : null,
                     ),
@@ -89,10 +94,8 @@ class AddChantier extends StatelessWidget {
                             style: myBottomStyle(myBlue),
                             onPressed: () {
                               if (_formkey.currentState!.validate()) {
-                                updateList(
-                                  ChantierCard(
-                                      nom: nom, respo: respo, prop: prop),
-                                );
+                                updateList(EquipementCard(
+                                    libelle: libelle, num: num, rest: rest));
                                 Navigator.pop(context);
                               }
                             },

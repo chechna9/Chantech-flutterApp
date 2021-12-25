@@ -1,6 +1,7 @@
 import 'package:chantech/components/add_chantier.dart';
 import 'package:chantech/components/chantier_card.dart';
 import 'package:chantech/consts.dart';
+import 'package:chantech/screens/home.dart';
 import 'package:flutter/material.dart';
 
 class AllChantiers extends StatefulWidget {
@@ -12,13 +13,19 @@ class AllChantiers extends StatefulWidget {
 }
 
 class _AllChantiersState extends State<AllChantiers> {
+  void updateList(ChantierCard e) {
+    setState(() {
+      listChantiers.add(e);
+    });
+  }
+
   void addChantier() {
     showDialog(
       barrierColor: Colors.transparent,
       context: context,
       builder: (context) {
         return AddChantier(
-          listChantiers: widget.listChantiers,
+          updateList: updateList,
         );
       },
     );

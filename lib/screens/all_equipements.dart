@@ -1,5 +1,7 @@
+import 'package:chantech/components/add_equipement.dart';
 import 'package:chantech/components/equipement_card.dart';
 import 'package:chantech/consts.dart';
+import 'package:chantech/screens/home.dart';
 import 'package:flutter/material.dart';
 
 class AllEquipements extends StatefulWidget {
@@ -11,6 +13,24 @@ class AllEquipements extends StatefulWidget {
 }
 
 class _AllEquipementsState extends State<AllEquipements> {
+  void updateList(EquipementCard e) {
+    setState(() {
+      listEquipements.add(e);
+    });
+  }
+
+  void addEquipement() {
+    showDialog(
+      barrierColor: Colors.transparent,
+      context: context,
+      builder: (context) {
+        return AddEquipement(
+          updateList: updateList,
+        );
+      },
+    );
+  }
+
   bool? disponible;
   @override
   void initState() {
@@ -46,7 +66,9 @@ class _AllEquipementsState extends State<AllEquipements> {
           size: 50,
           color: myBlue,
         ),
-        onPressed: () {},
+        onPressed: () {
+          addEquipement();
+        },
       ),
       backgroundColor: myBlue,
       body: Container(

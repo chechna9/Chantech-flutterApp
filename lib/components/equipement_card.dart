@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class EquipementCard extends StatelessWidget {
   final String libelle;
-  final int num;
+  final String num;
   final int rest;
   EquipementCard(
       {Key? key, required this.libelle, required this.num, required this.rest})
