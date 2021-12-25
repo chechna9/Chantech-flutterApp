@@ -27,7 +27,7 @@ class _AllEquipementsState extends State<AllEquipements> {
         automaticallyImplyLeading: false,
         backgroundColor: myBlue,
         title: Text(
-          'List des ouvriers',
+          'List des equipements',
           style: const TextStyle(
             fontWeight: FontWeight.w900,
             fontSize: 20,

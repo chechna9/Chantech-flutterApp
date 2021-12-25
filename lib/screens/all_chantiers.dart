@@ -12,6 +12,18 @@ class AllChantiers extends StatefulWidget {
 }
 
 class _AllChantiersState extends State<AllChantiers> {
+  void addChantier() {
+    showDialog(
+      barrierColor: Colors.transparent,
+      context: context,
+      builder: (context) {
+        return AddChantier(
+          listChantiers: widget.listChantiers,
+        );
+      },
+    );
+  }
+
   bool? enCours;
   @override
   void initState() {
@@ -47,7 +59,9 @@ class _AllChantiersState extends State<AllChantiers> {
           size: 50,
           color: myBlue,
         ),
-        onPressed: () {},
+        onPressed: () {
+          addChantier();
+        },
       ),
       backgroundColor: myBlue,
       body: Container(

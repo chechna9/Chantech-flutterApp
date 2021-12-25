@@ -26,8 +26,8 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Container(
+    return Scaffold(
+      body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 40),
         color: myBlue,
         child: Column(

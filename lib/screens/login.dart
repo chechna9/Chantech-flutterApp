@@ -7,8 +7,8 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Container(
+    return Scaffold(
+      body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 40),
         color: myBlue,
         child: Column(
@@ -21,7 +21,11 @@ class Login extends StatelessWidget {
               fit: BoxFit.scaleDown,
             ),
             const SizedBox(height: 30),
-            const LoginCard(),
+            const Expanded(
+              child: SingleChildScrollView(
+                child: LoginCard(),
+              ),
+            ),
           ],
         ),
       ),
