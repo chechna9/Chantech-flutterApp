@@ -11,9 +11,10 @@ class EditOuvrier extends StatelessWidget {
   Widget build(BuildContext context) {
     final _formkey = GlobalKey<FormState>();
     String nom = "";
-    String prop = "";
-    String respo = "";
-    double dure = 0;
+    String prenom = "";
+    String spec = "";
+    int numTele = 0;
+    String email = "";
     return Scaffold(
       backgroundColor: const Color(0x44ffffff),
       body: Padding(
@@ -32,34 +33,41 @@ class EditOuvrier extends StatelessWidget {
                   children: [
                     //nom du chantier
                     TextFormField(
-                      decoration: myTFFDecoration('Nom du chantier'),
+                      decoration: myTFFDecoration('Nom'),
                       onChanged: (value) => nom = value,
                       validator: (val) =>
                           val!.isEmpty ? 'Remplir ce champ' : null,
                     ),
                     const SizedBox(height: 20),
-                    //proprietaire
+                    //prenom
                     TextFormField(
-                      decoration: myTFFDecoration('Proprietaire'),
-                      onChanged: (value) => prop = value,
+                      decoration: myTFFDecoration('Prénom'),
+                      onChanged: (value) => prenom = value,
                       validator: (val) =>
                           val!.isEmpty ? 'Remplir ce champ' : null,
                     ),
                     const SizedBox(height: 20),
-                    //responsable
+                    //Specialité
                     TextFormField(
-                      decoration: myTFFDecoration('Responsable'),
-                      onChanged: (value) => respo = value,
+                      decoration: myTFFDecoration('Specialité'),
+                      onChanged: (value) => spec = value,
                       validator: (val) =>
                           val!.isEmpty ? 'Remplir ce champ' : null,
                     ),
                     const SizedBox(height: 20),
-                    //duree
+                    //Numero de telephone
                     TextFormField(
-                      keyboardType: const TextInputType.numberWithOptions(
-                          decimal: true, signed: false),
-                      decoration: myTFFDecoration('Duré'),
-                      onChanged: (value) => dure = double.parse(value),
+                      keyboardType: TextInputType.phone,
+                      decoration: myTFFDecoration('Numero de télephone'),
+                      onChanged: (value) => numTele = int.parse(value),
+                      validator: (val) =>
+                          val!.isEmpty ? 'Remplir ce champ' : null,
+                    ),
+                    const SizedBox(height: 20),
+                    //email
+                    TextFormField(
+                      decoration: myTFFDecoration('Email'),
+                      onChanged: (value) => email = value,
                       validator: (val) =>
                           val!.isEmpty ? 'Remplir ce champ' : null,
                     ),

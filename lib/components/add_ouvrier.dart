@@ -34,7 +34,7 @@ class AddOuvrier extends StatelessWidget {
                   children: [
                     //nom du chantier
                     TextFormField(
-                      decoration: myTFFDecoration('Nom du chantier'),
+                      decoration: myTFFDecoration('Nom'),
                       onChanged: (value) => nom = value,
                       validator: (val) =>
                           val!.isEmpty ? 'Remplir ce champ' : null,
