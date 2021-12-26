@@ -1,21 +1,21 @@
 import 'package:chantech/components/confirm_delete.dart';
-import 'package:chantech/components/edit_chantier.dart';
+import 'package:chantech/components/edit_ouvrier.dart';
 import 'package:chantech/consts.dart';
 import 'package:flutter/material.dart';
 
-class ChantierDetaille extends StatefulWidget {
-  const ChantierDetaille({Key? key}) : super(key: key);
+class OuvrierDetaille extends StatefulWidget {
+  const OuvrierDetaille({Key? key}) : super(key: key);
 
   @override
-  _ChantierDetailleState createState() => _ChantierDetailleState();
+  _OuvrierDetailleState createState() => _OuvrierDetailleState();
 }
 
-class _ChantierDetailleState extends State<ChantierDetaille> {
+class _OuvrierDetailleState extends State<OuvrierDetaille> {
   void showEditChantier() {
     showDialog(
       context: context,
       builder: (context) {
-        return EditChantier();
+        return EditOuvrier();
       },
     );
   }
@@ -27,12 +27,13 @@ class _ChantierDetailleState extends State<ChantierDetaille> {
     );
   }
 
-  String nom = 'La toure eiffel';
-  String respo = 'Seyi Boud';
-  String prop = 'Rachid Nekaz';
   int id = 01;
-  int dure = 12;
-  int heures = 8;
+  int heures = 112;
+  String nom = "Aboud";
+  String prenom = "Seyi";
+  String spec = "Plombier";
+  int numTele = 0775093097;
+  String email = "SeyiAboud@gmail.com";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,105 +69,57 @@ class _ChantierDetailleState extends State<ChantierDetaille> {
           const SizedBox(width: 20),
         ],
       ),
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 40),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            DescriptChantier(
+      body: Center(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 40),
+          child: SizedBox(
+            height: 350,
+            child: DescriptOuvrier(
               delete: showDeleteChantier,
               edit: showEditChantier,
-              dure: dure,
+              prenom: prenom,
               id: id,
               nom: nom,
-              prop: prop,
-              respo: respo,
+              spec: spec,
+              email: email,
               heures: heures,
+              numTele: numTele,
             ),
-            Row(
-              children: [
-                Expanded(
-                  child: TextButton(
-                    style: myBottomStyle(myYellow),
-                    onPressed: () {},
-                    child: const Text(
-                      'Taches',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: TextButton(
-                    style: myBottomStyle(myYellow),
-                    onPressed: () {},
-                    child: const Text(
-                      'Ouvriers',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: TextButton(
-                    style: myBottomStyle(myYellow),
-                    onPressed: () {},
-                    child: const Text(
-                      'Equipements',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
+          ),
         ),
       ),
     );
   }
 }
 
-class DescriptChantier extends StatefulWidget {
+class DescriptOuvrier extends StatefulWidget {
   final String nom;
-  final String respo;
-  final String prop;
+  final String prenom;
   final int id;
-  final int dure;
+  final String spec;
+  final int numTele;
   final int heures;
+  final String email;
   final Function edit;
   final Function delete;
-  const DescriptChantier(
+  const DescriptOuvrier(
       {Key? key,
       required this.nom,
-      this.respo: '/',
-      required this.prop,
-      required this.id,
-      this.heures: 0,
-      required this.dure,
       required this.edit,
-      required this.delete})
+      required this.delete,
+      required this.prenom,
+      required this.spec,
+      required this.id,
+      required this.heures,
+      required this.numTele,
+      required this.email})
       : super(key: key);
 
   @override
-  State<DescriptChantier> createState() => _DescriptChantierState();
+  State<DescriptOuvrier> createState() => _DescriptOuvrierState();
 }
 
-class _DescriptChantierState extends State<DescriptChantier> {
+class _DescriptOuvrierState extends State<DescriptOuvrier> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -210,7 +163,7 @@ class _DescriptChantierState extends State<DescriptChantier> {
             children: [
               Align(
                 child: const Icon(
-                  Icons.house,
+                  Icons.person,
                   color: Colors.white,
                   size: 50,
                 ),
@@ -225,7 +178,7 @@ class _DescriptChantierState extends State<DescriptChantier> {
                 ),
               ),
               Text(
-                'Responsable : ${widget.respo}',
+                'Prénom : ${widget.prenom}',
                 maxLines: 2,
                 style: const TextStyle(
                   color: Colors.white,
@@ -233,7 +186,7 @@ class _DescriptChantierState extends State<DescriptChantier> {
                 ),
               ),
               Text(
-                'Proprietaire : ${widget.prop}',
+                'ID : ${widget.id}',
                 maxLines: 2,
                 style: const TextStyle(
                   color: Colors.white,
@@ -241,7 +194,7 @@ class _DescriptChantierState extends State<DescriptChantier> {
                 ),
               ),
               Text(
-                'Id : ${widget.id}',
+                'Specialité : ${widget.spec}',
                 maxLines: 2,
                 style: const TextStyle(
                   color: Colors.white,
@@ -249,7 +202,15 @@ class _DescriptChantierState extends State<DescriptChantier> {
                 ),
               ),
               Text(
-                'Duré : ${widget.dure}',
+                'Numéro de Telephone : ${widget.numTele}',
+                maxLines: 2,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              Text(
+                'E-mail : ${widget.email}',
                 maxLines: 2,
                 style: const TextStyle(
                   color: Colors.white,
@@ -263,9 +224,6 @@ class _DescriptChantierState extends State<DescriptChantier> {
                   color: Colors.white,
                   fontWeight: FontWeight.w500,
                 ),
-              ),
-              const SizedBox(
-                height: 20,
               ),
             ],
           ),

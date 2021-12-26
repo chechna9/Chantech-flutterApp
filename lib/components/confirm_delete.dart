@@ -28,7 +28,10 @@ class ConfirmDelete extends StatelessWidget {
               child: const Text(
                 'Non',
                 style: TextStyle(
-                    color: myBlue, fontWeight: FontWeight.w900, fontSize: 24),
+                  color: myBlue,
+                  fontWeight: FontWeight.w900,
+                  fontSize: 18,
+                ),
               ),
             ),
           ),
@@ -44,7 +47,7 @@ class ConfirmDelete extends StatelessWidget {
                 style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w900,
-                    fontSize: 24),
+                    fontSize: 18),
               ),
             ),
           ),
