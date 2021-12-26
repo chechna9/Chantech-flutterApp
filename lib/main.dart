@@ -1,4 +1,5 @@
 import 'package:chantech/screens/chantier_detaille.dart';
+import 'package:chantech/screens/equipement_detaille.dart';
 import 'package:chantech/screens/home.dart';
 import 'package:chantech/screens/login.dart';
 import 'package:chantech/screens/ouvrier_detaille.dart';
@@ -11,7 +12,7 @@ void main() {
     MaterialApp(
       theme: ThemeData(fontFamily: 'Poppins'),
       debugShowCheckedModeBanner: false,
-      initialRoute: '/ouvrierDetaille',
+      initialRoute: '/equipementDetaille',
       routes: {
         '/': (context) => const SplashScreen(),
         '/login': (context) => const Login(),
@@ -19,6 +20,7 @@ void main() {
         '/home': (context) => const Home(),
         '/chantierDetaille': (context) => const ChantierDetaille(),
         '/ouvrierDetaille': (context) => const OuvrierDetaille(),
+        '/equipementDetaille': (context) => const EquipementDetaille(),
       },
     ),
   );

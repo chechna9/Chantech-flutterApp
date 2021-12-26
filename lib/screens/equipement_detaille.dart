@@ -1,21 +1,22 @@
 import 'package:chantech/components/confirm_delete.dart';
-import 'package:chantech/components/edit_ouvrier.dart';
+import 'package:chantech/components/edit_chantier.dart';
+import 'package:chantech/components/edit_equipement.dart';
 import 'package:chantech/consts.dart';
 import 'package:flutter/material.dart';
 
-class OuvrierDetaille extends StatefulWidget {
-  const OuvrierDetaille({Key? key}) : super(key: key);
+class EquipementDetaille extends StatefulWidget {
+  const EquipementDetaille({Key? key}) : super(key: key);
 
   @override
-  _OuvrierDetailleState createState() => _OuvrierDetailleState();
+  _EquipementDetailleState createState() => _EquipementDetailleState();
 }
 
-class _OuvrierDetailleState extends State<OuvrierDetaille> {
-  void showEditOuvrier() {
+class _EquipementDetailleState extends State<EquipementDetaille> {
+  void showEditEquipement() {
     showDialog(
       context: context,
       builder: (context) {
-        return EditOuvrier();
+        return EditEquipement();
       },
     );
   }
@@ -23,17 +24,15 @@ class _OuvrierDetailleState extends State<OuvrierDetaille> {
   void showDeleteChantier() {
     showDialog(
       context: context,
-      builder: (context) => ConfirmDelete(),
+      builder: (context) => const ConfirmDelete(),
     );
   }
 
-  int id = 01;
-  int heures = 112;
-  String nom = "Aboud";
-  String prenom = "Seyi";
-  String spec = "Plombier";
-  int numTele = 0775093097;
-  String email = "SeyiAboud@gmail.com";
+  String libelle = "Marteau";
+  String num = "12";
+  double prix = 1500;
+  int nbTot = 30;
+  int nbOcupe = 12;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,21 +68,19 @@ class _OuvrierDetailleState extends State<OuvrierDetaille> {
           const SizedBox(width: 20),
         ],
       ),
-      body: Center(
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 40),
+      body: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 40),
+        child: Center(
           child: SizedBox(
             height: 350,
-            child: DescriptOuvrier(
+            child: DescriptEquipement(
               delete: showDeleteChantier,
-              edit: showEditOuvrier,
-              prenom: prenom,
-              id: id,
-              nom: nom,
-              spec: spec,
-              email: email,
-              heures: heures,
-              numTele: numTele,
+              edit: showEditEquipement,
+              libelle: libelle,
+              nbOcupe: nbOcupe,
+              nbTot: nbTot,
+              num: num,
+              prix: prix,
             ),
           ),
         ),
@@ -92,34 +89,39 @@ class _OuvrierDetailleState extends State<OuvrierDetaille> {
   }
 }
 
-class DescriptOuvrier extends StatefulWidget {
-  final String nom;
-  final String prenom;
-  final int id;
-  final String spec;
-  final int numTele;
-  final int heures;
-  final String email;
+class DescriptEquipement extends StatefulWidget {
+  final String libelle;
+  final String num;
+  final double prix;
+  final int nbTot;
+  final int nbOcupe;
   final Function edit;
   final Function delete;
-  const DescriptOuvrier(
+
+  const DescriptEquipement(
       {Key? key,
-      required this.nom,
       required this.edit,
       required this.delete,
-      required this.prenom,
-      required this.spec,
-      required this.id,
-      required this.heures,
-      required this.numTele,
-      required this.email})
+      required this.libelle,
+      required this.num,
+      required this.prix,
+      required this.nbTot,
+      required this.nbOcupe})
       : super(key: key);
 
   @override
-  State<DescriptOuvrier> createState() => _DescriptOuvrierState();
+  State<DescriptEquipement> createState() => _DescriptEquipementState();
 }
 
-class _DescriptOuvrierState extends State<DescriptOuvrier> {
+class _DescriptEquipementState extends State<DescriptEquipement> {
+  int nbDisponible = 0;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    nbDisponible = widget.nbTot - widget.nbOcupe;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -163,13 +165,13 @@ class _DescriptOuvrierState extends State<DescriptOuvrier> {
             children: [
               Align(
                 child: const Icon(
-                  Icons.person,
+                  Icons.house,
                   color: Colors.white,
                   size: 50,
                 ),
               ),
               Text(
-                'Nom : ${widget.nom}',
+                'Libellé : ${widget.libelle}',
                 textAlign: TextAlign.left,
                 maxLines: 2,
                 style: const TextStyle(
@@ -178,7 +180,7 @@ class _DescriptOuvrierState extends State<DescriptOuvrier> {
                 ),
               ),
               Text(
-                'Prénom : ${widget.prenom}',
+                'Prix de vente : ${widget.prix}',
                 maxLines: 2,
                 style: const TextStyle(
                   color: Colors.white,
@@ -186,7 +188,7 @@ class _DescriptOuvrierState extends State<DescriptOuvrier> {
                 ),
               ),
               Text(
-                'ID : ${widget.id}',
+                'Numéro : ${widget.num}',
                 maxLines: 2,
                 style: const TextStyle(
                   color: Colors.white,
@@ -194,7 +196,7 @@ class _DescriptOuvrierState extends State<DescriptOuvrier> {
                 ),
               ),
               Text(
-                'Specialité : ${widget.spec}',
+                'Nombre totale des unités : ${widget.nbTot}',
                 maxLines: 2,
                 style: const TextStyle(
                   color: Colors.white,
@@ -202,7 +204,7 @@ class _DescriptOuvrierState extends State<DescriptOuvrier> {
                 ),
               ),
               Text(
-                'Numéro de Telephone : ${widget.numTele}',
+                'Disponible : ${nbDisponible}',
                 maxLines: 2,
                 style: const TextStyle(
                   color: Colors.white,
@@ -210,20 +212,15 @@ class _DescriptOuvrierState extends State<DescriptOuvrier> {
                 ),
               ),
               Text(
-                'E-mail : ${widget.email}',
+                'Ocuppé : ${widget.nbOcupe}',
                 maxLines: 2,
                 style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              Text(
-                'Totale des heures travaillées : ${widget.heures}',
-                maxLines: 2,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                ),
+              const SizedBox(
+                height: 20,
               ),
             ],
           ),
