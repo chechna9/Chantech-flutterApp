@@ -83,54 +83,65 @@ class _ChantierDetailleState extends State<ChantierDetaille> {
               respo: respo,
               heures: heures,
             ),
-            Row(
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Expanded(
-                  child: TextButton(
-                    style: myBottomStyle(myYellow),
-                    onPressed: () {},
-                    child: const Text(
-                      'Taches',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30,
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextButton(
+                        style: myBottomStyle(myYellow),
+                        onPressed: () {},
+                        child: const Text(
+                          'Taches',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 30,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: TextButton(
-                    style: myBottomStyle(myYellow),
-                    onPressed: () {},
-                    child: const Text(
-                      'Ouvriers',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30,
-                      ),
-                    ),
-                  ),
+                const SizedBox(
+                  height: 15,
                 ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: TextButton(
-                    style: myBottomStyle(myYellow),
-                    onPressed: () {},
-                    child: const Text(
-                      'Equipements',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30,
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextButton(
+                        style: myBottomStyle(myYellow),
+                        onPressed: () {},
+                        child: const Text(
+                          'Ouvriers',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 30,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextButton(
+                        style: myBottomStyle(myYellow),
+                        onPressed: () {},
+                        child: const Text(
+                          'Equipements',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 30,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

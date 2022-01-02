@@ -6,13 +6,14 @@ import 'package:chantech/screens/ouvrier_detaille.dart';
 import 'package:chantech/screens/register.dart';
 import 'package:chantech/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'screens/ouvrier_dans_tache.dart';
 
 void main() {
   runApp(
     MaterialApp(
       theme: ThemeData(fontFamily: 'Poppins'),
       debugShowCheckedModeBanner: false,
-      initialRoute: '/equipementDetaille',
+      initialRoute: '/ouvrierDansTache',
       routes: {
         '/': (context) => const SplashScreen(),
         '/login': (context) => const Login(),
@@ -21,6 +22,7 @@ void main() {
         '/chantierDetaille': (context) => const ChantierDetaille(),
         '/ouvrierDetaille': (context) => const OuvrierDetaille(),
         '/equipementDetaille': (context) => const EquipementDetaille(),
+        '/ouvrierDansTache': (context) => const OuvrierDansTache(),
       },
     ),
   );

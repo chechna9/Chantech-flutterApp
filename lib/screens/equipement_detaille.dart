@@ -163,9 +163,9 @@ class _DescriptEquipementState extends State<DescriptEquipement> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Align(
-                child: const Icon(
-                  Icons.house,
+              const Align(
+                child: Icon(
+                  Icons.construction,
                   color: Colors.white,
                   size: 50,
                 ),

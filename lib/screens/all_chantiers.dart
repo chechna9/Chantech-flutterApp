@@ -46,9 +46,9 @@ class _AllChantiersState extends State<AllChantiers> {
         elevation: 0,
         automaticallyImplyLeading: false,
         backgroundColor: myBlue,
-        title: Text(
+        title: const Text(
           'List des chantiers',
-          style: const TextStyle(
+          style: TextStyle(
             fontWeight: FontWeight.w900,
             fontSize: 20,
           ),
