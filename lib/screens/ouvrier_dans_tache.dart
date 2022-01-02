@@ -55,6 +55,16 @@ class OuvrierDansTacheState extends State<OuvrierDansTache> {
           const SizedBox(width: 20),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        elevation: 0,
+        backgroundColor: myYellow,
+        child: const Icon(
+          Icons.add,
+          size: 50,
+          color: myBlue,
+        ),
+        onPressed: () {},
+      ),
       body: Container(
         margin: const EdgeInsets.only(top: 18),
         padding: const EdgeInsets.symmetric(horizontal: 40),
@@ -70,7 +80,8 @@ class OuvrierDansTacheState extends State<OuvrierDansTache> {
               ),
             ),
             const SizedBox(height: 10),
-            Expanded(
+            SizedBox(
+              height: 450,
               child: ListView.builder(
                 itemCount: _listOuvriers.length,
                 itemBuilder: (context, index) => Column(
@@ -81,7 +92,6 @@ class OuvrierDansTacheState extends State<OuvrierDansTache> {
                 ),
               ),
             ),
-            const SizedBox(height: 10),
           ],
         ),
       ),
