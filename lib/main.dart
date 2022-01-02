@@ -1,3 +1,4 @@
+import 'package:chantech/screens/ajout_ouvrier_d_tache.dart';
 import 'package:chantech/screens/chantier_detaille.dart';
 import 'package:chantech/screens/equipement_detaille.dart';
 import 'package:chantech/screens/home.dart';
@@ -13,7 +14,7 @@ void main() {
     MaterialApp(
       theme: ThemeData(fontFamily: 'Poppins'),
       debugShowCheckedModeBanner: false,
-      initialRoute: '/ouvrierDansTache',
+      initialRoute: '/addOuvrierDansTache',
       routes: {
         '/': (context) => const SplashScreen(),
         '/login': (context) => const Login(),
@@ -23,6 +24,7 @@ void main() {
         '/ouvrierDetaille': (context) => const OuvrierDetaille(),
         '/equipementDetaille': (context) => const EquipementDetaille(),
         '/ouvrierDansTache': (context) => const OuvrierDansTache(),
+        '/addOuvrierDansTache': (context) => AddOuvrierDTache(),
       },
     ),
   );
