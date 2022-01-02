@@ -1,4 +1,5 @@
 import 'package:chantech/components/add_chantier.dart';
+import 'package:chantech/components/add_tache.dart';
 import 'package:chantech/components/chantier_card.dart';
 import 'package:chantech/components/tache_card.dart';
 import 'package:chantech/consts.dart';
@@ -19,6 +20,15 @@ class _AllTachesState extends State<AllTaches> {
     TacheCard(nom: 'plat forme', dure: 40),
     TacheCard(nom: 'plat forme', dure: 40),
   ];
+  void addTache() {
+    showDialog(
+      barrierColor: Colors.transparent,
+      context: context,
+      builder: (context) {
+        return AddTache();
+      },
+    );
+  }
 
   bool? enCours;
   @override
@@ -70,7 +80,9 @@ class _AllTachesState extends State<AllTaches> {
           size: 50,
           color: myBlue,
         ),
-        onPressed: () {},
+        onPressed: () {
+          addTache();
+        },
       ),
       backgroundColor: myBlue,
       body: Container(
