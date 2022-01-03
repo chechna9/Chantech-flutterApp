@@ -2,14 +2,14 @@ import 'package:chantech/components/ouvrier_d_chantier_card.dart';
 import 'package:chantech/consts.dart';
 import 'package:flutter/material.dart';
 
-class OuvrierDansTache extends StatefulWidget {
-  const OuvrierDansTache({Key? key}) : super(key: key);
+class OuvrierDansChantier extends StatefulWidget {
+  const OuvrierDansChantier({Key? key}) : super(key: key);
 
   @override
-  OuvrierDansTacheState createState() => OuvrierDansTacheState();
+  OuvrierDansChantierState createState() => OuvrierDansChantierState();
 }
 
-class OuvrierDansTacheState extends State<OuvrierDansTache> {
+class OuvrierDansChantierState extends State<OuvrierDansChantier> {
   List<OuvrierDChantierCard> _listOuvriers = [
     OuvrierDChantierCard(
         nom: 'aboud', prenom: 'seyi', spec: 'plombier', isChef: true),
