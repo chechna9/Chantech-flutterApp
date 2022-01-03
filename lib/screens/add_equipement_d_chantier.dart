@@ -1,20 +1,19 @@
-import 'package:chantech/components/ouvrier_card.dart';
+import 'package:chantech/components/equipement_card.dart';
 import 'package:chantech/consts.dart';
-import 'package:chantech/screens/home.dart';
 import 'package:flutter/material.dart';
 
-class AddOuvrierDChantier extends StatefulWidget {
-  AddOuvrierDChantier({Key? key}) : super(key: key);
+class AddEquipementDansChantier extends StatefulWidget {
+  AddEquipementDansChantier({Key? key}) : super(key: key);
 
   @override
-  _AddOuvrierDChantierState createState() => _AddOuvrierDChantierState();
+  _AddEquipementDansChantierState createState() =>
+      _AddEquipementDansChantierState();
 }
 
-class _AddOuvrierDChantierState extends State<AddOuvrierDChantier> {
-  List<OuvrierCard> _listOuvriers = [
-    OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
-    OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
-    OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
+class _AddEquipementDansChantierState extends State<AddEquipementDansChantier> {
+  List<EquipementCard> _listEquipement = [
+    EquipementCard(libelle: 'Marteau', num: '12', rest: 25),
+    EquipementCard(libelle: 'Marteau', num: '12', rest: 25),
   ];
 
   bool? disponible;
@@ -108,10 +107,10 @@ class _AddOuvrierDChantierState extends State<AddOuvrierDChantier> {
             SizedBox(
               height: 400,
               child: ListView.builder(
-                itemCount: listOuvriers.length,
+                itemCount: _listEquipement.length,
                 itemBuilder: (context, index) => Column(
                   children: [
-                    listOuvriers[index],
+                    _listEquipement[index],
                     const SizedBox(height: 10),
                   ],
                 ),

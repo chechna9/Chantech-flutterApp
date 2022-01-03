@@ -2,14 +2,14 @@ import 'package:chantech/components/equipement_card.dart';
 import 'package:chantech/consts.dart';
 import 'package:flutter/material.dart';
 
-class EquipementDansTache extends StatefulWidget {
-  const EquipementDansTache({Key? key}) : super(key: key);
+class EquipementDansChantier extends StatefulWidget {
+  const EquipementDansChantier({Key? key}) : super(key: key);
 
   @override
-  EquipementDansTacheState createState() => EquipementDansTacheState();
+  EquipementDansChantierState createState() => EquipementDansChantierState();
 }
 
-class EquipementDansTacheState extends State<EquipementDansTache> {
+class EquipementDansChantierState extends State<EquipementDansChantier> {
   List<EquipementCard> _listEquipement = [
     EquipementCard(libelle: 'Marteau', num: '12', rest: 25),
     EquipementCard(libelle: 'Marteau', num: '12', rest: 25),
