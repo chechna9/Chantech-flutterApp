@@ -1,5 +1,6 @@
 import 'package:chantech/components/confirm_delete.dart';
 import 'package:chantech/components/edit_chantier.dart';
+import 'package:chantech/components/edit_tache.dart';
 import 'package:chantech/components/ouvrier_card.dart';
 import 'package:chantech/consts.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +13,11 @@ class TacheDetaille extends StatefulWidget {
 }
 
 class _TacheDetailleState extends State<TacheDetaille> {
-  void showEditChantier() {
+  void showEditTache() {
     showDialog(
       context: context,
       builder: (context) {
-        return EditChantier();
+        return EditTache();
       },
     );
   }
@@ -89,7 +90,7 @@ class _TacheDetailleState extends State<TacheDetaille> {
           children: [
             DescriptTache(
               delete: showDeleteTache,
-              edit: showEditChantier,
+              edit: showEditTache,
               dure: dure,
               id: id,
               nom: nom,
