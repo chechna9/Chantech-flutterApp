@@ -7,6 +7,7 @@ import 'package:chantech/screens/login.dart';
 import 'package:chantech/screens/ouvrier_detaille.dart';
 import 'package:chantech/screens/register.dart';
 import 'package:chantech/screens/splash_screen.dart';
+import 'package:chantech/screens/tache_detaille.dart';
 import 'package:flutter/material.dart';
 import 'screens/ouvrier_dans_tache.dart';
 
@@ -15,7 +16,7 @@ void main() {
     MaterialApp(
       theme: ThemeData(fontFamily: 'Poppins'),
       debugShowCheckedModeBanner: false,
-      initialRoute: '/allTaches',
+      initialRoute: '/tacheDetaille',
       routes: {
         '/': (context) => const SplashScreen(),
         '/login': (context) => const Login(),
@@ -27,6 +28,7 @@ void main() {
         '/ouvrierDansTache': (context) => const OuvrierDansTache(),
         '/addOuvrierDansTache': (context) => AddOuvrierDTache(),
         '/allTaches': (context) => AllTaches(),
+        '/tacheDetaille': (context) => const TacheDetaille(),
       },
     ),
   );
