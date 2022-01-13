@@ -5,8 +5,13 @@ import 'package:chantech/screens/home.dart';
 import 'package:flutter/material.dart';
 
 class AllOuvriers extends StatefulWidget {
-  List<OuvrierCard> listOuvriers;
-  AllOuvriers({Key? key, required this.listOuvriers}) : super(key: key);
+  List<OuvrierCard> listOuvriersDispo;
+  List<OuvrierCard> listOuvriersOcup;
+  AllOuvriers(
+      {Key? key,
+      required this.listOuvriersDispo,
+      required this.listOuvriersOcup})
+      : super(key: key);
 
   @override
   _AllOuvriersState createState() => _AllOuvriersState();
@@ -15,7 +20,7 @@ class AllOuvriers extends StatefulWidget {
 class _AllOuvriersState extends State<AllOuvriers> {
   void updateList(OuvrierCard e) {
     setState(() {
-      listOuvriers.add(e);
+      listOuvriersDispo.add(e);
     });
   }
 
@@ -46,9 +51,9 @@ class _AllOuvriersState extends State<AllOuvriers> {
         elevation: 0,
         automaticallyImplyLeading: false,
         backgroundColor: myBlue,
-        title: Text(
+        title: const Text(
           'List des ouvrier',
-          style: const TextStyle(
+          style: TextStyle(
             fontWeight: FontWeight.w900,
             fontSize: 20,
           ),
@@ -105,7 +110,7 @@ class _AllOuvriersState extends State<AllOuvriers> {
                     });
                   },
                   child: Text(
-                    'Ocuppé',
+                    'Occupé',
                     style: TextStyle(
                       color: disponible! == false ? Colors.white : myBlue,
                       fontWeight: FontWeight.w100,
@@ -118,15 +123,53 @@ class _AllOuvriersState extends State<AllOuvriers> {
             const SizedBox(height: 10),
             SizedBox(
               height: 400,
-              child: ListView.builder(
-                itemCount: widget.listOuvriers.length,
-                itemBuilder: (context, index) => Column(
-                  children: [
-                    widget.listOuvriers[index],
-                    const SizedBox(height: 10),
-                  ],
-                ),
-              ),
+              child: disponible!
+                  ?
+                  //affichage ouvrier diponible
+                  widget.listOuvriersDispo.length == 0
+                      ? const Center(
+                          child: Text(
+                            'il n\'a pas d\'ouvrier disponible maintenent',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w900,
+                              fontSize: 20,
+                            ),
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: widget.listOuvriersDispo.length,
+                          itemBuilder: (context, index) => Column(
+                            children: [
+                              widget.listOuvriersDispo[index],
+                              const SizedBox(height: 10),
+                            ],
+                          ),
+                        )
+                  :
+                  //affichage ouvrier Occupe
+                  widget.listOuvriersOcup.length == 0
+                      ? const Center(
+                          child: Text(
+                            'il n\'a pas d\'ouvrier occupé maintenent',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w900,
+                              fontSize: 20,
+                            ),
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: widget.listOuvriersOcup.length,
+                          itemBuilder: (context, index) => Column(
+                            children: [
+                              widget.listOuvriersOcup[index],
+                              const SizedBox(height: 10),
+                            ],
+                          ),
+                        ),
             ),
           ],
         ),

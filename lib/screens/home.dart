@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:chantech/classes/ouvrier.dart';
 import 'package:chantech/components/chantier_card.dart';
 import 'package:chantech/components/equipement_card.dart';
 import 'package:chantech/components/ouvrier_card.dart';
@@ -6,6 +9,7 @@ import 'package:chantech/screens/all_chantiers.dart';
 import 'package:chantech/screens/all_equipements.dart';
 import 'package:chantech/screens/all_ouvriers.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 int? index;
 List<ChantierCard> listChantiers = [
@@ -16,11 +20,8 @@ List<EquipementCard> listEquipements = [
   EquipementCard(libelle: 'Marteau', num: '12', rest: 25),
   EquipementCard(libelle: 'Marteau', num: '12', rest: 25),
 ];
-List<OuvrierCard> listOuvriers = [
-  OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
-  OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
-  OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
-];
+List<OuvrierCard> listOuvriersDispo = [];
+List<OuvrierCard> listOuvriersOcup = [];
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -30,10 +31,38 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final urlOuvrierDispo = 'http://10.0.2.2:8080/ouvrier/libre';
+  final urlOuvrierOcup = 'http://10.0.2.2:8080/ouvrier/occupe';
+  Future<void> fetchOucrier() async {
+    final responseDispo = await http.get(Uri.parse(urlOuvrierDispo));
+    final responseOcup = await http.get(Uri.parse(urlOuvrierOcup));
+    //getting ouvrier disponible
+    if (responseDispo.statusCode == 200) {
+      final List _listData = jsonDecode(responseDispo.body)['data']
+          .map((data) => Ouvrier.fromJson(data))
+          .toList();
+
+      for (Ouvrier e in _listData) {
+        listOuvriersDispo.add(OuvrierCard.fromOuvrier(e));
+      }
+    }
+    //getting ouvrier occupe
+    if (responseOcup.statusCode == 200) {
+      final List _listData = jsonDecode(responseOcup.body)['data']
+          .map((data) => Ouvrier.fromJson(data))
+          .toList();
+
+      for (Ouvrier e in _listData) {
+        listOuvriersOcup.add(OuvrierCard.fromOuvrier(e));
+      }
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    fetchOucrier();
     index = 0;
   }
 
@@ -97,7 +126,8 @@ class _HomeState extends State<Home> {
             )
           : index == 1
               ? AllOuvriers(
-                  listOuvriers: listOuvriers,
+                  listOuvriersDispo: listOuvriersDispo,
+                  listOuvriersOcup: listOuvriersOcup,
                 )
               : AllEquipements(
                   listEquipements: listEquipements,

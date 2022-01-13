@@ -1,3 +1,4 @@
+import 'package:chantech/classes/ouvrier.dart';
 import 'package:chantech/consts.dart';
 import 'package:flutter/material.dart';
 
@@ -5,10 +6,12 @@ class OuvrierCard extends StatelessWidget {
   final String nom;
   final String prenom;
   final String spec;
-  OuvrierCard(
+  const OuvrierCard(
       {Key? key, required this.nom, required this.prenom, required this.spec})
       : super(key: key);
-
+  factory OuvrierCard.fromOuvrier(Ouvrier e) {
+    return OuvrierCard(nom: e.nom, prenom: e.prenom, spec: e.spec);
+  }
   @override
   Widget build(BuildContext context) {
     return Container(

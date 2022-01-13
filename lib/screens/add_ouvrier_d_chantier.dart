@@ -1,6 +1,5 @@
 import 'package:chantech/components/ouvrier_card.dart';
 import 'package:chantech/consts.dart';
-import 'package:chantech/screens/home.dart';
 import 'package:flutter/material.dart';
 
 class AddOuvrierDChantier extends StatefulWidget {
@@ -108,10 +107,10 @@ class _AddOuvrierDChantierState extends State<AddOuvrierDChantier> {
             SizedBox(
               height: 400,
               child: ListView.builder(
-                itemCount: listOuvriers.length,
+                itemCount: _listOuvriers.length,
                 itemBuilder: (context, index) => Column(
                   children: [
-                    listOuvriers[index],
+                    _listOuvriers[index],
                     const SizedBox(height: 10),
                   ],
                 ),
