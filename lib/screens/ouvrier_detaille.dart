@@ -1,10 +1,15 @@
+import 'dart:convert';
+
 import 'package:chantech/components/confirm_delete.dart';
 import 'package:chantech/components/edit_ouvrier.dart';
 import 'package:chantech/consts.dart';
+import 'package:chantech/models/ouvrier.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class OuvrierDetaille extends StatefulWidget {
-  const OuvrierDetaille({Key? key}) : super(key: key);
+  final int id;
+  const OuvrierDetaille({Key? key, required this.id}) : super(key: key);
 
   @override
   _OuvrierDetailleState createState() => _OuvrierDetailleState();
@@ -20,20 +25,36 @@ class _OuvrierDetailleState extends State<OuvrierDetaille> {
     );
   }
 
-  void showDeleteChantier() {
+  void showDeleteOuvrier() {
     showDialog(
       context: context,
       builder: (context) => ConfirmDelete(),
     );
   }
 
-  int id = 01;
-  int heures = 112;
-  String nom = "Aboud";
-  String prenom = "Seyi";
-  String spec = "Plombier";
-  int numTele = 0775093097;
-  String email = "SeyiAboud@gmail.com";
+  Ouvrier? _ouvrier = null;
+
+  Future<void> fetchOuvrier() async {
+    final response =
+        await http.get(Uri.parse(localhost + 'ouvrier/info/id/${widget.id}'));
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      if (data['status'] == 200) {
+        setState(() {
+          _ouvrier = Ouvrier.fromJson(data['data'][0]);
+        });
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchOuvrier();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +75,9 @@ class _OuvrierDetailleState extends State<OuvrierDetaille> {
               ),
               child: IconButton(
                 color: myBlue,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
                 icon: const Icon(
                   Icons.arrow_back_rounded,
                   size: 30,
@@ -75,15 +98,19 @@ class _OuvrierDetailleState extends State<OuvrierDetaille> {
           child: SizedBox(
             height: 350,
             child: DescriptOuvrier(
-              delete: showDeleteChantier,
+              delete: showDeleteOuvrier,
               edit: showEditOuvrier,
-              prenom: prenom,
-              id: id,
-              nom: nom,
-              spec: spec,
-              email: email,
-              heures: heures,
-              numTele: numTele,
+              prenom: _ouvrier == null ? "" : _ouvrier!.prenom,
+              id: widget.id,
+              nom: _ouvrier == null ? "" : _ouvrier!.nom,
+              spec: _ouvrier == null ? "" : _ouvrier!.spec,
+              email: _ouvrier == null ? "" : _ouvrier!.email,
+              heures: _ouvrier == null
+                  ? 0
+                  : _ouvrier!.heure == null
+                      ? 0
+                      : _ouvrier!.heure!,
+              numTele: _ouvrier == null ? 0 : _ouvrier!.numero,
             ),
           ),
         ),

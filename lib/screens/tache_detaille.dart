@@ -30,9 +30,9 @@ class _TacheDetailleState extends State<TacheDetaille> {
   }
 
   List<OuvrierCard> _listOuvriers = [
-    OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
-    OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
-    OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
+    // OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
+    // OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
+    // OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
   ];
   String nom = 'La toure eiffel';
   String description = 'Seyi aBoud tiri mel cenftre fsdgsdfg fdf';

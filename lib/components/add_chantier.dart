@@ -134,8 +134,7 @@ class AddChantier extends StatelessWidget {
                                   // getting proprietaire
                                   final proprietaireData =
                                       jsonDecode(propResponse.body)['data'][0];
-                                  print(responsableData);
-                                  print(proprietaireData);
+
                                   updateList(
                                     Chantier(
                                       address: adr,

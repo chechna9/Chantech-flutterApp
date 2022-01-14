@@ -11,9 +11,9 @@ class AddOuvrierDChantier extends StatefulWidget {
 
 class _AddOuvrierDChantierState extends State<AddOuvrierDChantier> {
   List<OuvrierCard> _listOuvriers = [
-    OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
-    OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
-    OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
+    // OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
+    // OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
+    // OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
   ];
 
   bool? disponible;

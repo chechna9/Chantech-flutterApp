@@ -1,24 +1,43 @@
 import 'package:chantech/models/ouvrier.dart';
 import 'package:chantech/consts.dart';
+import 'package:chantech/screens/ouvrier_detaille.dart';
 import 'package:flutter/material.dart';
 
 class OuvrierCard extends StatelessWidget {
+  final int id;
   final String nom;
   final String prenom;
   final String spec;
   const OuvrierCard(
-      {Key? key, required this.nom, required this.prenom, required this.spec})
+      {Key? key,
+      required this.id,
+      required this.nom,
+      required this.prenom,
+      required this.spec})
       : super(key: key);
   factory OuvrierCard.fromOuvrier(Ouvrier e) {
-    return OuvrierCard(nom: e.nom, prenom: e.prenom, spec: e.spec);
+    return OuvrierCard(nom: e.nom, prenom: e.prenom, spec: e.spec, id: e.id!);
   }
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: myYellow,
-        borderRadius: BorderRadius.circular(20),
+    return ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute<void>(
+            builder: (BuildContext context) => OuvrierDetaille(
+              id: id,
+            ),
+          ),
+        );
+      },
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.all(20),
+        elevation: 0,
+        backgroundColor: myYellow,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
