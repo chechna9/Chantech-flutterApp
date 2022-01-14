@@ -104,8 +104,8 @@ class AddOuvrier extends StatelessWidget {
                                     spec: spec,
                                     email: email,
                                     numero: numTele));
-                                final addOuvrierUrl =
-                                    'http://10.0.2.2:8080/ouvrier/nom/$nom/prenom/$prenom/numero/$numTele/email/$email/specialite/$spec';
+                                final addOuvrierUrl = localhost +
+                                    'ouvrier/nom/$nom/prenom/$prenom/numero/$numTele/email/$email/specialite/$spec';
                                 await http.post(Uri.parse(addOuvrierUrl));
                                 Navigator.pop(context);
                               }

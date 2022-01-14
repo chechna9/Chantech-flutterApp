@@ -32,9 +32,14 @@ ButtonStyle myBottomStyle(Color color) => TextButton.styleFrom(
     );
 
 //Api endpoints
+const localhost = 'http://10.0.2.2:8080/';
 //ouvriers
-const urlOuvrierDispo = 'http://10.0.2.2:8080/ouvrier/libre';
-const urlOuvrierOcup = 'http://10.0.2.2:8080/ouvrier/occupe';
+const urlOuvrierDispo = localhost + 'ouvrier/libre';
+const urlOuvrierOcup = localhost + 'ouvrier/occupe';
 //chantiers
-const urlChnaitersEnCours = 'http://10.0.2.2:8080/chantier/courant';
-const urlChnaitersTerminer = 'http://10.0.2.2:8080/chantier/fermer';
+const urlChnaitersEnCours = localhost + 'chantier/courant';
+const urlChnaitersTerminer = localhost + 'chantier/fermer';
+//add chantier validators
+
+const urlRespVal = localhost + 'ouvrier/email/';
+const urlPropVal = localhost + 'personne/email/';
