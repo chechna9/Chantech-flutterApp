@@ -1,12 +1,16 @@
 import 'package:chantech/components/add_equipement.dart';
 import 'package:chantech/components/equipement_card.dart';
 import 'package:chantech/consts.dart';
-import 'package:chantech/screens/home.dart';
 import 'package:flutter/material.dart';
 
 class AllEquipements extends StatefulWidget {
-  List<EquipementCard> listEquipements;
-  AllEquipements({Key? key, required this.listEquipements}) : super(key: key);
+  List<EquipementCard> listEquipementsDispo;
+  List<EquipementCard> listEquipementsOcup;
+  AllEquipements(
+      {Key? key,
+      required this.listEquipementsDispo,
+      required this.listEquipementsOcup})
+      : super(key: key);
 
   @override
   _AllEquipementsState createState() => _AllEquipementsState();
@@ -15,7 +19,7 @@ class AllEquipements extends StatefulWidget {
 class _AllEquipementsState extends State<AllEquipements> {
   void updateList(EquipementCard e) {
     setState(() {
-      listEquipements.add(e);
+      widget.listEquipementsDispo.add(e);
     });
   }
 
@@ -46,9 +50,9 @@ class _AllEquipementsState extends State<AllEquipements> {
         elevation: 0,
         automaticallyImplyLeading: false,
         backgroundColor: myBlue,
-        title: Text(
+        title: const Text(
           'List des equipements',
-          style: const TextStyle(
+          style: TextStyle(
             fontWeight: FontWeight.w900,
             fontSize: 20,
           ),
@@ -118,15 +122,53 @@ class _AllEquipementsState extends State<AllEquipements> {
             const SizedBox(height: 10),
             SizedBox(
               height: 400,
-              child: ListView.builder(
-                itemCount: widget.listEquipements.length,
-                itemBuilder: (context, index) => Column(
-                  children: [
-                    widget.listEquipements[index],
-                    const SizedBox(height: 10),
-                  ],
-                ),
-              ),
+              child: disponible!
+                  ?
+                  //affichage ouvrier diponible
+                  widget.listEquipementsDispo.isEmpty
+                      ? const Center(
+                          child: Text(
+                            'il n\'a pas d\'equipement disponible maintenent',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w900,
+                              fontSize: 20,
+                            ),
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: widget.listEquipementsDispo.length,
+                          itemBuilder: (context, index) => Column(
+                            children: [
+                              widget.listEquipementsDispo[index],
+                              const SizedBox(height: 10),
+                            ],
+                          ),
+                        )
+                  :
+                  //affichage ouvrier Occupe
+                  widget.listEquipementsOcup.isEmpty
+                      ? const Center(
+                          child: Text(
+                            'il n\'a pas d\'equipement occupé maintenent',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w900,
+                              fontSize: 20,
+                            ),
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: widget.listEquipementsOcup.length,
+                          itemBuilder: (context, index) => Column(
+                            children: [
+                              widget.listEquipementsOcup[index],
+                              const SizedBox(height: 10),
+                            ],
+                          ),
+                        ),
             ),
           ],
         ),

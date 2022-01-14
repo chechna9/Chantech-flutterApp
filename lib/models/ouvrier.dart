@@ -3,8 +3,10 @@ class Ouvrier {
   final String prenom;
   final String email;
   final int numero;
+  int? id;
   final String spec;
   Ouvrier({
+    this.id,
     required this.email,
     required this.nom,
     required this.numero,
@@ -13,6 +15,7 @@ class Ouvrier {
   });
   factory Ouvrier.fromJson(Map<String, dynamic> json) {
     return Ouvrier(
+      id: json['idPersonne'],
       nom: json['nom'],
       prenom: json['prenom'],
       email: json['email'],

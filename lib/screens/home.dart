@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:chantech/models/chantier.dart';
 import 'package:chantech/models/ouvrier.dart';
 import 'package:chantech/components/chantier_card.dart';
 import 'package:chantech/components/equipement_card.dart';
@@ -12,14 +13,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 int? index;
-List<ChantierCard> listChantiers = [
-  ChantierCard(nom: 'La tour Eiffel', respo: 'Aboud', prop: 'Rachid Nekaz'),
-  ChantierCard(nom: 'La tour Eiffel', respo: 'Aboud', prop: 'Rachid Nekaz'),
-];
-List<EquipementCard> listEquipements = [
-  EquipementCard(libelle: 'Marteau', num: '12', rest: 25),
-  EquipementCard(libelle: 'Marteau', num: '12', rest: 25),
-];
+List<ChantierCard> listChantiersEnCours = [];
+List<ChantierCard> listChantiersTerminer = [];
+
+List<EquipementCard> listEquipementsDispo = [];
+List<EquipementCard> listEquipementsOcup = [];
+
 List<OuvrierCard> listOuvriersDispo = [];
 List<OuvrierCard> listOuvriersOcup = [];
 
@@ -31,9 +30,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final urlOuvrierDispo = 'http://10.0.2.2:8080/ouvrier/libre';
-  final urlOuvrierOcup = 'http://10.0.2.2:8080/ouvrier/occupe';
-  Future<void> fetchOucrier() async {
+  Future<void> fetchOuvriers() async {
     final responseDispo = await http.get(Uri.parse(urlOuvrierDispo));
     final responseOcup = await http.get(Uri.parse(urlOuvrierOcup));
     //getting ouvrier disponible
@@ -41,10 +38,11 @@ class _HomeState extends State<Home> {
       final List _listData = jsonDecode(responseDispo.body)['data']
           .map((data) => Ouvrier.fromJson(data))
           .toList();
-
-      for (Ouvrier e in _listData) {
-        listOuvriersDispo.add(OuvrierCard.fromOuvrier(e));
-      }
+      setState(() {
+        for (Ouvrier e in _listData) {
+          listOuvriersDispo.add(OuvrierCard.fromOuvrier(e));
+        }
+      });
     }
     //getting ouvrier occupe
     if (responseOcup.statusCode == 200) {
@@ -52,9 +50,67 @@ class _HomeState extends State<Home> {
           .map((data) => Ouvrier.fromJson(data))
           .toList();
 
-      for (Ouvrier e in _listData) {
-        listOuvriersOcup.add(OuvrierCard.fromOuvrier(e));
-      }
+      setState(() {
+        for (Ouvrier e in _listData) {
+          listOuvriersOcup.add(OuvrierCard.fromOuvrier(e));
+        }
+      });
+    }
+  }
+
+  Future<void> fetchEquipements() async {
+    final responseDispo = await http.get(Uri.parse(urlOuvrierDispo));
+    final responseOcup = await http.get(Uri.parse(urlOuvrierOcup));
+    //getting ouvrier disponible
+    if (responseDispo.statusCode == 200) {
+      final List _listData = jsonDecode(responseDispo.body)['data']
+          .map((data) => Ouvrier.fromJson(data))
+          .toList();
+      setState(() {
+        for (Ouvrier e in _listData) {
+          listOuvriersDispo.add(OuvrierCard.fromOuvrier(e));
+        }
+      });
+    }
+    //getting ouvrier occupe
+    if (responseOcup.statusCode == 200) {
+      final List _listData = jsonDecode(responseOcup.body)['data']
+          .map((data) => Ouvrier.fromJson(data))
+          .toList();
+
+      setState(() {
+        for (Ouvrier e in _listData) {
+          listOuvriersOcup.add(OuvrierCard.fromOuvrier(e));
+        }
+      });
+    }
+  }
+
+  Future<void> fetchChantier() async {
+    final responseEnCours = await http.get(Uri.parse(urlChnaitersEnCours));
+    final responseTerminer = await http.get(Uri.parse(urlChnaitersTerminer));
+    //getting chantier En cours
+    if (responseEnCours.statusCode == 200) {
+      final List _listData = jsonDecode(responseEnCours.body)['data']
+          .map((data) => Chantier.fromJson(data))
+          .toList();
+      setState(() {
+        for (Chantier e in _listData) {
+          listChantiersEnCours.add(ChantierCard.fromChantier(e));
+        }
+      });
+    }
+    //getting ouvrier occupe
+    if (responseTerminer.statusCode == 200) {
+      final List _listData = jsonDecode(responseTerminer.body)['data']
+          .map((data) => Chantier.fromJson(data))
+          .toList();
+
+      setState(() {
+        for (Chantier e in _listData) {
+          listChantiersTerminer.add(ChantierCard.fromChantier(e));
+        }
+      });
     }
   }
 
@@ -62,7 +118,8 @@ class _HomeState extends State<Home> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    fetchOucrier();
+    fetchOuvriers();
+    fetchChantier();
     index = 0;
   }
 
@@ -122,7 +179,8 @@ class _HomeState extends State<Home> {
       ),
       body: index == 0
           ? AllChantiers(
-              listChantiers: listChantiers,
+              listChantiersEnCours: listChantiersEnCours,
+              listChantiersTerminer: listChantiersTerminer,
             )
           : index == 1
               ? AllOuvriers(
@@ -130,7 +188,8 @@ class _HomeState extends State<Home> {
                   listOuvriersOcup: listOuvriersOcup,
                 )
               : AllEquipements(
-                  listEquipements: listEquipements,
+                  listEquipementsDispo: listEquipementsDispo,
+                  listEquipementsOcup: listEquipementsOcup,
                 ),
     );
   }

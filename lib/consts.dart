@@ -30,3 +30,11 @@ ButtonStyle myBottomStyle(Color color) => TextButton.styleFrom(
         borderRadius: BorderRadius.circular(20),
       ),
     );
+
+//Api endpoints
+//ouvriers
+const urlOuvrierDispo = 'http://10.0.2.2:8080/ouvrier/libre';
+const urlOuvrierOcup = 'http://10.0.2.2:8080/ouvrier/occupe';
+//chantiers
+const urlChnaitersEnCours = 'http://10.0.2.2:8080/chantier/courant';
+const urlChnaitersTerminer = 'http://10.0.2.2:8080/chantier/fermer';

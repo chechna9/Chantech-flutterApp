@@ -1,4 +1,5 @@
 import 'package:chantech/consts.dart';
+import 'package:chantech/models/chantier.dart';
 import 'package:flutter/material.dart';
 
 class ChantierCard extends StatelessWidget {
@@ -8,6 +9,12 @@ class ChantierCard extends StatelessWidget {
   ChantierCard(
       {Key? key, required this.nom, required this.respo, required this.prop})
       : super(key: key);
+  factory ChantierCard.fromChantier(Chantier e) {
+    return ChantierCard(
+        nom: e.nomChantier,
+        respo: "${e.nomResponsable} ${e.preNomResponsable}",
+        prop: '${e.nomProprietaire} ${e.preNomProprietaire}');
+  }
 
   @override
   Widget build(BuildContext context) {

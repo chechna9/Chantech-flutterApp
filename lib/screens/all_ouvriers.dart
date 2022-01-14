@@ -2,7 +2,6 @@ import 'package:chantech/components/add_ouvrier.dart';
 import 'package:chantech/components/ouvrier_card.dart';
 import 'package:chantech/consts.dart';
 import 'package:chantech/models/ouvrier.dart';
-import 'package:chantech/screens/home.dart';
 import 'package:flutter/material.dart';
 
 class AllOuvriers extends StatefulWidget {
@@ -21,7 +20,7 @@ class AllOuvriers extends StatefulWidget {
 class _AllOuvriersState extends State<AllOuvriers> {
   void updateList(Ouvrier e) {
     setState(() {
-      listOuvriersDispo.add(OuvrierCard.fromOuvrier(e));
+      widget.listOuvriersDispo.add(OuvrierCard.fromOuvrier(e));
     });
   }
 
@@ -127,7 +126,7 @@ class _AllOuvriersState extends State<AllOuvriers> {
               child: disponible!
                   ?
                   //affichage ouvrier diponible
-                  widget.listOuvriersDispo.length == 0
+                  widget.listOuvriersDispo.isEmpty
                       ? const Center(
                           child: Text(
                             'il n\'a pas d\'ouvrier disponible maintenent',
@@ -150,7 +149,7 @@ class _AllOuvriersState extends State<AllOuvriers> {
                         )
                   :
                   //affichage ouvrier Occupe
-                  widget.listOuvriersOcup.length == 0
+                  widget.listOuvriersOcup.isEmpty
                       ? const Center(
                           child: Text(
                             'il n\'a pas d\'ouvrier occupé maintenent',

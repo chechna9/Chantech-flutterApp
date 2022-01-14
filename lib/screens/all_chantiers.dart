@@ -1,12 +1,16 @@
 import 'package:chantech/components/add_chantier.dart';
 import 'package:chantech/components/chantier_card.dart';
 import 'package:chantech/consts.dart';
-import 'package:chantech/screens/home.dart';
 import 'package:flutter/material.dart';
 
 class AllChantiers extends StatefulWidget {
-  List<ChantierCard> listChantiers;
-  AllChantiers({Key? key, required this.listChantiers}) : super(key: key);
+  List<ChantierCard> listChantiersEnCours;
+  List<ChantierCard> listChantiersTerminer;
+  AllChantiers(
+      {Key? key,
+      required this.listChantiersEnCours,
+      required this.listChantiersTerminer})
+      : super(key: key);
 
   @override
   _AllChantiersState createState() => _AllChantiersState();
@@ -15,7 +19,7 @@ class AllChantiers extends StatefulWidget {
 class _AllChantiersState extends State<AllChantiers> {
   void updateList(ChantierCard e) {
     setState(() {
-      listChantiers.add(e);
+      widget.listChantiersEnCours.add(e);
     });
   }
 
@@ -118,15 +122,53 @@ class _AllChantiersState extends State<AllChantiers> {
             const SizedBox(height: 10),
             SizedBox(
               height: 400,
-              child: ListView.builder(
-                itemCount: widget.listChantiers.length,
-                itemBuilder: (context, index) => Column(
-                  children: [
-                    widget.listChantiers[index],
-                    const SizedBox(height: 10),
-                  ],
-                ),
-              ),
+              child: enCours!
+                  ?
+                  //affichage ouvrier diponible
+                  widget.listChantiersEnCours.isEmpty
+                      ? const Center(
+                          child: Text(
+                            'il n\'a pas des chantiers en cours maintenent',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w900,
+                              fontSize: 20,
+                            ),
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: widget.listChantiersEnCours.length,
+                          itemBuilder: (context, index) => Column(
+                            children: [
+                              widget.listChantiersEnCours[index],
+                              const SizedBox(height: 10),
+                            ],
+                          ),
+                        )
+                  :
+                  //affichage ouvrier Occupe
+                  widget.listChantiersTerminer.isEmpty
+                      ? const Center(
+                          child: Text(
+                            'il n\'a pas des chantiers en terminé maintenent',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w900,
+                              fontSize: 20,
+                            ),
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: widget.listChantiersTerminer.length,
+                          itemBuilder: (context, index) => Column(
+                            children: [
+                              widget.listChantiersTerminer[index],
+                              const SizedBox(height: 10),
+                            ],
+                          ),
+                        ),
             ),
           ],
         ),
