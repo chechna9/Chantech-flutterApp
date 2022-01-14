@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:chantech/classes/ouvrier.dart';
+import 'package:chantech/models/ouvrier.dart';
 import 'package:chantech/components/chantier_card.dart';
 import 'package:chantech/components/equipement_card.dart';
 import 'package:chantech/components/ouvrier_card.dart';

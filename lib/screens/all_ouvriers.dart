@@ -1,6 +1,7 @@
 import 'package:chantech/components/add_ouvrier.dart';
 import 'package:chantech/components/ouvrier_card.dart';
 import 'package:chantech/consts.dart';
+import 'package:chantech/models/ouvrier.dart';
 import 'package:chantech/screens/home.dart';
 import 'package:flutter/material.dart';
 
@@ -18,9 +19,9 @@ class AllOuvriers extends StatefulWidget {
 }
 
 class _AllOuvriersState extends State<AllOuvriers> {
-  void updateList(OuvrierCard e) {
+  void updateList(Ouvrier e) {
     setState(() {
-      listOuvriersDispo.add(e);
+      listOuvriersDispo.add(OuvrierCard.fromOuvrier(e));
     });
   }
 

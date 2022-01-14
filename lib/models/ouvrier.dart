@@ -17,7 +17,7 @@ class Ouvrier {
       prenom: json['prenom'],
       email: json['email'],
       numero: json['numero'],
-      spec: json['nomSpecialite'],
+      spec: json['nomspecialite'],
     );
   }
 }

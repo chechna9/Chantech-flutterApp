@@ -1,7 +1,7 @@
-import 'package:chantech/components/chantier_card.dart';
-import 'package:chantech/components/ouvrier_card.dart';
 import 'package:chantech/consts.dart';
+import 'package:chantech/models/ouvrier.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class AddOuvrier extends StatelessWidget {
   final Function updateList;
@@ -96,10 +96,17 @@ class AddOuvrier extends StatelessWidget {
                         Expanded(
                           child: TextButton(
                             style: myBottomStyle(myBlue),
-                            onPressed: () {
+                            onPressed: () async {
                               if (_formkey.currentState!.validate()) {
-                                updateList(OuvrierCard(
-                                    nom: nom, prenom: prenom, spec: spec));
+                                updateList(Ouvrier(
+                                    nom: nom,
+                                    prenom: prenom,
+                                    spec: spec,
+                                    email: email,
+                                    numero: numTele));
+                                final addOuvrierUrl =
+                                    'http://10.0.2.2:8080/ouvrier/nom/$nom/prenom/$prenom/numero/$numTele/email/$email/specialite/$spec';
+                                await http.post(Uri.parse(addOuvrierUrl));
                                 Navigator.pop(context);
                               }
                             },

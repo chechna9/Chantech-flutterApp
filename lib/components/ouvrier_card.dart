@@ -1,4 +1,4 @@
-import 'package:chantech/classes/ouvrier.dart';
+import 'package:chantech/models/ouvrier.dart';
 import 'package:chantech/consts.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +15,7 @@ class OuvrierCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: myYellow,
         borderRadius: BorderRadius.circular(20),
