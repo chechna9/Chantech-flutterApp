@@ -7,9 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class AddChantier extends StatelessWidget {
-  final Function updateList;
-
-  AddChantier({Key? key, required this.updateList}) : super(key: key);
+  AddChantier({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -135,21 +133,6 @@ class AddChantier extends StatelessWidget {
                                   final proprietaireData =
                                       jsonDecode(propResponse.body)['data'][0];
 
-                                  updateList(
-                                    Chantier(
-                                      address: adr,
-                                      fermer: 0,
-                                      nomChantier: nom,
-                                      idProprietaire:
-                                          proprietaireData['idPersonne'],
-                                      nomProprietaire: proprietaireData['nom'],
-                                      preNomProprietaire:
-                                          proprietaireData['prenom'],
-                                      idResponsable: responsable.id,
-                                      nomResponsable: responsable.nom,
-                                      preNomResponsable: responsable.prenom,
-                                    ),
-                                  );
                                   final addChantierUrl = localhost +
                                       'chantier/nomchantier/$nom/emailproprietaire/$prop/emailresponsable/$respo/address/$adr';
                                   await http.post(Uri.parse(addChantierUrl));

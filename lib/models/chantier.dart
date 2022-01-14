@@ -19,17 +19,17 @@ class Chantier {
   final String nomChantier;
   final String nomProprietaire;
   final String preNomProprietaire;
-  int? idProprietaire;
+  final int idProprietaire;
   final String nomResponsable;
   final String preNomResponsable;
-  int? idResponsable;
+  final int idResponsable;
   final int fermer;
   final String address;
-  int? idChantier;
+  final int idChantier;
   Chantier({
-    this.idChantier,
-    this.idProprietaire,
-    this.idResponsable,
+    required this.idChantier,
+    required this.idProprietaire,
+    required this.idResponsable,
     required this.nomChantier,
     required this.preNomProprietaire,
     required this.nomProprietaire,

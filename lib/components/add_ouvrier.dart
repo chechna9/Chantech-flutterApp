@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class AddOuvrier extends StatelessWidget {
-  final Function updateList;
-
-  AddOuvrier({Key? key, required this.updateList}) : super(key: key);
+  AddOuvrier({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -98,12 +96,6 @@ class AddOuvrier extends StatelessWidget {
                             style: myBottomStyle(myBlue),
                             onPressed: () async {
                               if (_formkey.currentState!.validate()) {
-                                updateList(Ouvrier(
-                                    nom: nom,
-                                    prenom: prenom,
-                                    spec: spec,
-                                    email: email,
-                                    numero: numTele));
                                 final addOuvrierUrl = localhost +
                                     'ouvrier/nom/$nom/prenom/$prenom/numero/$numTele/email/$email/specialite/$spec';
                                 await http.post(Uri.parse(addOuvrierUrl));

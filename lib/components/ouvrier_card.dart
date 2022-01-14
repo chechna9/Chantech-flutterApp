@@ -16,7 +16,7 @@ class OuvrierCard extends StatelessWidget {
       required this.spec})
       : super(key: key);
   factory OuvrierCard.fromOuvrier(Ouvrier e) {
-    return OuvrierCard(nom: e.nom, prenom: e.prenom, spec: e.spec, id: e.id!);
+    return OuvrierCard(nom: e.nom, prenom: e.prenom, spec: e.spec, id: e.id);
   }
   @override
   Widget build(BuildContext context) {

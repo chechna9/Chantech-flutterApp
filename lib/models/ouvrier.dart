@@ -3,11 +3,11 @@ class Ouvrier {
   final String prenom;
   final String email;
   final int numero;
-  int? id;
+  final int id;
   int? heure;
   final String spec;
   Ouvrier({
-    this.id,
+    required this.id,
     this.heure,
     required this.email,
     required this.nom,

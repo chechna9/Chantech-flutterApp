@@ -18,20 +18,18 @@ class AllChantiers extends StatefulWidget {
 }
 
 class _AllChantiersState extends State<AllChantiers> {
-  void updateList(Chantier e) {
-    setState(() {
-      widget.listChantiersEnCours.add(ChantierCard.fromChantier(e));
-    });
-  }
+  // void updateList(Chantier e) {
+  //   setState(() {
+  //     widget.listChantiersEnCours.add(ChantierCard.fromChantier(e));
+  //   });
+  // }
 
   void addChantier() {
     showDialog(
       barrierColor: Colors.transparent,
       context: context,
       builder: (context) {
-        return AddChantier(
-          updateList: updateList,
-        );
+        return AddChantier();
       },
     );
   }

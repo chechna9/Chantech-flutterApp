@@ -1,16 +1,23 @@
 import 'package:chantech/consts.dart';
 import 'package:chantech/models/chantier.dart';
+import 'package:chantech/screens/chantier_detaille.dart';
 import 'package:flutter/material.dart';
 
 class ChantierCard extends StatelessWidget {
+  final int id;
   final String nom;
   final String respo;
   final String prop;
   ChantierCard(
-      {Key? key, required this.nom, required this.respo, required this.prop})
+      {Key? key,
+      required this.nom,
+      required this.respo,
+      required this.prop,
+      required this.id})
       : super(key: key);
   factory ChantierCard.fromChantier(Chantier e) {
     return ChantierCard(
+        id: e.idChantier!,
         nom: e.nomChantier,
         respo: "${e.nomResponsable} ${e.preNomResponsable}",
         prop: '${e.nomProprietaire} ${e.preNomProprietaire}');
@@ -18,11 +25,15 @@ class ChantierCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: myYellow,
-        borderRadius: BorderRadius.circular(20),
+    return ElevatedButton(
+      onPressed: () {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => ChantierDetaille(id: id)));
+      },
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.all(20),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        backgroundColor: myYellow,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

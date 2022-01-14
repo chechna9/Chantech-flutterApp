@@ -25,7 +25,7 @@ void main() {
         '/login': (context) => const Login(),
         '/register': (context) => Register(),
         '/home': (context) => const Home(),
-        '/chantierDetaille': (context) => const ChantierDetaille(),
+        // '/chantierDetaille': (context) => const ChantierDetaille(),
         // '/ouvrierDetaille': (context) => const OuvrierDetaille(),
         '/equipementDetaille': (context) => const EquipementDetaille(),
         '/ouvrierDansChantier': (context) => const OuvrierDansChantier(),

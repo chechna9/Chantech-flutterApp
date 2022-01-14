@@ -18,20 +18,18 @@ class AllOuvriers extends StatefulWidget {
 }
 
 class _AllOuvriersState extends State<AllOuvriers> {
-  void updateList(Ouvrier e) {
-    setState(() {
-      widget.listOuvriersDispo.add(OuvrierCard.fromOuvrier(e));
-    });
-  }
+  // void updateList(Ouvrier e) {
+  //   setState(() {
+  //     widget.listOuvriersDispo.add(OuvrierCard.fromOuvrier(e));
+  //   });
+  // }
 
   void addOuvrier() {
     showDialog(
       barrierColor: Colors.transparent,
       context: context,
       builder: (context) {
-        return AddOuvrier(
-          updateList: updateList,
-        );
+        return AddOuvrier();
       },
     );
   }

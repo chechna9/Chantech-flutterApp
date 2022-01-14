@@ -1,10 +1,15 @@
+import 'dart:convert';
+
 import 'package:chantech/components/confirm_delete.dart';
 import 'package:chantech/components/edit_chantier.dart';
 import 'package:chantech/consts.dart';
+import 'package:chantech/models/chantier.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class ChantierDetaille extends StatefulWidget {
-  const ChantierDetaille({Key? key}) : super(key: key);
+  final int id;
+  const ChantierDetaille({Key? key, required this.id}) : super(key: key);
 
   @override
   _ChantierDetailleState createState() => _ChantierDetailleState();
@@ -20,6 +25,7 @@ class _ChantierDetailleState extends State<ChantierDetaille> {
     );
   }
 
+  Chantier? _chantier = null;
   void showDeleteChantier() {
     showDialog(
       context: context,
@@ -27,12 +33,27 @@ class _ChantierDetailleState extends State<ChantierDetaille> {
     );
   }
 
-  String nom = 'La toure eiffel';
-  String respo = 'Seyi Boud';
-  String prop = 'Rachid Nekaz';
-  int id = 01;
-  int dure = 12;
-  int heures = 8;
+  Future<void> fetchChantier() async {
+    final response =
+        await http.get(Uri.parse(localhost + 'chantier/info/id/${widget.id}'));
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      if (data['status'] == 200) {
+        setState(() {
+          _chantier = Chantier.fromJson(data['data'][0]);
+        });
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchChantier();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +74,9 @@ class _ChantierDetailleState extends State<ChantierDetaille> {
               ),
               child: IconButton(
                 color: myBlue,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
                 icon: const Icon(
                   Icons.arrow_back_rounded,
                   size: 30,
@@ -76,12 +99,16 @@ class _ChantierDetailleState extends State<ChantierDetaille> {
             DescriptChantier(
               delete: showDeleteChantier,
               edit: showEditChantier,
-              dure: dure,
-              id: id,
-              nom: nom,
-              prop: prop,
-              respo: respo,
-              heures: heures,
+              adress: _chantier == null ? '' : _chantier!.address,
+              id: _chantier == null ? 0 : _chantier!.idChantier,
+              nom: _chantier == null ? '' : _chantier!.nomChantier,
+              prop: _chantier == null
+                  ? ''
+                  : '${_chantier!.nomProprietaire} ${_chantier!.preNomProprietaire}',
+              respo: _chantier == null
+                  ? ''
+                  : '${_chantier!.nomResponsable} ${_chantier!.preNomResponsable}',
+              heures: 12,
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -157,7 +184,7 @@ class DescriptChantier extends StatefulWidget {
   final String respo;
   final String prop;
   final int id;
-  final int dure;
+  final String adress;
   final int heures;
   final Function edit;
   final Function delete;
@@ -168,7 +195,7 @@ class DescriptChantier extends StatefulWidget {
       required this.prop,
       required this.id,
       this.heures: 0,
-      required this.dure,
+      required this.adress,
       required this.edit,
       required this.delete})
       : super(key: key);
@@ -219,8 +246,8 @@ class _DescriptChantierState extends State<DescriptChantier> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Align(
-                child: const Icon(
+              const Align(
+                child: Icon(
                   Icons.house,
                   color: Colors.white,
                   size: 50,
@@ -260,7 +287,7 @@ class _DescriptChantierState extends State<DescriptChantier> {
                 ),
               ),
               Text(
-                'Duré : ${widget.dure}',
+                'Adresse : ${widget.adress}',
                 maxLines: 2,
                 style: const TextStyle(
                   color: Colors.white,
