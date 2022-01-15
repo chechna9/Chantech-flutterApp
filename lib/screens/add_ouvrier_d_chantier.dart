@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:chantech/components/afect_ouvrier_chantier_card.dart';
 import 'package:chantech/components/ouvrier_card.dart';
 import 'package:chantech/consts.dart';
 import 'package:chantech/models/ouvrier.dart';
@@ -16,8 +15,8 @@ class AddOuvrierDChantier extends StatefulWidget {
 }
 
 class _AddOuvrierDChantierState extends State<AddOuvrierDChantier> {
-  List<AffectOuvrierChantierCard> listOuvriersDispo = [];
-  List<AffectOuvrierChantierCard> listOuvriersOcup = [];
+  List<OuvrierCard> listOuvriersDispo = [];
+  List<OuvrierCard> listOuvriersOcup = [];
   Future<void> fetchOuvriers() async {
     final responseDispo = await http.get(Uri.parse(urlOuvrierDispo));
     final responseOcup = await http.get(Uri.parse(urlOuvrierOcup));
@@ -26,12 +25,23 @@ class _AddOuvrierDChantierState extends State<AddOuvrierDChantier> {
       final List _listData = jsonDecode(responseDispo.body)['data']
           .map((data) => Ouvrier.fromJson(data))
           .toList();
-      setState(() {
-        for (Ouvrier e in _listData) {
-          listOuvriersDispo
-              .add(AffectOuvrierChantierCard.fromOuvrier(e, widget.idChantier));
-        }
-      });
+      setState(
+        () {
+          for (Ouvrier e in _listData) {
+            listOuvriersDispo.add(
+              OuvrierCard.fromOuvrier(
+                e,
+                () async {
+                  final addOuvrierUrl = localhost +
+                      'ouvrier/idOuvrier/${e.id}/idChantier/${widget.idChantier}';
+                  await http.post(Uri.parse(addOuvrierUrl));
+                  Navigator.pop(context);
+                },
+              ),
+            );
+          }
+        },
+      );
     }
     //getting ouvrier occupe
     if (responseOcup.statusCode == 200) {
@@ -41,8 +51,15 @@ class _AddOuvrierDChantierState extends State<AddOuvrierDChantier> {
 
       setState(() {
         for (Ouvrier e in _listData) {
-          listOuvriersOcup
-              .add(AffectOuvrierChantierCard.fromOuvrier(e, widget.idChantier));
+          listOuvriersOcup.add(OuvrierCard.fromOuvrier(
+            e,
+            () async {
+              final addOuvrierUrl = localhost +
+                  'ouvrier/idOuvrier/${e.id}/idChantier/${widget.idChantier}';
+              await http.post(Uri.parse(addOuvrierUrl));
+              Navigator.pop(context);
+            },
+          ));
         }
       });
     }

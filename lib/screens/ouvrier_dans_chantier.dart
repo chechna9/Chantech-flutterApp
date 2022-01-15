@@ -5,6 +5,7 @@ import 'package:chantech/components/ouvrier_d_chantier_card.dart';
 import 'package:chantech/consts.dart';
 import 'package:chantech/models/ouvrier.dart';
 import 'package:chantech/screens/add_ouvrier_d_chantier.dart';
+import 'package:chantech/screens/ouvrier_detaille.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -29,7 +30,21 @@ class OuvrierDansChantierState extends State<OuvrierDansChantier> {
           .toList();
       setState(() {
         for (Ouvrier e in _listData) {
-          _listOuvriers.add(OuvrierCard.fromOuvrier(e));
+          _listOuvriers.add(
+            OuvrierCard.fromOuvrier(
+              e,
+              () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => OuvrierDetaille(
+                      id: e.id,
+                    ),
+                  ),
+                );
+              },
+            ),
+          );
         }
       });
     }

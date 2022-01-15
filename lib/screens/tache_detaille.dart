@@ -6,6 +6,7 @@ import 'package:chantech/consts.dart';
 import 'package:chantech/models/ouvrier.dart';
 import 'package:chantech/models/tache.dart';
 import 'package:chantech/screens/ajout_ouvrier_d_tache.dart';
+import 'package:chantech/screens/ouvrier_detaille.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -60,7 +61,16 @@ class _TacheDetailleState extends State<TacheDetaille> {
           .toList();
       setState(() {
         for (Ouvrier e in _listData) {
-          _listOuvriers.add(OuvrierCard.fromOuvrier(e));
+          _listOuvriers.add(OuvrierCard.fromOuvrier(e, () {
+            Navigator.push(
+              context,
+              MaterialPageRoute<void>(
+                builder: (BuildContext context) => OuvrierDetaille(
+                  id: e.id,
+                ),
+              ),
+            );
+          }));
         }
       });
     }

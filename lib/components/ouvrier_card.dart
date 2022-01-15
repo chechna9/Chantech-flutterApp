@@ -4,32 +4,33 @@ import 'package:chantech/screens/ouvrier_detaille.dart';
 import 'package:flutter/material.dart';
 
 class OuvrierCard extends StatelessWidget {
+  final Function action;
   final int id;
   final String nom;
   final String prenom;
   final String spec;
   const OuvrierCard(
       {Key? key,
+      required this.action,
       required this.id,
       required this.nom,
       required this.prenom,
       required this.spec})
       : super(key: key);
-  factory OuvrierCard.fromOuvrier(Ouvrier e) {
-    return OuvrierCard(nom: e.nom, prenom: e.prenom, spec: e.spec, id: e.id);
+  factory OuvrierCard.fromOuvrier(Ouvrier e, Function action) {
+    return OuvrierCard(
+      nom: e.nom,
+      prenom: e.prenom,
+      spec: e.spec,
+      id: e.id,
+      action: action,
+    );
   }
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute<void>(
-            builder: (BuildContext context) => OuvrierDetaille(
-              id: id,
-            ),
-          ),
-        );
+        action();
       },
       style: TextButton.styleFrom(
         padding: const EdgeInsets.all(20),

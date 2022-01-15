@@ -9,6 +9,7 @@ import 'package:chantech/consts.dart';
 import 'package:chantech/screens/all_chantiers.dart';
 import 'package:chantech/screens/all_equipements.dart';
 import 'package:chantech/screens/all_ouvriers.dart';
+import 'package:chantech/screens/ouvrier_detaille.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -40,7 +41,19 @@ class _HomeState extends State<Home> {
           .toList();
       setState(() {
         for (Ouvrier e in _listData) {
-          listOuvriersDispo.add(OuvrierCard.fromOuvrier(e));
+          listOuvriersDispo.add(OuvrierCard.fromOuvrier(
+            e,
+            () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => OuvrierDetaille(
+                    id: e.id,
+                  ),
+                ),
+              );
+            },
+          ));
         }
       });
     }
@@ -52,38 +65,50 @@ class _HomeState extends State<Home> {
 
       setState(() {
         for (Ouvrier e in _listData) {
-          listOuvriersOcup.add(OuvrierCard.fromOuvrier(e));
+          listOuvriersOcup.add(OuvrierCard.fromOuvrier(
+            e,
+            () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => OuvrierDetaille(
+                    id: e.id,
+                  ),
+                ),
+              );
+            },
+          ));
         }
       });
     }
   }
 
   Future<void> fetchEquipements() async {
-    final responseDispo = await http.get(Uri.parse(urlOuvrierDispo));
-    final responseOcup = await http.get(Uri.parse(urlOuvrierOcup));
-    //getting ouvrier disponible
-    if (responseDispo.statusCode == 200) {
-      final List _listData = jsonDecode(responseDispo.body)['data']
-          .map((data) => Ouvrier.fromJson(data))
-          .toList();
-      setState(() {
-        for (Ouvrier e in _listData) {
-          listOuvriersDispo.add(OuvrierCard.fromOuvrier(e));
-        }
-      });
-    }
-    //getting ouvrier occupe
-    if (responseOcup.statusCode == 200) {
-      final List _listData = jsonDecode(responseOcup.body)['data']
-          .map((data) => Ouvrier.fromJson(data))
-          .toList();
+    // final responseDispo = await http.get(Uri.parse(urlOuvrierDispo));
+    // final responseOcup = await http.get(Uri.parse(urlOuvrierOcup));
+    // //getting ouvrier disponible
+    // if (responseDispo.statusCode == 200) {
+    //   final List _listData = jsonDecode(responseDispo.body)['data']
+    //       .map((data) => Ouvrier.fromJson(data))
+    //       .toList();
+    //   setState(() {
+    //     for (Ouvrier e in _listData) {
+    //       listOuvriersDispo.add(OuvrierCard.fromOuvrier(e));
+    //     }
+    //   });
+    // }
+    // //getting ouvrier occupe
+    // if (responseOcup.statusCode == 200) {
+    //   final List _listData = jsonDecode(responseOcup.body)['data']
+    //       .map((data) => Ouvrier.fromJson(data))
+    //       .toList();
 
-      setState(() {
-        for (Ouvrier e in _listData) {
-          listOuvriersOcup.add(OuvrierCard.fromOuvrier(e));
-        }
-      });
-    }
+    //   setState(() {
+    //     for (Ouvrier e in _listData) {
+    //       listOuvriersOcup.add(OuvrierCard.fromOuvrier(e));
+    //     }
+    //   });
+    // }
   }
 
   Future<void> fetchChantier() async {
