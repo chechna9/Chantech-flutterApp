@@ -4,6 +4,7 @@ import 'package:chantech/components/confirm_delete.dart';
 import 'package:chantech/components/edit_chantier.dart';
 import 'package:chantech/consts.dart';
 import 'package:chantech/models/chantier.dart';
+import 'package:chantech/screens/all_taches.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -36,17 +37,22 @@ class _ChantierDetailleState extends State<ChantierDetaille> {
   Future<void> fetchChantier() async {
     final response =
         await http.get(Uri.parse(localhost + 'chantier/info/id/${widget.id}'));
+    final heurResponse = await http
+        .get(Uri.parse(localhost + 'chantier/id/${widget.id}/travaille'));
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
+      final heurData = jsonDecode(heurResponse.body);
       if (data['status'] == 200) {
         setState(() {
+          heureTravaille = heurData['data'][0]['heureTravaillerChantier'];
           _chantier = Chantier.fromJson(data['data'][0]);
         });
       }
     }
   }
 
+  int? heureTravaille;
   @override
   void initState() {
     // TODO: implement initState
@@ -108,7 +114,7 @@ class _ChantierDetailleState extends State<ChantierDetaille> {
               respo: _chantier == null
                   ? ''
                   : '${_chantier!.nomResponsable} ${_chantier!.preNomResponsable}',
-              heures: 12,
+              heures: heureTravaille == null ? 0 : heureTravaille!,
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -118,7 +124,14 @@ class _ChantierDetailleState extends State<ChantierDetaille> {
                     Expanded(
                       child: TextButton(
                         style: myBottomStyle(myYellow),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AllTaches(
+                                        id: widget.id,
+                                      )));
+                        },
                         child: const Text(
                           'Taches',
                           style: TextStyle(
@@ -194,7 +207,7 @@ class DescriptChantier extends StatefulWidget {
       this.respo: '/',
       required this.prop,
       required this.id,
-      this.heures: 0,
+      required this.heures,
       required this.adress,
       required this.edit,
       required this.delete})

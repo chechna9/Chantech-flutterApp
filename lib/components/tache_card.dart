@@ -1,19 +1,40 @@
 import 'package:chantech/consts.dart';
+import 'package:chantech/models/tache.dart';
+import 'package:chantech/screens/tache_detaille.dart';
 import 'package:flutter/material.dart';
 
 class TacheCard extends StatelessWidget {
+  final int id;
   final String nom;
   final int dure;
-  const TacheCard({Key? key, required this.nom, required this.dure})
+  const TacheCard(
+      {Key? key, required this.nom, required this.dure, required this.id})
       : super(key: key);
+  factory TacheCard.fromTache(Tache e) {
+    return TacheCard(
+      nom: e.nom,
+      dure: e.duree,
+      id: e.idTache,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: myYellow,
-        borderRadius: BorderRadius.circular(20),
+    return ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TacheDetaille(
+              id: id,
+            ),
+          ),
+        );
+      },
+      style: TextButton.styleFrom(
+        backgroundColor: myYellow,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        padding: const EdgeInsets.all(20),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

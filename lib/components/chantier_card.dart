@@ -17,7 +17,7 @@ class ChantierCard extends StatelessWidget {
       : super(key: key);
   factory ChantierCard.fromChantier(Chantier e) {
     return ChantierCard(
-        id: e.idChantier!,
+        id: e.idChantier,
         nom: e.nomChantier,
         respo: "${e.nomResponsable} ${e.preNomResponsable}",
         prop: '${e.nomProprietaire} ${e.preNomProprietaire}');

@@ -13,7 +13,7 @@ class EditChantier extends StatelessWidget {
     String nom = "";
     String prop = "";
     String respo = "";
-    double dure = 0;
+    String adr = "";
     return Scaffold(
       backgroundColor: const Color(0x44ffffff),
       body: Padding(
@@ -54,12 +54,12 @@ class EditChantier extends StatelessWidget {
                           val!.isEmpty ? 'Remplir ce champ' : null,
                     ),
                     const SizedBox(height: 20),
-                    //duree
+                    //adresse
                     TextFormField(
                       keyboardType: const TextInputType.numberWithOptions(
                           decimal: true, signed: false),
-                      decoration: myTFFDecoration('Duré'),
-                      onChanged: (value) => dure = double.parse(value),
+                      decoration: myTFFDecoration('Adresse'),
+                      onChanged: (value) => adr = value,
                       validator: (val) =>
                           val!.isEmpty ? 'Remplir ce champ' : null,
                     ),

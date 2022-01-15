@@ -1,12 +1,16 @@
+import 'dart:convert';
+
 import 'package:chantech/components/confirm_delete.dart';
-import 'package:chantech/components/edit_chantier.dart';
 import 'package:chantech/components/edit_tache.dart';
 import 'package:chantech/components/ouvrier_card.dart';
 import 'package:chantech/consts.dart';
+import 'package:chantech/models/tache.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class TacheDetaille extends StatefulWidget {
-  const TacheDetaille({Key? key}) : super(key: key);
+  final int id;
+  const TacheDetaille({Key? key, required this.id}) : super(key: key);
 
   @override
   _TacheDetailleState createState() => _TacheDetailleState();
@@ -29,15 +33,30 @@ class _TacheDetailleState extends State<TacheDetaille> {
     );
   }
 
-  List<OuvrierCard> _listOuvriers = [
-    // OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
-    // OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
-    // OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
-  ];
-  String nom = 'La toure eiffel';
-  String description = 'Seyi aBoud tiri mel cenftre fsdgsdfg fdf';
-  int id = 01;
-  int dure = 12;
+  List<OuvrierCard> _listOuvriers = [];
+
+  Tache? _tache;
+  Future<void> fetchTache() async {
+    final response =
+        await http.get(Uri.parse(localhost + 'tache/id/${widget.id}'));
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      if (data['status'] == 200) {
+        setState(() {
+          _tache = Tache.fromJson(data['data'][0]);
+        });
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchTache();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +87,9 @@ class _TacheDetailleState extends State<TacheDetaille> {
               ),
               child: IconButton(
                 color: myBlue,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
                 icon: const Icon(
                   Icons.arrow_back_rounded,
                   size: 30,
@@ -91,10 +112,10 @@ class _TacheDetailleState extends State<TacheDetaille> {
             DescriptTache(
               delete: showDeleteTache,
               edit: showEditTache,
-              dure: dure,
-              id: id,
-              nom: nom,
-              descript: description,
+              dure: _tache == null ? 0 : _tache!.duree,
+              id: _tache == null ? 0 : _tache!.idTache,
+              nom: _tache == null ? '' : _tache!.nom,
+              descript: _tache == null ? '' : _tache!.description,
             ),
             const SizedBox(height: 10),
             const Text(

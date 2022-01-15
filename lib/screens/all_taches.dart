@@ -1,25 +1,23 @@
-import 'package:chantech/components/add_chantier.dart';
+import 'dart:convert';
+
 import 'package:chantech/components/add_tache.dart';
-import 'package:chantech/components/chantier_card.dart';
 import 'package:chantech/components/tache_card.dart';
 import 'package:chantech/consts.dart';
-import 'package:chantech/screens/home.dart';
+import 'package:chantech/models/tache.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class AllTaches extends StatefulWidget {
-  // List<ChantierCard> listChantiers;
-  AllTaches({Key? key}) : super(key: key);
+  final int id;
+  AllTaches({Key? key, required this.id}) : super(key: key);
 
   @override
   _AllTachesState createState() => _AllTachesState();
 }
 
 class _AllTachesState extends State<AllTaches> {
-  List<TacheCard> _listTaches = [
-    TacheCard(nom: 'plat forme', dure: 40),
-    TacheCard(nom: 'plat forme', dure: 40),
-    TacheCard(nom: 'plat forme', dure: 40),
-  ];
+  List<TacheCard> _listTachesEncours = [];
+  List<TacheCard> _listTachesTermine = [];
   void addTache() {
     showDialog(
       barrierColor: Colors.transparent,
@@ -30,11 +28,42 @@ class _AllTachesState extends State<AllTaches> {
     );
   }
 
+  Future<void> fetchTaches() async {
+    final responseEnCours = await http.get(
+        Uri.parse(localhost + 'chantier/idChantier/${widget.id}/tacheCourant'));
+    final responseTerminer = await http.get(Uri.parse(
+        localhost + 'chantier/idChantier/${widget.id}/tacheTerminer'));
+    //getting taches En cours
+    if (responseEnCours.statusCode == 200) {
+      final List _listData = jsonDecode(responseEnCours.body)['data']
+          .map((data) => Tache.fromJson(data))
+          .toList();
+      setState(() {
+        for (Tache e in _listData) {
+          _listTachesEncours.add(TacheCard.fromTache(e));
+        }
+      });
+    }
+    //getting tache terminer
+    if (responseTerminer.statusCode == 200) {
+      final List _listData = jsonDecode(responseTerminer.body)['data']
+          .map((data) => Tache.fromJson(data))
+          .toList();
+
+      setState(() {
+        for (Tache e in _listData) {
+          _listTachesTermine.add(TacheCard.fromTache(e));
+        }
+      });
+    }
+  }
+
   bool? enCours;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    fetchTaches();
     enCours = true;
   }
 
@@ -57,7 +86,9 @@ class _AllTachesState extends State<AllTaches> {
               ),
               child: IconButton(
                 color: myBlue,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
                 icon: const Icon(
                   Icons.arrow_back_rounded,
                   size: 30,
@@ -132,15 +163,53 @@ class _AllTachesState extends State<AllTaches> {
             const SizedBox(height: 10),
             SizedBox(
               height: 400,
-              child: ListView.builder(
-                itemCount: _listTaches.length,
-                itemBuilder: (context, index) => Column(
-                  children: [
-                    _listTaches[index],
-                    const SizedBox(height: 10),
-                  ],
-                ),
-              ),
+              child: enCours!
+                  ?
+                  //affichage taches encours
+                  _listTachesEncours.isEmpty
+                      ? const Center(
+                          child: Text(
+                            'il n\'a pas des taches en cours maintenent',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w900,
+                              fontSize: 20,
+                            ),
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: _listTachesEncours.length,
+                          itemBuilder: (context, index) => Column(
+                            children: [
+                              _listTachesEncours[index],
+                              const SizedBox(height: 10),
+                            ],
+                          ),
+                        )
+                  :
+                  //affichage taches termine
+                  _listTachesTermine.isEmpty
+                      ? const Center(
+                          child: Text(
+                            'il n\'a pas des chantiers en terminé maintenent',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w900,
+                              fontSize: 20,
+                            ),
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: _listTachesTermine.length,
+                          itemBuilder: (context, index) => Column(
+                            children: [
+                              _listTachesTermine[index],
+                              const SizedBox(height: 10),
+                            ],
+                          ),
+                        ),
             ),
           ],
         ),

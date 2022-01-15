@@ -123,7 +123,7 @@ class _AllChantiersState extends State<AllChantiers> {
               height: 400,
               child: enCours!
                   ?
-                  //affichage ouvrier diponible
+                  //affichage chantier encours
                   widget.listChantiersEnCours.isEmpty
                       ? const Center(
                           child: Text(
@@ -146,7 +146,7 @@ class _AllChantiersState extends State<AllChantiers> {
                           ),
                         )
                   :
-                  //affichage ouvrier Occupe
+                  //affichage chantier termine
                   widget.listChantiersTerminer.isEmpty
                       ? const Center(
                           child: Text(
