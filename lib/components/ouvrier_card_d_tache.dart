@@ -29,7 +29,10 @@ class OuvrierDTache extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
+      onPressed: () async {
+        final addOuvrierUrl =
+            localhost + 'ouvrier/idOuvrier/$idOuvrier/idTache/$idTache';
+        await http.post(Uri.parse(addOuvrierUrl));
         Navigator.pop(context);
       },
       style: TextButton.styleFrom(

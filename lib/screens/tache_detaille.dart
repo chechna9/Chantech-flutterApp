@@ -26,7 +26,7 @@ class _TacheDetailleState extends State<TacheDetaille> {
   }
 
   List<OuvrierCard> _listOuvriers = [];
-  Future<void> fetchOuvrier() async {
+  Future<void> fetchOuvriers() async {
     final response = await http
         .get(Uri.parse(localhost + 'tache/idTache/${widget.id}/ouvrier'));
 
@@ -63,7 +63,7 @@ class _TacheDetailleState extends State<TacheDetaille> {
     // TODO: implement initState
     super.initState();
     fetchTache();
-    fetchOuvrier();
+    fetchOuvriers();
   }
 
   @override
