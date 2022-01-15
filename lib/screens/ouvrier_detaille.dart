@@ -49,7 +49,9 @@ class _OuvrierDetailleState extends State<OuvrierDetaille> {
       final data = jsonDecode(response.body);
       if (data['status'] == 200) {
         setState(() {
-          _ouvrier = Ouvrier.fromJson(data['data'][0]);
+          try {
+            _ouvrier = Ouvrier.fromJson(data['data'][0]);
+          } catch (e) {}
         });
       }
     }
@@ -107,11 +109,11 @@ class _OuvrierDetailleState extends State<OuvrierDetaille> {
             child: DescriptOuvrier(
               delete: showDeleteOuvrier,
               edit: showEditOuvrier,
-              prenom: _ouvrier == null ? "" : _ouvrier!.prenom,
+              prenom: _ouvrier == null ? "/" : _ouvrier!.prenom,
               id: widget.id,
-              nom: _ouvrier == null ? "" : _ouvrier!.nom,
-              spec: _ouvrier == null ? "" : _ouvrier!.spec,
-              email: _ouvrier == null ? "" : _ouvrier!.email,
+              nom: _ouvrier == null ? "/" : _ouvrier!.nom,
+              spec: _ouvrier == null ? "/" : _ouvrier!.spec,
+              email: _ouvrier == null ? "/" : _ouvrier!.email,
               heures: _ouvrier == null
                   ? 0
                   : _ouvrier!.heure == null

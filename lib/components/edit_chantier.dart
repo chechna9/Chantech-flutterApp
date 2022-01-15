@@ -1,19 +1,25 @@
-import 'package:chantech/components/chantier_card.dart';
+import 'dart:convert';
+
 import 'package:chantech/consts.dart';
+import 'package:chantech/models/chantier.dart';
+import 'package:chantech/models/ouvrier.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class EditChantier extends StatelessWidget {
-  // final Function updateList;
-
-  EditChantier({Key? key}) : super(key: key);
+  final int idChantier;
+  EditChantier({Key? key, required this.idChantier}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    bool _propExist = true;
+    bool _respExist = true;
     final _formkey = GlobalKey<FormState>();
     String nom = "";
     String prop = "";
     String respo = "";
     String adr = "";
+
     return Scaffold(
       backgroundColor: const Color(0x44ffffff),
       body: Padding(
@@ -38,30 +44,34 @@ class EditChantier extends StatelessWidget {
                           val!.isEmpty ? 'Remplir ce champ' : null,
                     ),
                     const SizedBox(height: 20),
-                    //proprietaire
+                    //adresse du chantier
                     TextFormField(
-                      decoration: myTFFDecoration('Proprietaire'),
-                      onChanged: (value) => prop = value,
+                      decoration: myTFFDecoration('Adresse du chantier'),
+                      onChanged: (value) => adr = value,
                       validator: (val) =>
                           val!.isEmpty ? 'Remplir ce champ' : null,
+                    ),
+                    const SizedBox(height: 20),
+                    //proprietaire
+                    TextFormField(
+                      decoration: myTFFDecoration('Email du Proprietaire'),
+                      onChanged: (value) => prop = value,
+                      validator: (val) => !_propExist
+                          ? 'Proprietaire n\'existe pas'
+                          : val!.isEmpty
+                              ? 'Remplir ce champ'
+                              : null,
                     ),
                     const SizedBox(height: 20),
                     //responsable
                     TextFormField(
-                      decoration: myTFFDecoration('Responsable'),
+                      decoration: myTFFDecoration('Email du Responsable'),
                       onChanged: (value) => respo = value,
-                      validator: (val) =>
-                          val!.isEmpty ? 'Remplir ce champ' : null,
-                    ),
-                    const SizedBox(height: 20),
-                    //adresse
-                    TextFormField(
-                      keyboardType: const TextInputType.numberWithOptions(
-                          decimal: true, signed: false),
-                      decoration: myTFFDecoration('Adresse'),
-                      onChanged: (value) => adr = value,
-                      validator: (val) =>
-                          val!.isEmpty ? 'Remplir ce champ' : null,
+                      validator: (val) => !_respExist
+                          ? 'Responsable n\'existe pas'
+                          : val!.isEmpty
+                              ? 'Remplir ce champ'
+                              : null,
                     ),
 
                     const SizedBox(height: 40),
@@ -87,9 +97,39 @@ class EditChantier extends StatelessWidget {
                         Expanded(
                           child: TextButton(
                             style: myBottomStyle(myBlue),
-                            onPressed: () {
+                            onPressed: () async {
+                              _propExist = true;
+                              _respExist = true;
+
                               if (_formkey.currentState!.validate()) {
-                                Navigator.pop(context);
+                                // 120 ouvrier // personne 100 // error
+                                final respResponse = await http
+                                    .get(Uri.parse(urlRespVal + respo));
+
+                                final propResponse = await http
+                                    .get(Uri.parse(urlPropVal + prop));
+                                if (jsonDecode(propResponse.body)['status'] ==
+                                    100) {
+                                  _propExist = false;
+                                } else {
+                                  _propExist = true;
+                                }
+                                if (jsonDecode(respResponse.body)['status'] ==
+                                    120) {
+                                  _respExist = false;
+                                } else {
+                                  _respExist = true;
+                                }
+
+                                if (_formkey.currentState!.validate()) {
+                                  //getting responsable
+
+                                  final editChantierUrl = localhost +
+                                      'chantier/idchantier/$idChantier/nomChantier/$nom/emailproprietaire/$prop/emailresponsable/$respo/address/$adr';
+                                  await http.put(Uri.parse(editChantierUrl));
+
+                                  Navigator.pop(context);
+                                }
                               }
                             },
                             child: const Text(
@@ -97,7 +137,7 @@ class EditChantier extends StatelessWidget {
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w900,
-                                  fontSize: 22),
+                                  fontSize: 24),
                             ),
                           ),
                         ),

@@ -1,5 +1,7 @@
 import 'package:chantech/consts.dart';
 import 'package:chantech/models/ouvrier.dart';
+import 'package:chantech/screens/affect_respo.dart';
+import 'package:chantech/screens/ouvrier_detaille.dart';
 import 'package:flutter/material.dart';
 
 class OuvrierDChantierCard extends StatefulWidget {
@@ -8,23 +10,20 @@ class OuvrierDChantierCard extends StatefulWidget {
   final String nom;
   final String prenom;
   final String spec;
-  bool isChef;
-  OuvrierDChantierCard(
-      {Key? key,
-      required this.idChantier,
-      required this.idOuvrier,
-      required this.nom,
-      required this.prenom,
-      required this.spec,
-      required this.isChef})
-      : super(key: key);
-  factory OuvrierDChantierCard.fromOuvrier(
-      Ouvrier e, bool isChef, int idChantier) {
+
+  OuvrierDChantierCard({
+    Key? key,
+    required this.idChantier,
+    required this.idOuvrier,
+    required this.nom,
+    required this.prenom,
+    required this.spec,
+  }) : super(key: key);
+  factory OuvrierDChantierCard.fromOuvrier(Ouvrier e, int idChantier) {
     return OuvrierDChantierCard(
       nom: e.nom,
       prenom: e.prenom,
       spec: e.spec,
-      isChef: isChef,
       idChantier: idChantier,
       idOuvrier: e.id,
     );
@@ -36,11 +35,24 @@ class OuvrierDChantierCard extends StatefulWidget {
 class _OuvrierDChantierCardState extends State<OuvrierDChantierCard> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: myYellow,
-        borderRadius: BorderRadius.circular(20),
+    return ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute<void>(
+            builder: (BuildContext context) => OuvrierDetaille(
+              id: widget.idOuvrier,
+            ),
+          ),
+        );
+      },
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.all(20),
+        elevation: 0,
+        backgroundColor: myYellow,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -85,23 +97,20 @@ class _OuvrierDChantierCardState extends State<OuvrierDChantierCard> {
               ),
               TextButton(
                 onPressed: () {
-                  setState(() {
-                    widget.isChef = !widget.isChef;
-                  });
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          AffectRespo(idChantier: widget.idChantier),
+                    ),
+                  );
                 },
-                child: widget.isChef
-                    ? const Text(
-                        'Respo',
-                        style: TextStyle(color: myBlue),
-                      )
-                    : const Text(
-                        'Rendre respo',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                style: widget.isChef
-                    ? myBottomStyle(Colors.white)
-                    : myBottomStyle(myBlue),
-              )
+                child: const Text(
+                  'Changer',
+                  style: TextStyle(color: Colors.white),
+                ),
+                style: myBottomStyle(myBlue),
+              ),
             ],
           ),
         ],

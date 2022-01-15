@@ -22,7 +22,9 @@ class _ChantierDetailleState extends State<ChantierDetaille> {
     showDialog(
       context: context,
       builder: (context) {
-        return EditChantier();
+        return EditChantier(
+          idChantier: widget.id,
+        );
       },
     );
   }
@@ -184,6 +186,9 @@ class _ChantierDetailleState extends State<ChantierDetaille> {
                               MaterialPageRoute(
                                   builder: (context) => OuvrierDansChantier(
                                         idChantier: widget.id,
+                                        idRespo: _chantier == null
+                                            ? null
+                                            : _chantier!.idResponsable,
                                       )));
                         },
                         child: const Text(
