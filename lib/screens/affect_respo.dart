@@ -32,9 +32,9 @@ class _AffectRespoState extends State<AffectRespo> {
               OuvrierCard.fromOuvrier(
                 e,
                 () async {
-                  final addOuvrierUrl = localhost +
+                  final urlMakeResp = localhost +
                       'ouvrier/idOuvrier/${e.id}/idChantier/${widget.idChantier}';
-                  await http.post(Uri.parse(addOuvrierUrl));
+                  await http.post(Uri.parse(urlMakeResp));
                   Navigator.pop(context);
                 },
               ),
