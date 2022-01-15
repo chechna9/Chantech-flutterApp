@@ -1,26 +1,59 @@
+import 'dart:convert';
+
+import 'package:chantech/components/afect_ouvrier_chantier_card.dart';
 import 'package:chantech/components/ouvrier_card.dart';
 import 'package:chantech/consts.dart';
+import 'package:chantech/models/ouvrier.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class AddOuvrierDChantier extends StatefulWidget {
-  AddOuvrierDChantier({Key? key}) : super(key: key);
+  final int idChantier;
+  AddOuvrierDChantier({Key? key, required this.idChantier}) : super(key: key);
 
   @override
   _AddOuvrierDChantierState createState() => _AddOuvrierDChantierState();
 }
 
 class _AddOuvrierDChantierState extends State<AddOuvrierDChantier> {
-  List<OuvrierCard> _listOuvriers = [
-    // OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
-    // OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
-    // OuvrierCard(nom: 'Aboud', prenom: 'Seyi', spec: 'Plombier'),
-  ];
+  List<AffectOuvrierChantierCard> listOuvriersDispo = [];
+  List<AffectOuvrierChantierCard> listOuvriersOcup = [];
+  Future<void> fetchOuvriers() async {
+    final responseDispo = await http.get(Uri.parse(urlOuvrierDispo));
+    final responseOcup = await http.get(Uri.parse(urlOuvrierOcup));
+    //getting ouvrier disponible
+    if (responseDispo.statusCode == 200) {
+      final List _listData = jsonDecode(responseDispo.body)['data']
+          .map((data) => Ouvrier.fromJson(data))
+          .toList();
+      setState(() {
+        for (Ouvrier e in _listData) {
+          listOuvriersDispo
+              .add(AffectOuvrierChantierCard.fromOuvrier(e, widget.idChantier));
+        }
+      });
+    }
+    //getting ouvrier occupe
+    if (responseOcup.statusCode == 200) {
+      final List _listData = jsonDecode(responseOcup.body)['data']
+          .map((data) => Ouvrier.fromJson(data))
+          .toList();
+
+      setState(() {
+        for (Ouvrier e in _listData) {
+          listOuvriersOcup
+              .add(AffectOuvrierChantierCard.fromOuvrier(e, widget.idChantier));
+        }
+      });
+    }
+  }
 
   bool? disponible;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    fetchOuvriers();
     disponible = true;
   }
 
@@ -43,7 +76,9 @@ class _AddOuvrierDChantierState extends State<AddOuvrierDChantier> {
               ),
               child: IconButton(
                 color: myBlue,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
                 icon: const Icon(
                   Icons.arrow_back_rounded,
                   size: 30,
@@ -106,15 +141,53 @@ class _AddOuvrierDChantierState extends State<AddOuvrierDChantier> {
             const SizedBox(height: 10),
             SizedBox(
               height: 400,
-              child: ListView.builder(
-                itemCount: _listOuvriers.length,
-                itemBuilder: (context, index) => Column(
-                  children: [
-                    _listOuvriers[index],
-                    const SizedBox(height: 10),
-                  ],
-                ),
-              ),
+              child: disponible!
+                  ?
+                  //affichage ouvrier diponible
+                  listOuvriersDispo.isEmpty
+                      ? const Center(
+                          child: Text(
+                            'il n\'a pas d\'ouvrier disponible maintenent',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w900,
+                              fontSize: 20,
+                            ),
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: listOuvriersDispo.length,
+                          itemBuilder: (context, index) => Column(
+                            children: [
+                              listOuvriersDispo[index],
+                              const SizedBox(height: 10),
+                            ],
+                          ),
+                        )
+                  :
+                  //affichage ouvrier Occupe
+                  listOuvriersOcup.isEmpty
+                      ? const Center(
+                          child: Text(
+                            'il n\'a pas d\'ouvrier occupé maintenent',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w900,
+                              fontSize: 20,
+                            ),
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: listOuvriersOcup.length,
+                          itemBuilder: (context, index) => Column(
+                            children: [
+                              listOuvriersOcup[index],
+                              const SizedBox(height: 10),
+                            ],
+                          ),
+                        ),
             ),
           ],
         ),

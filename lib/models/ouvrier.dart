@@ -22,7 +22,7 @@ class Ouvrier {
       prenom: json['prenom'],
       email: json['email'],
       numero: json['numero'],
-      spec: json['nomspecialite'],
+      spec: json['nomSpecialite'],
     );
   }
 }

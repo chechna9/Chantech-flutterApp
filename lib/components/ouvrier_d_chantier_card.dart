@@ -1,19 +1,34 @@
 import 'package:chantech/consts.dart';
+import 'package:chantech/models/ouvrier.dart';
 import 'package:flutter/material.dart';
 
 class OuvrierDChantierCard extends StatefulWidget {
+  final int idChantier;
+  final int idOuvrier;
   final String nom;
   final String prenom;
   final String spec;
   bool isChef;
   OuvrierDChantierCard(
       {Key? key,
+      required this.idChantier,
+      required this.idOuvrier,
       required this.nom,
       required this.prenom,
       required this.spec,
       required this.isChef})
       : super(key: key);
-
+  factory OuvrierDChantierCard.fromOuvrier(
+      Ouvrier e, bool isChef, int idChantier) {
+    return OuvrierDChantierCard(
+      nom: e.nom,
+      prenom: e.prenom,
+      spec: e.spec,
+      isChef: isChef,
+      idChantier: idChantier,
+      idOuvrier: e.id,
+    );
+  }
   @override
   State<OuvrierDChantierCard> createState() => _OuvrierDChantierCardState();
 }

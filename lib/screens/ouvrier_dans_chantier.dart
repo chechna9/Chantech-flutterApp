@@ -1,25 +1,47 @@
+import 'dart:convert';
+
+import 'package:chantech/components/ouvrier_card.dart';
 import 'package:chantech/components/ouvrier_d_chantier_card.dart';
 import 'package:chantech/consts.dart';
+import 'package:chantech/models/ouvrier.dart';
+import 'package:chantech/screens/add_ouvrier_d_chantier.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class OuvrierDansChantier extends StatefulWidget {
-  const OuvrierDansChantier({Key? key}) : super(key: key);
+  final int idChantier;
+  const OuvrierDansChantier({Key? key, required this.idChantier})
+      : super(key: key);
 
   @override
   OuvrierDansChantierState createState() => OuvrierDansChantierState();
 }
 
 class OuvrierDansChantierState extends State<OuvrierDansChantier> {
-  List<OuvrierDChantierCard> _listOuvriers = [
-    OuvrierDChantierCard(
-        nom: 'aboud', prenom: 'seyi', spec: 'plombier', isChef: true),
-    OuvrierDChantierCard(
-        nom: 'aboud', prenom: 'seyi', spec: 'plombier', isChef: true),
-    OuvrierDChantierCard(
-        nom: 'aboud', prenom: 'seyi', spec: 'plombier', isChef: true),
-    OuvrierDChantierCard(
-        nom: 'aboud', prenom: 'seyi', spec: 'plombier', isChef: true),
-  ];
+  List<OuvrierCard> _listOuvriers = [];
+  Future<void> fetchOuvriers() async {
+    final response = await http
+        .get(Uri.parse(localhost + 'ouvrier/idChantier/${widget.idChantier}'));
+    print(response.body);
+    if (response.statusCode == 200) {
+      final List _listData = jsonDecode(response.body)['data']
+          .map((data) => Ouvrier.fromJson(data))
+          .toList();
+      setState(() {
+        for (Ouvrier e in _listData) {
+          _listOuvriers.add(OuvrierCard.fromOuvrier(e));
+        }
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchOuvriers();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +62,9 @@ class OuvrierDansChantierState extends State<OuvrierDansChantier> {
               ),
               child: IconButton(
                 color: myBlue,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
                 icon: const Icon(
                   Icons.arrow_back_rounded,
                   size: 30,
@@ -63,7 +87,15 @@ class OuvrierDansChantierState extends State<OuvrierDansChantier> {
           size: 50,
           color: myBlue,
         ),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddOuvrierDChantier(
+                  idChantier: widget.idChantier,
+                ),
+              ));
+        },
       ),
       body: Container(
         margin: const EdgeInsets.only(top: 18),
