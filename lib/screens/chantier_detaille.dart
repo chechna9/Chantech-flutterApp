@@ -34,9 +34,8 @@ class _ChantierDetailleState extends State<ChantierDetaille> {
       builder: (context) => ConfirmAction(
         title: 'Confirmer la supression',
         action: () async {
-          // final urlSetTerminerChantier =
-          //     localhost + 'chantier/setFermer/idChantier/${widget.id}';
-          // await http.post(Uri.parse(urlSetTerminerChantier));
+          final urlDeleteChantier = localhost + 'chantier/id/${widget.id}';
+          await http.delete(Uri.parse(urlDeleteChantier));
           Navigator.pop(context);
         },
       ),
