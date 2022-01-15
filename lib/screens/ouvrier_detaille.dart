@@ -20,7 +20,9 @@ class _OuvrierDetailleState extends State<OuvrierDetaille> {
     showDialog(
       context: context,
       builder: (context) {
-        return EditOuvrier();
+        return EditOuvrier(
+          idOuvrier: widget.id,
+        );
       },
     );
   }
@@ -40,16 +42,24 @@ class _OuvrierDetailleState extends State<OuvrierDetaille> {
   }
 
   Ouvrier? _ouvrier = null;
-
+  int? heureTravaille = null;
   Future<void> fetchOuvrier() async {
     final response =
         await http.get(Uri.parse(localhost + 'ouvrier/info/id/${widget.id}'));
+    final heurResponse = await http
+        .get(Uri.parse(localhost + 'ouvrier/idOuvrier/${widget.id}/travaille'));
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
+      final heurData = jsonDecode(heurResponse.body);
+      print(heurData);
       if (data['status'] == 200) {
         setState(() {
           try {
+            heurData['data'][0]['heureTravailleOuvrier'] == null
+                ? heureTravaille = 0
+                : heureTravaille =
+                    int.parse(heurData['data'][0]['heureTravailleOuvrier']);
             _ouvrier = Ouvrier.fromJson(data['data'][0]);
           } catch (e) {}
         });
@@ -114,11 +124,7 @@ class _OuvrierDetailleState extends State<OuvrierDetaille> {
               nom: _ouvrier == null ? "/" : _ouvrier!.nom,
               spec: _ouvrier == null ? "/" : _ouvrier!.spec,
               email: _ouvrier == null ? "/" : _ouvrier!.email,
-              heures: _ouvrier == null
-                  ? 0
-                  : _ouvrier!.heure == null
-                      ? 0
-                      : _ouvrier!.heure!,
+              heures: heureTravaille == null ? 0 : heureTravaille!,
               numTele: _ouvrier == null ? 0 : _ouvrier!.numero,
             ),
           ),

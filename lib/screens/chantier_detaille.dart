@@ -134,14 +134,14 @@ class _ChantierDetailleState extends State<ChantierDetaille> {
               done: showDoneChantier,
               delete: showDeleteChantier,
               edit: showEditChantier,
-              adress: _chantier == null ? '' : _chantier!.address,
+              adress: _chantier == null ? '/' : _chantier!.address,
               id: _chantier == null ? 0 : _chantier!.idChantier,
-              nom: _chantier == null ? '' : _chantier!.nomChantier,
+              nom: _chantier == null ? '/' : _chantier!.nomChantier,
               prop: _chantier == null
-                  ? ''
+                  ? '/'
                   : '${_chantier!.nomProprietaire} ${_chantier!.preNomProprietaire}',
               respo: _chantier == null
-                  ? ''
+                  ? '/'
                   : '${_chantier!.nomResponsable} ${_chantier!.preNomResponsable}',
               heures: heureTravaille == null ? 0 : heureTravaille!,
             ),

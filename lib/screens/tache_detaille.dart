@@ -25,9 +25,8 @@ class _TacheDetailleState extends State<TacheDetaille> {
       builder: (context) => ConfirmAction(
         title: 'Confirmer la supression',
         action: () async {
-          // final urlSetTerminerChantier =
-          //     localhost + 'tache/setTerminer/idTache/${widget.id}';
-          // await http.post(Uri.parse(urlSetTerminerChantier));
+          final urlDeletetache = localhost + 'tache/tacheId/${widget.id}';
+          await http.delete(Uri.parse(urlDeletetache));
           Navigator.pop(context);
         },
       ),

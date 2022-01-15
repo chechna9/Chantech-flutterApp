@@ -1,17 +1,23 @@
-import 'package:chantech/components/chantier_card.dart';
+import 'dart:convert';
+
 import 'package:chantech/consts.dart';
+import 'package:chantech/models/ouvrier.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class EditOuvrier extends StatelessWidget {
-  // final Function updateList;
+  final int idOuvrier;
 
-  EditOuvrier({Key? key}) : super(key: key);
+  EditOuvrier({Key? key, required this.idOuvrier}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final _formkey = GlobalKey<FormState>();
+    bool _userExists = true;
+
     String nom = "";
     String prenom = "";
+
     String spec = "";
     int numTele = 0;
     String email = "";
@@ -68,8 +74,11 @@ class EditOuvrier extends StatelessWidget {
                     TextFormField(
                       decoration: myTFFDecoration('Email'),
                       onChanged: (value) => email = value,
-                      validator: (val) =>
-                          val!.isEmpty ? 'Remplir ce champ' : null,
+                      validator: (val) => _userExists
+                          ? 'Email existe déja'
+                          : val!.isEmpty
+                              ? 'Remplir ce champ'
+                              : null,
                     ),
 
                     const SizedBox(height: 40),
@@ -95,9 +104,31 @@ class EditOuvrier extends StatelessWidget {
                         Expanded(
                           child: TextButton(
                             style: myBottomStyle(myBlue),
-                            onPressed: () {
+                            onPressed: () async {
+                              _userExists = false;
                               if (_formkey.currentState!.validate()) {
-                                Navigator.pop(context);
+                                final userResponse = await http
+                                    .get(Uri.parse(urlRespVal + email));
+                                print(userResponse.body);
+
+                                if (jsonDecode(userResponse.body)['status'] ==
+                                    120) {
+                                  _userExists = false;
+                                } else {
+                                  if (jsonDecode(userResponse.body)['data'][0]
+                                          ['idOuvrier'] !=
+                                      idOuvrier) {
+                                    _userExists = true;
+                                  }
+                                }
+
+                                if (_formkey.currentState!.validate()) {
+                                  final editOuvrierUrl = localhost +
+                                      'ouvrier/id/$idOuvrier/nom/$nom/prenom/$prenom/numero/$numTele/email/$email/specialite/$spec';
+                                  await http.put(Uri.parse(editOuvrierUrl));
+
+                                  Navigator.pop(context);
+                                }
                               }
                             },
                             child: const Text(

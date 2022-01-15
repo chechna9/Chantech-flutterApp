@@ -23,7 +23,9 @@ class _AllTachesState extends State<AllTaches> {
       barrierColor: Colors.transparent,
       context: context,
       builder: (context) {
-        return AddTache();
+        return AddTache(
+          idChantier: widget.id,
+        );
       },
     );
   }

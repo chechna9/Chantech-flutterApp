@@ -137,7 +137,7 @@ class EditChantier extends StatelessWidget {
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w900,
-                                  fontSize: 24),
+                                  fontSize: 22),
                             ),
                           ),
                         ),

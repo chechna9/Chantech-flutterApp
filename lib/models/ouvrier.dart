@@ -4,11 +4,10 @@ class Ouvrier {
   final String email;
   final int numero;
   final int id;
-  int? heure;
+
   final String spec;
   Ouvrier({
     required this.id,
-    this.heure,
     required this.email,
     required this.nom,
     required this.numero,

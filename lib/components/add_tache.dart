@@ -1,12 +1,11 @@
-import 'package:chantech/components/chantier_card.dart';
-import 'package:chantech/components/ouvrier_card.dart';
 import 'package:chantech/consts.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class AddTache extends StatelessWidget {
-  // final Function updateList;
+  final int idChantier;
 
-  AddTache({Key? key}) : super(key: key);
+  AddTache({Key? key, required this.idChantier}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -78,10 +77,13 @@ class AddTache extends StatelessWidget {
                         Expanded(
                           child: TextButton(
                             style: myBottomStyle(myBlue),
-                            onPressed: () {
+                            onPressed: () async {
                               if (_formkey.currentState!.validate()) {
-                                // updateList(OuvrierCard(
-                                // nom: nom, prenom: prenom, spec: spec));
+                                final addTacheUrl = localhost +
+                                    'tache/chantier/$idChantier/nom/$nom/duree/$dure/description/$descrpt';
+                                final response =
+                                    await http.post(Uri.parse(addTacheUrl));
+                                print(response.body);
                                 Navigator.pop(context);
                               }
                             },
