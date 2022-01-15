@@ -29,7 +29,7 @@ void main() {
         // '/ouvrierDetaille': (context) => const OuvrierDetaille(),
         '/equipementDetaille': (context) => const EquipementDetaille(),
         '/ouvrierDansChantier': (context) => const OuvrierDansChantier(),
-        '/addOuvrierDansTache': (context) => AddOuvrierDTache(),
+        // '/addOuvrierDansTache': (context) => AddOuvrierDTache(),
         // '/allTaches': (context) => AllTaches(),
         // '/tacheDetaille': (context) => const TacheDetaille(),
         '/addOuvrierDansChantier': (context) => AddOuvrierDChantier(),

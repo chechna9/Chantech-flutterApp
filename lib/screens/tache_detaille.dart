@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:chantech/components/confirm_delete.dart';
-import 'package:chantech/components/edit_tache.dart';
 import 'package:chantech/components/ouvrier_card.dart';
 import 'package:chantech/consts.dart';
 import 'package:chantech/models/ouvrier.dart';
 import 'package:chantech/models/tache.dart';
+import 'package:chantech/screens/ajout_ouvrier_d_tache.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -18,15 +18,6 @@ class TacheDetaille extends StatefulWidget {
 }
 
 class _TacheDetailleState extends State<TacheDetaille> {
-  void showEditTache() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return EditTache();
-      },
-    );
-  }
-
   void showDeleteTache() {
     showDialog(
       context: context,
@@ -86,7 +77,16 @@ class _TacheDetailleState extends State<TacheDetaille> {
           size: 50,
           color: myBlue,
         ),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddOuvrierDTache(
+                  idChantier: _tache!.idChantier,
+                  idTache: widget.id,
+                ),
+              ));
+        },
       ),
       backgroundColor: myBlue,
       appBar: AppBar(
@@ -130,7 +130,6 @@ class _TacheDetailleState extends State<TacheDetaille> {
             DescriptTache(
               done: () {},
               delete: showDeleteTache,
-              edit: showEditTache,
               dure: _tache == null ? 0 : _tache!.duree,
               id: _tache == null ? 0 : _tache!.idTache,
               nom: _tache == null ? '' : _tache!.nom,
@@ -185,7 +184,7 @@ class DescriptTache extends StatefulWidget {
   final int id;
   final int dure;
   final String descript;
-  final Function edit;
+
   final Function delete;
   final Function done;
   const DescriptTache(
@@ -195,7 +194,6 @@ class DescriptTache extends StatefulWidget {
       required this.descript,
       required this.id,
       required this.dure,
-      required this.edit,
       required this.delete})
       : super(key: key);
 
@@ -214,19 +212,6 @@ class _DescriptTacheState extends State<DescriptTache> {
       ),
       child: Stack(
         children: [
-          Positioned(
-            right: 0,
-            child: IconButton(
-              onPressed: () {
-                widget.edit();
-              },
-              icon: const Icon(
-                Icons.settings,
-                color: myBlue,
-                size: 35,
-              ),
-            ),
-          ),
           Positioned(
             bottom: 0,
             right: 0,
