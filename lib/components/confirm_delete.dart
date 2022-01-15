@@ -1,17 +1,20 @@
 import 'package:chantech/consts.dart';
 import 'package:flutter/material.dart';
 
-class ConfirmDelete extends StatelessWidget {
-  const ConfirmDelete({Key? key}) : super(key: key);
+class ConfirmAction extends StatelessWidget {
+  final Function action;
+  final String title;
+  const ConfirmAction({Key? key, required this.action, required this.title})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       backgroundColor: myYellow,
-      title: const Text(
-        'Confirmer la supression',
-        style: TextStyle(
+      title: Text(
+        title,
+        style: const TextStyle(
           color: Colors.white,
           fontSize: 20,
           fontWeight: FontWeight.w900,
@@ -39,9 +42,7 @@ class ConfirmDelete extends StatelessWidget {
           Expanded(
             child: TextButton(
               style: myBottomStyle(myBlue),
-              onPressed: () {
-                Navigator.pop(context);
-              },
+              onPressed: () => action(),
               child: const Text(
                 'Oui',
                 style: TextStyle(

@@ -1,18 +1,11 @@
 import 'package:chantech/screens/add_equipement_d_chantier.dart';
-import 'package:chantech/screens/add_ouvrier_d_chantier.dart';
-import 'package:chantech/screens/ajout_ouvrier_d_tache.dart';
-import 'package:chantech/screens/all_taches.dart';
-import 'package:chantech/screens/chantier_detaille.dart';
 import 'package:chantech/screens/equipement_dans_chantier.dart';
 import 'package:chantech/screens/equipement_detaille.dart';
 import 'package:chantech/screens/home.dart';
 import 'package:chantech/screens/login.dart';
-import 'package:chantech/screens/ouvrier_detaille.dart';
 import 'package:chantech/screens/register.dart';
 import 'package:chantech/screens/splash_screen.dart';
-import 'package:chantech/screens/tache_detaille.dart';
 import 'package:flutter/material.dart';
-import 'screens/ouvrier_dans_chantier.dart';
 
 void main() {
   runApp(

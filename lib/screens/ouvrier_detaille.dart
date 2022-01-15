@@ -28,7 +28,15 @@ class _OuvrierDetailleState extends State<OuvrierDetaille> {
   void showDeleteOuvrier() {
     showDialog(
       context: context,
-      builder: (context) => ConfirmDelete(),
+      builder: (context) => ConfirmAction(
+        title: 'Confirmer la supression',
+        action: () async {
+          // final urlSetTerminerChantier =
+          //     localhost + 'chantier/setFermer/idChantier/${widget.id}';
+          // await http.post(Uri.parse(urlSetTerminerChantier));
+          Navigator.pop(context);
+        },
+      ),
     );
   }
 

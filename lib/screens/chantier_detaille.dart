@@ -31,7 +31,30 @@ class _ChantierDetailleState extends State<ChantierDetaille> {
   void showDeleteChantier() {
     showDialog(
       context: context,
-      builder: (context) => ConfirmDelete(),
+      builder: (context) => ConfirmAction(
+        title: 'Confirmer la supression',
+        action: () async {
+          // final urlSetTerminerChantier =
+          //     localhost + 'chantier/setFermer/idChantier/${widget.id}';
+          // await http.post(Uri.parse(urlSetTerminerChantier));
+          Navigator.pop(context);
+        },
+      ),
+    );
+  }
+
+  void showDoneChantier() {
+    showDialog(
+      context: context,
+      builder: (context) => ConfirmAction(
+        title: 'Confirmer la cloture du chantier',
+        action: () async {
+          final urlSetTerminerChantier =
+              localhost + 'chantier/setFermer/idChantier/${widget.id}';
+          await http.put(Uri.parse(urlSetTerminerChantier));
+          Navigator.pop(context);
+        },
+      ),
     );
   }
 
@@ -46,7 +69,10 @@ class _ChantierDetailleState extends State<ChantierDetaille> {
       final heurData = jsonDecode(heurResponse.body);
       if (data['status'] == 200) {
         setState(() {
-          heureTravaille = heurData['data'][0]['heureTravaillerChantier'];
+          heurData['data'][0]['heureTravaillerChantier'] == null
+              ? heureTravaille = 0
+              : heureTravaille =
+                  int.parse(heurData['data'][0]['heureTravaillerChantier']);
           _chantier = Chantier.fromJson(data['data'][0]);
         });
       }
@@ -104,6 +130,7 @@ class _ChantierDetailleState extends State<ChantierDetaille> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             DescriptChantier(
+              done: showDoneChantier,
               delete: showDeleteChantier,
               edit: showEditChantier,
               adress: _chantier == null ? '' : _chantier!.address,
@@ -209,6 +236,7 @@ class DescriptChantier extends StatefulWidget {
   final int heures;
   final Function edit;
   final Function delete;
+  final Function done;
   const DescriptChantier(
       {Key? key,
       required this.nom,
@@ -218,6 +246,7 @@ class DescriptChantier extends StatefulWidget {
       required this.heures,
       required this.adress,
       required this.edit,
+      required this.done,
       required this.delete})
       : super(key: key);
 
@@ -229,12 +258,13 @@ class _DescriptChantierState extends State<DescriptChantier> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: myYellow,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Stack(
+        clipBehavior: Clip.none,
         children: [
           Positioned(
             right: 0,
@@ -250,15 +280,28 @@ class _DescriptChantierState extends State<DescriptChantier> {
             ),
           ),
           Positioned(
-            bottom: 0,
+            bottom: -20,
             right: 0,
             child: IconButton(
               onPressed: () {
-                print('delte');
                 widget.delete();
               },
               icon: const Icon(
                 Icons.delete,
+                color: myBlue,
+                size: 35,
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: -20,
+            left: 0,
+            child: IconButton(
+              onPressed: () {
+                widget.done();
+              },
+              icon: const Icon(
+                Icons.cloud_done,
                 color: myBlue,
                 size: 35,
               ),

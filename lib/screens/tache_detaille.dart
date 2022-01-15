@@ -21,7 +21,30 @@ class _TacheDetailleState extends State<TacheDetaille> {
   void showDeleteTache() {
     showDialog(
       context: context,
-      builder: (context) => const ConfirmDelete(),
+      builder: (context) => ConfirmAction(
+        title: 'Confirmer la supression',
+        action: () async {
+          // final urlSetTerminerChantier =
+          //     localhost + 'tache/setTerminer/idTache/${widget.id}';
+          // await http.post(Uri.parse(urlSetTerminerChantier));
+          Navigator.pop(context);
+        },
+      ),
+    );
+  }
+
+  void showDoneTache() {
+    showDialog(
+      context: context,
+      builder: (context) => ConfirmAction(
+        title: 'Confirmer la cloture de la tache',
+        action: () async {
+          final urlSetTerminerTache =
+              localhost + 'tache/setTerminer/idTache/${widget.id}';
+          await http.put(Uri.parse(urlSetTerminerTache));
+          Navigator.pop(context);
+        },
+      ),
     );
   }
 
@@ -128,7 +151,7 @@ class _TacheDetailleState extends State<TacheDetaille> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             DescriptTache(
-              done: () {},
+              done: showDoneTache,
               delete: showDeleteTache,
               dure: _tache == null ? 0 : _tache!.duree,
               id: _tache == null ? 0 : _tache!.idTache,
@@ -211,13 +234,13 @@ class _DescriptTacheState extends State<DescriptTache> {
         borderRadius: BorderRadius.circular(20),
       ),
       child: Stack(
+        clipBehavior: Clip.none,
         children: [
           Positioned(
-            bottom: 0,
+            bottom: -20,
             right: 0,
             child: IconButton(
               onPressed: () {
-                print('delte');
                 widget.delete();
               },
               icon: const Icon(
@@ -228,11 +251,10 @@ class _DescriptTacheState extends State<DescriptTache> {
             ),
           ),
           Positioned(
-            bottom: 0,
+            bottom: -20,
             left: 0,
             child: IconButton(
               onPressed: () {
-                print('marque terminer');
                 widget.done();
               },
               icon: const Icon(

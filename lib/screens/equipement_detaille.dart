@@ -21,10 +21,18 @@ class _EquipementDetailleState extends State<EquipementDetaille> {
     );
   }
 
-  void showDeleteChantier() {
+  void showDeleteEquipement() {
     showDialog(
       context: context,
-      builder: (context) => const ConfirmDelete(),
+      builder: (context) => ConfirmAction(
+        title: 'Confirmer la supression',
+        action: () async {
+          // final urlSetTerminerChantier =
+          //     localhost + 'chantier/setFermer/idChantier/${widget.id}';
+          // await http.post(Uri.parse(urlSetTerminerChantier));
+          Navigator.pop(context);
+        },
+      ),
     );
   }
 
@@ -74,7 +82,7 @@ class _EquipementDetailleState extends State<EquipementDetaille> {
           child: SizedBox(
             height: 350,
             child: DescriptEquipement(
-              delete: showDeleteChantier,
+              delete: showDeleteEquipement,
               edit: showEditEquipement,
               libelle: libelle,
               nbOcupe: nbOcupe,
