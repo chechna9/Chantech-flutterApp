@@ -4,6 +4,7 @@ import 'package:chantech/components/confirm_delete.dart';
 import 'package:chantech/components/edit_tache.dart';
 import 'package:chantech/components/ouvrier_card.dart';
 import 'package:chantech/consts.dart';
+import 'package:chantech/models/ouvrier.dart';
 import 'package:chantech/models/tache.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -34,6 +35,22 @@ class _TacheDetailleState extends State<TacheDetaille> {
   }
 
   List<OuvrierCard> _listOuvriers = [];
+  Future<void> fetchOuvrier() async {
+    final response = await http
+        .get(Uri.parse(localhost + 'tache/idTache/${widget.id}/ouvrier'));
+
+    //getting ouvriers de la tache
+    if (response.statusCode == 200) {
+      final List _listData = jsonDecode(response.body)['data']
+          .map((data) => Ouvrier.fromJson(data))
+          .toList();
+      setState(() {
+        for (Ouvrier e in _listData) {
+          _listOuvriers.add(OuvrierCard.fromOuvrier(e));
+        }
+      });
+    }
+  }
 
   Tache? _tache;
   Future<void> fetchTache() async {
@@ -55,6 +72,7 @@ class _TacheDetailleState extends State<TacheDetaille> {
     // TODO: implement initState
     super.initState();
     fetchTache();
+    fetchOuvrier();
   }
 
   @override
@@ -110,6 +128,7 @@ class _TacheDetailleState extends State<TacheDetaille> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             DescriptTache(
+              done: () {},
               delete: showDeleteTache,
               edit: showEditTache,
               dure: _tache == null ? 0 : _tache!.duree,
@@ -128,15 +147,27 @@ class _TacheDetailleState extends State<TacheDetaille> {
             ),
             const SizedBox(height: 10),
             Expanded(
-              child: ListView.builder(
-                itemCount: _listOuvriers.length,
-                itemBuilder: (context, index) => Column(
-                  children: [
-                    _listOuvriers[index],
-                    const SizedBox(height: 10),
-                  ],
-                ),
-              ),
+              child: _listOuvriers.isEmpty
+                  ? const Center(
+                      child: Text(
+                        'Il n\'y a pas d\'ouvriers affecter pour cette taches',
+                        maxLines: 2,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    )
+                  : ListView.builder(
+                      itemCount: _listOuvriers.length,
+                      itemBuilder: (context, index) => Column(
+                        children: [
+                          _listOuvriers[index],
+                          const SizedBox(height: 10),
+                        ],
+                      ),
+                    ),
             ),
             const SizedBox(
               height: 80,
@@ -156,8 +187,10 @@ class DescriptTache extends StatefulWidget {
   final String descript;
   final Function edit;
   final Function delete;
+  final Function done;
   const DescriptTache(
       {Key? key,
+      required this.done,
       required this.nom,
       required this.descript,
       required this.id,
@@ -174,7 +207,7 @@ class _DescriptTacheState extends State<DescriptTache> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: myYellow,
         borderRadius: BorderRadius.circular(20),
@@ -204,6 +237,21 @@ class _DescriptTacheState extends State<DescriptTache> {
               },
               icon: const Icon(
                 Icons.delete,
+                color: myBlue,
+                size: 35,
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            child: IconButton(
+              onPressed: () {
+                print('marque terminer');
+                widget.done();
+              },
+              icon: const Icon(
+                Icons.cloud_done,
                 color: myBlue,
                 size: 35,
               ),
