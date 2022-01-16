@@ -34,7 +34,10 @@ class _OuvrierDetailleState extends State<OuvrierDetaille> {
         title: 'Confirmer la supression',
         action: () async {
           final urlDeleteOuvrier = localhost + 'ouvrier/id/${widget.id}';
-          await http.delete(Uri.parse(urlDeleteOuvrier));
+
+          final response = await http.delete(Uri.parse(urlDeleteOuvrier));
+          final data = jsonDecode(response.body);
+          print(data);
           Navigator.pop(context);
         },
       ),
@@ -52,7 +55,7 @@ class _OuvrierDetailleState extends State<OuvrierDetaille> {
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       final heurData = jsonDecode(heurResponse.body);
-      print(heurData);
+
       if (data['status'] == 200) {
         setState(() {
           try {
@@ -190,7 +193,6 @@ class _DescriptOuvrierState extends State<DescriptOuvrier> {
             right: 0,
             child: IconButton(
               onPressed: () {
-                print('delte');
                 widget.delete();
               },
               icon: const Icon(

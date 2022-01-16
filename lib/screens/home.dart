@@ -113,7 +113,7 @@ class _HomeState extends State<Home> {
 
   Future<void> fetchChantiers() async {
     final responseEnCours = await http.get(Uri.parse(urlChnaitersEnCours));
-    print(responseEnCours.body);
+
     final responseTerminer = await http.get(Uri.parse(urlChnaitersTerminer));
     //getting chantier En cours
     if (responseEnCours.statusCode == 200) {
