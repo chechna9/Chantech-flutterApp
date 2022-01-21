@@ -72,7 +72,7 @@ class _LoginCardState extends State<LoginCard> {
                 decoration: myTFFDecoration('Mot de passe'),
                 onChanged: (value) => password = value,
                 validator: (val) =>
-                    val!.length < 6 ? '6 caractères au minimum' : null,
+                    val!.length < 4 ? '4 caractères au minimum' : null,
               ),
               const SizedBox(height: 30),
               TextButton(

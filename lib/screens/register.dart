@@ -1,7 +1,15 @@
+import 'dart:convert';
+
 import 'package:chantech/consts.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 bool? firstReg;
+String nom = "";
+String prenom = "";
+String email = "";
+String phoneNumber = "";
+String password = "";
 
 class Register extends StatefulWidget {
   Register({Key? key}) : super(key: key);
@@ -68,8 +76,7 @@ class FirstRegisterCard extends StatefulWidget {
 
 class _FirstRegisterCardState extends State<FirstRegisterCard> {
   final _formKey = GlobalKey<FormState>();
-  String nom = "";
-  String prenom = "";
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -150,9 +157,9 @@ class SecondRegisterCard extends StatefulWidget {
 
 class _SecondRegisterCardState extends State<SecondRegisterCard> {
   final _formKey = GlobalKey<FormState>();
-  String email = "";
-  String phoneNumber = "";
-  String password = "";
+  bool _emailExist = false;
+  bool _phoneExist = false;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -170,13 +177,23 @@ class _SecondRegisterCardState extends State<SecondRegisterCard> {
             TextFormField(
               decoration: myTFFDecoration('E-mail'),
               onChanged: (value) => email = value,
-              validator: (val) => val!.isEmpty ? 'Remplir ce champ' : null,
+              validator: (val) => _emailExist
+                  ? 'email existe deja'
+                  : val!.isEmpty
+                      ? 'Remplir ce champ'
+                      : null,
             ),
             const SizedBox(height: 20),
+            //Numero
             TextFormField(
               decoration: myTFFDecoration('Numéro de Telephone'),
+              keyboardType: TextInputType.number,
               onChanged: (value) => phoneNumber = value,
-              validator: (val) => val!.isEmpty ? 'Remplir ce champ' : null,
+              validator: (val) => _phoneExist
+                  ? 'numero existe deja'
+                  : val!.isEmpty
+                      ? 'Remplir ce champ'
+                      : null,
             ),
             const SizedBox(height: 20),
             //Password
@@ -185,7 +202,7 @@ class _SecondRegisterCardState extends State<SecondRegisterCard> {
               decoration: myTFFDecoration('Mot de passe'),
               onChanged: (value) => password = value,
               validator: (val) =>
-                  val!.length < 6 ? '6 caractères au minimum' : null,
+                  val!.length < 4 ? '4 caractères au minimum' : null,
             ),
             const SizedBox(height: 40),
 
@@ -213,9 +230,37 @@ class _SecondRegisterCardState extends State<SecondRegisterCard> {
                 Expanded(
                   child: TextButton(
                     style: myBottomStyle(myBlue),
-                    onPressed: () {
-                      if (_formKey.currentState!.validate())
-                        Navigator.pushReplacementNamed(context, '/home');
+                    onPressed: () async {
+                      _emailExist = false;
+                      _phoneExist = false;
+
+                      if (_formKey.currentState!.validate()) {
+                        final repsonseEmail = await http.get(
+                            Uri.parse(localhost + 'personne/email/$email'));
+
+                        final userDataE = jsonDecode(repsonseEmail.body);
+                        print(userDataE['status']);
+
+                        userDataE['status'] == 200
+                            ? _emailExist = true
+                            : _emailExist = false;
+
+                        final repsonsePhone = await http.get(Uri.parse(
+                            localhost + 'personne/numero/$phoneNumber'));
+
+                        final userDataP = jsonDecode(repsonsePhone.body);
+                        print(userDataP['status']);
+
+                        userDataP['status'] == 200
+                            ? _phoneExist = true
+                            : _phoneExist = false;
+                        if (_formKey.currentState!.validate()) {
+                          final rgisterUrl = localhost +
+                              'personne/nom/$nom/prenom/$prenom/numero/$phoneNumber/email/$email/mdp/$password';
+                          await http.post(Uri.parse(rgisterUrl));
+                          // Navigator.pushReplacementNamed(context, '/home');
+                        }
+                      }
                     },
                     child: const Text(
                       'S\'inscrire',
