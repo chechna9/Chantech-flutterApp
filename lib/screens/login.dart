@@ -1,6 +1,8 @@
 import 'package:chantech/consts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
@@ -45,6 +47,8 @@ class LoginCard extends StatefulWidget {
 class _LoginCardState extends State<LoginCard> {
   final _formKey = GlobalKey<FormState>();
   String email = "";
+  bool _emailExist = true;
+  bool _passwordCorrect = true;
   String password = "";
   @override
   Widget build(BuildContext context) {
@@ -63,7 +67,11 @@ class _LoginCardState extends State<LoginCard> {
               TextFormField(
                 decoration: myTFFDecoration('E-mail'),
                 onChanged: (value) => email = value,
-                validator: (val) => val!.isEmpty ? 'Remplir ce champ' : null,
+                validator: (val) => !_emailExist
+                    ? 'email n\'existe pas'
+                    : val!.isEmpty
+                        ? 'Remplir ce champ'
+                        : null,
               ),
               const SizedBox(height: 20),
               //Password
@@ -71,8 +79,11 @@ class _LoginCardState extends State<LoginCard> {
                 obscureText: true,
                 decoration: myTFFDecoration('Mot de passe'),
                 onChanged: (value) => password = value,
-                validator: (val) =>
-                    val!.length < 4 ? '4 caractères au minimum' : null,
+                validator: (val) => !_passwordCorrect
+                    ? 'mot de passe incorrecte'
+                    : val!.length < 4
+                        ? '4 caractères au minimum'
+                        : null,
               ),
               const SizedBox(height: 30),
               TextButton(
@@ -106,11 +117,33 @@ class _LoginCardState extends State<LoginCard> {
                   Expanded(
                     child: TextButton(
                       style: myBottomStyle(myBlue),
-                      onPressed: () {
-                        // Navigator.pushReplacementNamed(context, '/home');
-                        print(email);
-                        print(password);
-                        _formKey.currentState!.validate();
+                      onPressed: () async {
+                        _emailExist = true;
+                        _passwordCorrect = true;
+                        if (_formKey.currentState!.validate()) {
+                          final repsonseEmail = await http.get(
+                              Uri.parse(localhost + 'personne/email/$email'));
+                          final userDataE = jsonDecode(repsonseEmail.body);
+
+                          userDataE['status'] == 200
+                              ? _emailExist = true
+                              : _emailExist = false;
+
+                          if (_formKey.currentState!.validate()) {
+                            final loginUrl = localhost +
+                                'personne/email/$email/mdp/$password';
+                            final loginResponse =
+                                await http.get(Uri.parse(loginUrl));
+                            final userDataP = jsonDecode(loginResponse.body);
+
+                            userDataP['status'] == 100
+                                ? _passwordCorrect = false
+                                : _passwordCorrect = true;
+                          }
+                          if (_formKey.currentState!.validate()) {
+                            // Navigator.pushReplacementNamed(context, '/home');
+                          }
+                        }
                       },
                       child: const Text(
                         'Se Connecter',
