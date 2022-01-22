@@ -12,7 +12,7 @@ void main() {
     MaterialApp(
       theme: ThemeData(fontFamily: 'Poppins'),
       debugShowCheckedModeBanner: false,
-      initialRoute: '/login',
+      initialRoute: '/home',
       routes: {
         '/': (context) => const SplashScreen(),
         '/login': (context) => const Login(),

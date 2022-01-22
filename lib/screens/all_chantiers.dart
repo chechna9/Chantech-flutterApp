@@ -2,34 +2,34 @@ import 'package:chantech/components/add_chantier.dart';
 import 'package:chantech/components/chantier_card.dart';
 import 'package:chantech/consts.dart';
 import 'package:chantech/models/chantier.dart';
+import 'package:chantech/screens/home.dart';
 import 'package:flutter/material.dart';
 
 class AllChantiers extends StatefulWidget {
   List<ChantierCard> listChantiersEnCours;
   List<ChantierCard> listChantiersTerminer;
-  AllChantiers(
-      {Key? key,
-      required this.listChantiersEnCours,
-      required this.listChantiersTerminer})
-      : super(key: key);
+  final Function update;
+  AllChantiers({
+    Key? key,
+    required this.listChantiersEnCours,
+    required this.listChantiersTerminer,
+    required this.update,
+  }) : super(key: key);
 
   @override
   _AllChantiersState createState() => _AllChantiersState();
 }
 
 class _AllChantiersState extends State<AllChantiers> {
-  // void updateList(Chantier e) {
-  //   setState(() {
-  //     widget.listChantiersEnCours.add(ChantierCard.fromChantier(e));
-  //   });
-  // }
-
   void addChantier() {
     showDialog(
       barrierColor: Colors.transparent,
       context: context,
       builder: (context) {
-        return AddChantier();
+        return AddChantier(
+          updateListEncours: listChantiersEnCours,
+          updateListTerminer: listChantiersTerminer,
+        );
       },
     );
   }

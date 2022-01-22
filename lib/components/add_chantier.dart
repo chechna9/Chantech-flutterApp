@@ -1,13 +1,25 @@
 import 'dart:convert';
 
+import 'package:chantech/components/chantier_card.dart';
 import 'package:chantech/consts.dart';
 import 'package:chantech/models/ouvrier.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class AddChantier extends StatelessWidget {
-  AddChantier({Key? key}) : super(key: key);
+class AddChantier extends StatefulWidget {
+  List<ChantierCard> updateListEncours;
+  List<ChantierCard> updateListTerminer;
+  AddChantier(
+      {Key? key,
+      required this.updateListEncours,
+      required this.updateListTerminer})
+      : super(key: key);
 
+  @override
+  State<AddChantier> createState() => _AddChantierState();
+}
+
+class _AddChantierState extends State<AddChantier> {
   @override
   Widget build(BuildContext context) {
     bool _propExist = true;
@@ -135,10 +147,21 @@ class AddChantier extends StatelessWidget {
                                   final addChantierUrl = localhost +
                                       'chantier/nomchantier/$nom/emailproprietaire/$prop/emailresponsable/$respo/address/$adr';
                                   await http.post(Uri.parse(addChantierUrl));
+                                  setState(
+                                    () {
+                                      widget.updateListEncours.add(
+                                        ChantierCard(
+                                          nom: nom,
+                                          respo: respo,
+                                          prop: prop,
+                                          id: 0,
+                                          update: () {},
+                                        ),
+                                      );
+                                    },
+                                  );
 
                                   Navigator.pop(context);
-                                  // yyyyyy@estin.dz
-                                  // tizi@gmail.com
                                 }
                               }
                             },

@@ -5,18 +5,21 @@ import 'package:flutter/material.dart';
 
 class ChantierCard extends StatelessWidget {
   final int id;
+  final Function update;
   final String nom;
   final String respo;
   final String prop;
   ChantierCard(
       {Key? key,
+      required this.update,
       required this.nom,
       required this.respo,
       required this.prop,
       required this.id})
       : super(key: key);
-  factory ChantierCard.fromChantier(Chantier e) {
+  factory ChantierCard.fromChantier(Chantier e, Function update) {
     return ChantierCard(
+        update: update,
         id: e.idChantier,
         nom: e.nomChantier,
         respo: "${e.nomResponsable} ${e.preNomResponsable}",
@@ -27,8 +30,13 @@ class ChantierCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => ChantierDetaille(id: id)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ChantierDetaille(
+                      update: update,
+                      id: id,
+                    )));
       },
       style: TextButton.styleFrom(
         padding: const EdgeInsets.all(20),

@@ -112,6 +112,9 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> fetchChantiers() async {
+    //init lists
+    listChantiersEnCours = [];
+    listChantiersTerminer = [];
     final responseEnCours = await http.get(Uri.parse(urlChnaitersEnCours));
 
     final responseTerminer = await http.get(Uri.parse(urlChnaitersTerminer));
@@ -122,7 +125,8 @@ class _HomeState extends State<Home> {
           .toList();
       setState(() {
         for (Chantier e in _listData) {
-          listChantiersEnCours.add(ChantierCard.fromChantier(e));
+          listChantiersEnCours
+              .add(ChantierCard.fromChantier(e, fetchChantiers));
         }
       });
     }
@@ -132,11 +136,14 @@ class _HomeState extends State<Home> {
           .map((data) => Chantier.fromJson(data))
           .toList();
 
-      setState(() {
-        for (Chantier e in _listData) {
-          listChantiersTerminer.add(ChantierCard.fromChantier(e));
-        }
-      });
+      setState(
+        () {
+          for (Chantier e in _listData) {
+            listChantiersTerminer
+                .add(ChantierCard.fromChantier(e, fetchChantiers));
+          }
+        },
+      );
     }
   }
 
@@ -207,6 +214,7 @@ class _HomeState extends State<Home> {
           ? AllChantiers(
               listChantiersEnCours: listChantiersEnCours,
               listChantiersTerminer: listChantiersTerminer,
+              update: fetchChantiers,
             )
           : index == 1
               ? AllOuvriers(

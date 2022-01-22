@@ -1,17 +1,24 @@
 import 'dart:convert';
-
 import 'package:chantech/components/confirm_delete.dart';
 import 'package:chantech/components/edit_chantier.dart';
 import 'package:chantech/consts.dart';
 import 'package:chantech/models/chantier.dart';
 import 'package:chantech/screens/all_taches.dart';
+import 'package:chantech/screens/home.dart';
 import 'package:chantech/screens/ouvrier_dans_chantier.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class ChantierDetaille extends StatefulWidget {
   final int id;
-  const ChantierDetaille({Key? key, required this.id}) : super(key: key);
+
+  final Function update;
+
+  ChantierDetaille({
+    Key? key,
+    required this.id,
+    required this.update,
+  }) : super(key: key);
 
   @override
   _ChantierDetailleState createState() => _ChantierDetailleState();
@@ -30,7 +37,7 @@ class _ChantierDetailleState extends State<ChantierDetaille> {
   }
 
   Chantier? _chantier = null;
-  void showDeleteChantier() {
+  void showDeleteChantier() async {
     showDialog(
       context: context,
       builder: (context) => ConfirmAction(
@@ -38,13 +45,14 @@ class _ChantierDetailleState extends State<ChantierDetaille> {
         action: () async {
           final urlDeleteChantier = localhost + 'chantier/id/${widget.id}';
           await http.delete(Uri.parse(urlDeleteChantier));
+
           Navigator.pop(context);
         },
       ),
     );
   }
 
-  void showDoneChantier() {
+  void showDoneChantier() async {
     showDialog(
       context: context,
       builder: (context) => ConfirmAction(
@@ -53,6 +61,7 @@ class _ChantierDetailleState extends State<ChantierDetaille> {
           final urlSetTerminerChantier =
               localhost + 'chantier/setFermer/idChantier/${widget.id}';
           await http.put(Uri.parse(urlSetTerminerChantier));
+
           Navigator.pop(context);
         },
       ),
@@ -108,7 +117,8 @@ class _ChantierDetailleState extends State<ChantierDetaille> {
               ),
               child: IconButton(
                 color: myBlue,
-                onPressed: () {
+                onPressed: () async {
+                  await widget.update();
                   Navigator.pop(context);
                 },
                 icon: const Icon(
