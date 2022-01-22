@@ -1,22 +1,35 @@
 import 'package:chantech/consts.dart';
+import 'package:chantech/models/equipement.dart';
+import 'package:chantech/screens/equipement_detaille.dart';
 import 'package:flutter/material.dart';
 
 class EquipementCard extends StatelessWidget {
+  final Function action;
   final String libelle;
-  final String num;
+  final int num;
   final int rest;
-  EquipementCard(
-      {Key? key, required this.libelle, required this.num, required this.rest})
-      : super(key: key);
-
+  EquipementCard({
+    Key? key,
+    required this.action,
+    required this.libelle,
+    required this.num,
+    required this.rest,
+  }) : super(key: key);
+  factory EquipementCard.fromEquipement(Equipement e, Function action) {
+    return EquipementCard(
+      action: action,
+      libelle: e.libele,
+      num: e.numEquipement,
+      rest: e.nb_echantillon,
+    );
+  }
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: myYellow,
-        borderRadius: BorderRadius.circular(20),
-      ),
+    return ElevatedButton(
+      onPressed: () {
+        action();
+      },
+      style: myBottomStyle(myYellow),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

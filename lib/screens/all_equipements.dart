@@ -6,30 +6,26 @@ import 'package:flutter/material.dart';
 class AllEquipements extends StatefulWidget {
   List<EquipementCard> listEquipementsDispo;
   List<EquipementCard> listEquipementsOcup;
-  AllEquipements(
-      {Key? key,
-      required this.listEquipementsDispo,
-      required this.listEquipementsOcup})
-      : super(key: key);
+  final Function update;
+  AllEquipements({
+    Key? key,
+    required this.listEquipementsDispo,
+    required this.listEquipementsOcup,
+    required this.update,
+  }) : super(key: key);
 
   @override
   _AllEquipementsState createState() => _AllEquipementsState();
 }
 
 class _AllEquipementsState extends State<AllEquipements> {
-  void updateList(EquipementCard e) {
-    setState(() {
-      widget.listEquipementsDispo.add(e);
-    });
-  }
-
   void addEquipement() {
     showDialog(
       barrierColor: Colors.transparent,
       context: context,
       builder: (context) {
         return AddEquipement(
-          updateList: updateList,
+          update: widget.update,
         );
       },
     );

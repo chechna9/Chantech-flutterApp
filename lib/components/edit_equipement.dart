@@ -1,24 +1,25 @@
-import 'package:chantech/components/chantier_card.dart';
-import 'package:chantech/components/equipement_card.dart';
 import 'package:chantech/consts.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class EditEquipement extends StatelessWidget {
+  final int numEquip;
+  final Function update;
   EditEquipement({
     Key? key,
+    required this.numEquip,
+    required this.update,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final _formkey = GlobalKey<FormState>();
-    String libelle = "";
-    String num = "";
-    double prix = 0;
-    int rest = 0;
+    int quant = 0;
+    int prix = 0;
     return Scaffold(
       backgroundColor: const Color(0x44ffffff),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(40, 80, 40, 0),
+        padding: const EdgeInsets.fromLTRB(40, 120, 40, 0),
         child: Container(
           decoration: const BoxDecoration(
               color: myYellow,
@@ -27,87 +28,76 @@ class EditEquipement extends StatelessWidget {
           padding: const EdgeInsets.all(20),
           child: SingleChildScrollView(
             child: Form(
-                key: _formkey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    //Libellé
-                    TextFormField(
-                      decoration: myTFFDecoration('Libellé'),
-                      onChanged: (value) => libelle = value,
-                      validator: (val) =>
-                          val!.isEmpty ? 'Remplir ce champ' : null,
-                    ),
-                    const SizedBox(height: 20),
-                    //Numéro
-                    TextFormField(
-                      decoration: myTFFDecoration('Numéro'),
-                      onChanged: (value) => num = value,
-                      validator: (val) =>
-                          val!.isEmpty ? 'Remplir ce champ' : null,
-                    ),
-                    const SizedBox(height: 20),
-                    //Prix de vent
-                    TextFormField(
-                      keyboardType: const TextInputType.numberWithOptions(
-                          decimal: true, signed: false),
-                      decoration: myTFFDecoration('Prix de vent'),
-                      onChanged: (value) => prix = double.parse(value),
-                      validator: (val) =>
-                          val!.isEmpty ? 'Remplir ce champ' : null,
-                    ),
-                    const SizedBox(height: 20),
-                    //quantité
-                    TextFormField(
-                      keyboardType: const TextInputType.numberWithOptions(
-                          decimal: false, signed: false),
-                      decoration: myTFFDecoration('Quantitée'),
-                      onChanged: (value) => rest = int.parse(value),
-                      validator: (val) =>
-                          val!.isEmpty ? 'Remplir ce champ' : null,
-                    ),
+              key: _formkey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  //Prix de vent
+                  TextFormField(
+                    keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true, signed: false),
+                    decoration: myTFFDecoration('Prix de vent'),
+                    onChanged: (value) => prix = int.parse(value),
+                    validator: (val) =>
+                        val!.isEmpty ? 'Remplir ce champ' : null,
+                  ),
+                  const SizedBox(height: 20),
+                  //quantité
+                  TextFormField(
+                    keyboardType: const TextInputType.numberWithOptions(
+                        decimal: false, signed: false),
+                    decoration: myTFFDecoration('Quantitée'),
+                    onChanged: (value) => quant = int.parse(value),
+                    validator: (val) =>
+                        val!.isEmpty ? 'Remplir ce champ' : null,
+                  ),
 
-                    const SizedBox(height: 40),
+                  const SizedBox(height: 40),
 
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextButton(
-                            style: myBottomStyle(Colors.white),
-                            onPressed: () {
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextButton(
+                          style: myBottomStyle(Colors.white),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            'Annuler',
+                            style: TextStyle(
+                                color: myBlue,
+                                fontWeight: FontWeight.w900,
+                                fontSize: 24),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: TextButton(
+                          style: myBottomStyle(myBlue),
+                          onPressed: () async {
+                            if (_formkey.currentState!.validate()) {
+                              final editEquipementUrl = localhost +
+                                  'equipement/numEquipement/$numEquip/nbArticle/$quant/prix/$prix';
+                              await http.put(Uri.parse(editEquipementUrl));
+                              await update();
                               Navigator.pop(context);
-                            },
-                            child: const Text(
-                              'Annuler',
-                              style: TextStyle(
-                                  color: myBlue,
-                                  fontWeight: FontWeight.w900,
-                                  fontSize: 24),
-                            ),
+                            }
+                          },
+                          child: const Text(
+                            'Modifier',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w900,
+                                fontSize: 22),
                           ),
                         ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: TextButton(
-                            style: myBottomStyle(myBlue),
-                            onPressed: () {
-                              if (_formkey.currentState!.validate()) {
-                                Navigator.pop(context);
-                              }
-                            },
-                            child: const Text(
-                              'Modifier',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w900,
-                                  fontSize: 22),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                )),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       ),

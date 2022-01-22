@@ -20,7 +20,7 @@ void main() {
         '/home': (context) => const Home(),
         // '/chantierDetaille': (context) => const ChantierDetaille(),
         // '/ouvrierDetaille': (context) => const OuvrierDetaille(),
-        '/equipementDetaille': (context) => const EquipementDetaille(),
+        // '/equipementDetaille': (context) => const EquipementDetaille(),
         // '/ouvrierDansChantier': (context) => const OuvrierDansChantier(),
         // '/addOuvrierDansTache': (context) => AddOuvrierDTache(),
         // '/allTaches': (context) => AllTaches(),

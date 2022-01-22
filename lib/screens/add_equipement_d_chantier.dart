@@ -11,10 +11,7 @@ class AddEquipementDansChantier extends StatefulWidget {
 }
 
 class _AddEquipementDansChantierState extends State<AddEquipementDansChantier> {
-  List<EquipementCard> _listEquipement = [
-    EquipementCard(libelle: 'Marteau', num: '12', rest: 25),
-    EquipementCard(libelle: 'Marteau', num: '12', rest: 25),
-  ];
+  List<EquipementCard> _listEquipement = [];
 
   bool? disponible;
   @override

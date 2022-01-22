@@ -1,14 +1,12 @@
-import 'dart:ffi';
-
 import 'package:chantech/components/chantier_card.dart';
 import 'package:chantech/components/equipement_card.dart';
 import 'package:chantech/consts.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class AddEquipement extends StatelessWidget {
-  final Function updateList;
-
-  AddEquipement({Key? key, required this.updateList}) : super(key: key);
+  final Function update;
+  AddEquipement({Key? key, required this.update}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +14,7 @@ class AddEquipement extends StatelessWidget {
     String libelle = "";
     String num = "";
     double prix = 0;
-    int rest = 0;
+    int quant = 0;
     return Scaffold(
       backgroundColor: const Color(0x44ffffff),
       body: Padding(
@@ -45,6 +43,7 @@ class AddEquipement extends StatelessWidget {
                     TextFormField(
                       decoration: myTFFDecoration('Numéro'),
                       onChanged: (value) => num = value,
+                      keyboardType: TextInputType.number,
                       validator: (val) =>
                           val!.isEmpty ? 'Remplir ce champ' : null,
                     ),
@@ -64,7 +63,7 @@ class AddEquipement extends StatelessWidget {
                       keyboardType: const TextInputType.numberWithOptions(
                           decimal: false, signed: false),
                       decoration: myTFFDecoration('Quantitée'),
-                      onChanged: (value) => rest = int.parse(value),
+                      onChanged: (value) => quant = int.parse(value),
                       validator: (val) =>
                           val!.isEmpty ? 'Remplir ce champ' : null,
                     ),
@@ -92,10 +91,12 @@ class AddEquipement extends StatelessWidget {
                         Expanded(
                           child: TextButton(
                             style: myBottomStyle(myBlue),
-                            onPressed: () {
+                            onPressed: () async {
                               if (_formkey.currentState!.validate()) {
-                                updateList(EquipementCard(
-                                    libelle: libelle, num: num, rest: rest));
+                                final addEquipementUrl = localhost +
+                                    'equipement/numEquipement/$num/libele/$libelle/prix/$prix/nbArticle/$quant';
+                                await http.post(Uri.parse(addEquipementUrl));
+                                await update();
                                 Navigator.pop(context);
                               }
                             },

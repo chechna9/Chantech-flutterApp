@@ -1,11 +1,18 @@
+import 'dart:convert';
+
 import 'package:chantech/components/confirm_delete.dart';
-import 'package:chantech/components/edit_chantier.dart';
 import 'package:chantech/components/edit_equipement.dart';
 import 'package:chantech/consts.dart';
+import 'package:chantech/models/equipement.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class EquipementDetaille extends StatefulWidget {
-  const EquipementDetaille({Key? key}) : super(key: key);
+  final int numero;
+  final Function update;
+  const EquipementDetaille(
+      {Key? key, required this.numero, required this.update})
+      : super(key: key);
 
   @override
   _EquipementDetailleState createState() => _EquipementDetailleState();
@@ -16,7 +23,10 @@ class _EquipementDetailleState extends State<EquipementDetaille> {
     showDialog(
       context: context,
       builder: (context) {
-        return EditEquipement();
+        return EditEquipement(
+          numEquip: widget.numero,
+          update: fetchEquipement,
+        );
       },
     );
   }
@@ -27,20 +37,41 @@ class _EquipementDetailleState extends State<EquipementDetaille> {
       builder: (context) => ConfirmAction(
         title: 'Confirmer la supression',
         action: () async {
-          // final urlSetTerminerChantier =
-          //     localhost + 'chantier/setFermer/idChantier/${widget.id}';
-          // await http.post(Uri.parse(urlSetTerminerChantier));
+          final urlSetTerminerChantier =
+              localhost + 'equipement/id/${equipement!.idEquipement}';
+          await http.delete(Uri.parse(urlSetTerminerChantier));
           Navigator.pop(context);
         },
       ),
     );
   }
 
-  String libelle = "Marteau";
-  String num = "12";
-  double prix = 1500;
-  int nbTot = 30;
-  int nbOcupe = 12;
+  Equipement? equipement;
+  Future<void> fetchEquipement() async {
+    final response = await http.get(
+        Uri.parse(localhost + 'equipement/numEquipement/${widget.numero}'));
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      print(widget.numero);
+
+      if (data['status'] == 200) {
+        setState(() {
+          try {
+            equipement = Equipement.fromJson(data['data'][0]);
+          } catch (e) {}
+        });
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchEquipement();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +92,10 @@ class _EquipementDetailleState extends State<EquipementDetaille> {
               ),
               child: IconButton(
                 color: myBlue,
-                onPressed: () {},
+                onPressed: () async {
+                  await widget.update();
+                  Navigator.pop(context);
+                },
                 icon: const Icon(
                   Icons.arrow_back_rounded,
                   size: 30,
@@ -84,11 +118,10 @@ class _EquipementDetailleState extends State<EquipementDetaille> {
             child: DescriptEquipement(
               delete: showDeleteEquipement,
               edit: showEditEquipement,
-              libelle: libelle,
-              nbOcupe: nbOcupe,
-              nbTot: nbTot,
-              num: num,
-              prix: prix,
+              libelle: equipement != null ? equipement!.libele : '/',
+              nbDisp: equipement != null ? equipement!.nb_echantillon : 0,
+              num: equipement != null ? equipement!.numEquipement : 0,
+              prix: equipement != null ? equipement!.prix.toDouble() : 0,
             ),
           ),
         ),
@@ -99,37 +132,28 @@ class _EquipementDetailleState extends State<EquipementDetaille> {
 
 class DescriptEquipement extends StatefulWidget {
   final String libelle;
-  final String num;
+  final int num;
   final double prix;
-  final int nbTot;
-  final int nbOcupe;
+  final int nbDisp;
+
   final Function edit;
   final Function delete;
 
-  const DescriptEquipement(
-      {Key? key,
-      required this.edit,
-      required this.delete,
-      required this.libelle,
-      required this.num,
-      required this.prix,
-      required this.nbTot,
-      required this.nbOcupe})
-      : super(key: key);
+  const DescriptEquipement({
+    Key? key,
+    required this.nbDisp,
+    required this.edit,
+    required this.delete,
+    required this.libelle,
+    required this.num,
+    required this.prix,
+  }) : super(key: key);
 
   @override
   State<DescriptEquipement> createState() => _DescriptEquipementState();
 }
 
 class _DescriptEquipementState extends State<DescriptEquipement> {
-  int nbDisponible = 0;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    nbDisponible = widget.nbTot - widget.nbOcupe;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -204,31 +228,12 @@ class _DescriptEquipementState extends State<DescriptEquipement> {
                 ),
               ),
               Text(
-                'Nombre totale des unités : ${widget.nbTot}',
+                'Nombre des unités disponible : ${widget.nbDisp}',
                 maxLines: 2,
                 style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w500,
                 ),
-              ),
-              Text(
-                'Disponible : ${nbDisponible}',
-                maxLines: 2,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              Text(
-                'Ocuppé : ${widget.nbOcupe}',
-                maxLines: 2,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              const SizedBox(
-                height: 20,
               ),
             ],
           ),

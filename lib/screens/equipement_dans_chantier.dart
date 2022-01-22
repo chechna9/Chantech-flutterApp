@@ -10,10 +10,7 @@ class EquipementDansChantier extends StatefulWidget {
 }
 
 class EquipementDansChantierState extends State<EquipementDansChantier> {
-  List<EquipementCard> _listEquipement = [
-    EquipementCard(libelle: 'Marteau', num: '12', rest: 25),
-    EquipementCard(libelle: 'Marteau', num: '12', rest: 25),
-  ];
+  List<EquipementCard> _listEquipement = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
