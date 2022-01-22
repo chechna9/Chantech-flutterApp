@@ -7,18 +7,20 @@ class TacheCard extends StatelessWidget {
   final int id;
   final String nom;
   final int dure;
-
+  final Function update;
   const TacheCard({
     Key? key,
+    required this.update,
     required this.nom,
     required this.dure,
     required this.id,
   }) : super(key: key);
-  factory TacheCard.fromTache(Tache e) {
+  factory TacheCard.fromTache(Tache e, Function update) {
     return TacheCard(
       nom: e.nom,
       dure: e.duree,
       id: e.idTache,
+      update: update,
     );
   }
 
@@ -31,6 +33,7 @@ class TacheCard extends StatelessWidget {
           MaterialPageRoute(
             builder: (context) => TacheDetaille(
               id: id,
+              update: update,
             ),
           ),
         );

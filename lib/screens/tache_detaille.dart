@@ -12,8 +12,9 @@ import 'package:http/http.dart' as http;
 
 class TacheDetaille extends StatefulWidget {
   final int id;
-
-  const TacheDetaille({Key? key, required this.id}) : super(key: key);
+  final Function update;
+  const TacheDetaille({Key? key, required this.id, required this.update})
+      : super(key: key);
 
   @override
   _TacheDetailleState createState() => _TacheDetailleState();
@@ -51,6 +52,7 @@ class _TacheDetailleState extends State<TacheDetaille> {
 
   List<OuvrierCard> _listOuvriers = [];
   Future<void> fetchOuvriers() async {
+    _listOuvriers = [];
     final response = await http
         .get(Uri.parse(localhost + 'tache/idTache/${widget.id}/ouvrier'));
 
@@ -118,6 +120,7 @@ class _TacheDetailleState extends State<TacheDetaille> {
                 builder: (context) => AddOuvrierDTache(
                   idChantier: _tache!.idChantier,
                   idTache: widget.id,
+                  update: fetchOuvriers,
                 ),
               ));
         },
@@ -139,7 +142,8 @@ class _TacheDetailleState extends State<TacheDetaille> {
               ),
               child: IconButton(
                 color: myBlue,
-                onPressed: () {
+                onPressed: () async {
+                  await widget.update();
                   Navigator.pop(context);
                 },
                 icon: const Icon(

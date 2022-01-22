@@ -2,23 +2,30 @@ import 'dart:convert';
 
 import 'package:chantech/consts.dart';
 import 'package:chantech/models/chantier.dart';
-import 'package:chantech/models/ouvrier.dart';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class EditChantier extends StatelessWidget {
   final int idChantier;
-  EditChantier({Key? key, required this.idChantier}) : super(key: key);
+  final Function update;
+  final Chantier chantier;
+  EditChantier(
+      {Key? key,
+      required this.idChantier,
+      required this.update,
+      required this.chantier})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     bool _propExist = true;
     bool _respExist = true;
     final _formkey = GlobalKey<FormState>();
-    String nom = "";
-    String prop = "";
-    String respo = "";
-    String adr = "";
+    String nom = chantier.nomChantier;
+    String prop = chantier.emailProprietaire;
+    String respo = chantier.emailResponsable;
+    String adr = chantier.address;
 
     return Scaffold(
       backgroundColor: const Color(0x44ffffff),
@@ -40,6 +47,7 @@ class EditChantier extends StatelessWidget {
                     TextFormField(
                       decoration: myTFFDecoration('Nom du chantier'),
                       onChanged: (value) => nom = value,
+                      initialValue: nom,
                       validator: (val) =>
                           val!.isEmpty ? 'Remplir ce champ' : null,
                     ),
@@ -48,6 +56,7 @@ class EditChantier extends StatelessWidget {
                     TextFormField(
                       decoration: myTFFDecoration('Adresse du chantier'),
                       onChanged: (value) => adr = value,
+                      initialValue: adr,
                       validator: (val) =>
                           val!.isEmpty ? 'Remplir ce champ' : null,
                     ),
@@ -56,6 +65,7 @@ class EditChantier extends StatelessWidget {
                     TextFormField(
                       decoration: myTFFDecoration('Email du Proprietaire'),
                       onChanged: (value) => prop = value,
+                      initialValue: prop,
                       validator: (val) => !_propExist
                           ? 'Proprietaire n\'existe pas'
                           : val!.isEmpty
@@ -67,6 +77,7 @@ class EditChantier extends StatelessWidget {
                     TextFormField(
                       decoration: myTFFDecoration('Email du Responsable'),
                       onChanged: (value) => respo = value,
+                      initialValue: respo,
                       validator: (val) => !_respExist
                           ? 'Responsable n\'existe pas'
                           : val!.isEmpty
@@ -126,9 +137,16 @@ class EditChantier extends StatelessWidget {
 
                                   final editChantierUrl = localhost +
                                       'chantier/idchantier/$idChantier/nomChantier/$nom/emailproprietaire/$prop/emailresponsable/$respo/address/$adr';
-                                  await http.put(Uri.parse(editChantierUrl));
+                                  try {
+                                    final result = await http
+                                        .put(Uri.parse(editChantierUrl));
+                                    print(result.body);
+                                  } catch (e) {
+                                    print('error');
+                                  }
 
-                                  Navigator.pop(context);
+                                  await update();
+                                  // Navigator.pop(context);
                                 }
                               }
                             },

@@ -4,7 +4,7 @@ import 'package:chantech/components/edit_chantier.dart';
 import 'package:chantech/consts.dart';
 import 'package:chantech/models/chantier.dart';
 import 'package:chantech/screens/all_taches.dart';
-import 'package:chantech/screens/home.dart';
+
 import 'package:chantech/screens/ouvrier_dans_chantier.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -31,6 +31,8 @@ class _ChantierDetailleState extends State<ChantierDetaille> {
       builder: (context) {
         return EditChantier(
           idChantier: widget.id,
+          update: fetchChantier,
+          chantier: _chantier!,
         );
       },
     );
@@ -84,6 +86,7 @@ class _ChantierDetailleState extends State<ChantierDetaille> {
               : heureTravaille =
                   int.parse(heurData['data'][0]['heureTravaillerChantier']);
           _chantier = Chantier.fromJson(data['data'][0]);
+          // print(data['data'][0]);
         });
       }
     }

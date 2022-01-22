@@ -36,6 +36,7 @@ class OuvrierDTache extends StatelessWidget {
         final addOuvrierUrl =
             localhost + 'ouvrier/idOuvrier/$idOuvrier/idTache/$idTache';
         await http.post(Uri.parse(addOuvrierUrl));
+        await update();
         Navigator.pop(context);
       },
       style: TextButton.styleFrom(

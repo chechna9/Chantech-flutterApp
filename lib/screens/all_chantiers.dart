@@ -1,7 +1,6 @@
 import 'package:chantech/components/add_chantier.dart';
 import 'package:chantech/components/chantier_card.dart';
 import 'package:chantech/consts.dart';
-import 'package:chantech/models/chantier.dart';
 import 'package:chantech/screens/home.dart';
 import 'package:flutter/material.dart';
 

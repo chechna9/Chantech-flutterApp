@@ -25,6 +25,7 @@ class _AllTachesState extends State<AllTaches> {
       builder: (context) {
         return AddTache(
           idChantier: widget.id,
+          update: fetchTaches,
         );
       },
     );
@@ -44,7 +45,7 @@ class _AllTachesState extends State<AllTaches> {
           .toList();
       setState(() {
         for (Tache e in _listData) {
-          _listTachesEncours.add(TacheCard.fromTache(e));
+          _listTachesEncours.add(TacheCard.fromTache(e, fetchTaches));
         }
       });
     }
@@ -56,7 +57,7 @@ class _AllTachesState extends State<AllTaches> {
 
       setState(() {
         for (Tache e in _listData) {
-          _listTachesTermine.add(TacheCard.fromTache(e));
+          _listTachesTermine.add(TacheCard.fromTache(e, fetchTaches));
         }
       });
     }

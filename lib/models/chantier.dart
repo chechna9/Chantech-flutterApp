@@ -22,11 +22,15 @@ class Chantier {
   final int idProprietaire;
   final String nomResponsable;
   final String preNomResponsable;
+  final String emailResponsable;
+  final String emailProprietaire;
   final int idResponsable;
   final int fermer;
   final String address;
   final int idChantier;
   Chantier({
+    required this.emailProprietaire,
+    required this.emailResponsable,
     required this.idChantier,
     required this.idProprietaire,
     required this.idResponsable,
@@ -40,6 +44,8 @@ class Chantier {
   });
   factory Chantier.fromJson(Map<String, dynamic> json) {
     return Chantier(
+      emailProprietaire: json['emailProprietaire'],
+      emailResponsable: json['emailResponsable'],
       idChantier: json['idChantier'],
       nomChantier: json['nomChantier'],
       idProprietaire: json['idProprietaire'],

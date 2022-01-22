@@ -4,8 +4,9 @@ import 'package:http/http.dart' as http;
 
 class AddTache extends StatelessWidget {
   final int idChantier;
-
-  AddTache({Key? key, required this.idChantier}) : super(key: key);
+  final Function update;
+  AddTache({Key? key, required this.idChantier, required this.update})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +40,7 @@ class AddTache extends StatelessWidget {
                     const SizedBox(height: 20),
                     //durée de la tache
                     TextFormField(
+                      keyboardType: TextInputType.number,
                       decoration: myTFFDecoration('Durée'),
                       onChanged: (value) => dure = int.parse(value),
                       validator: (val) =>
@@ -83,7 +85,7 @@ class AddTache extends StatelessWidget {
                                     'tache/chantier/$idChantier/nom/$nom/duree/$dure/description/$descrpt';
                                 final response =
                                     await http.post(Uri.parse(addTacheUrl));
-                                print(response.body);
+                                await update();
                                 Navigator.pop(context);
                               }
                             },

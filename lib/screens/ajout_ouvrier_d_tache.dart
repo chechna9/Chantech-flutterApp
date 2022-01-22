@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:chantech/components/ouvrier_card.dart';
 import 'package:chantech/components/ouvrier_card_d_tache.dart';
 import 'package:chantech/consts.dart';
 import 'package:chantech/models/ouvrier.dart';
@@ -10,7 +8,12 @@ import 'package:http/http.dart' as http;
 class AddOuvrierDTache extends StatefulWidget {
   final int idChantier;
   final int idTache;
-  AddOuvrierDTache({Key? key, required this.idChantier, required this.idTache})
+  final Function update;
+  AddOuvrierDTache(
+      {Key? key,
+      required this.idChantier,
+      required this.idTache,
+      required this.update})
       : super(key: key);
 
   @override
@@ -21,8 +24,8 @@ class _AddOuvrierDTacheState extends State<AddOuvrierDTache> {
   List<OuvrierDTache> listOuvriersDispo = [];
   List<OuvrierDTache> listOuvriersOcup = [];
   Future<void> fetchOuvriers() async {
-    List<OuvrierDTache> listOuvriersDispo = [];
-    List<OuvrierDTache> listOuvriersOcup = [];
+    listOuvriersDispo = [];
+    listOuvriersOcup = [];
     final responseDispo = await http
         .get(Uri.parse(localhost + 'chantier/id/${widget.idChantier}/libre'));
     final responseOcup = await http
@@ -35,7 +38,7 @@ class _AddOuvrierDTacheState extends State<AddOuvrierDTache> {
       setState(() {
         for (Ouvrier e in _listData) {
           listOuvriersDispo
-              .add(OuvrierDTache.fromOuvrier(e, widget.idTache, fetchOuvriers));
+              .add(OuvrierDTache.fromOuvrier(e, widget.idTache, widget.update));
         }
       });
     }
@@ -48,7 +51,7 @@ class _AddOuvrierDTacheState extends State<AddOuvrierDTache> {
       setState(() {
         for (Ouvrier e in _listData) {
           listOuvriersOcup
-              .add(OuvrierDTache.fromOuvrier(e, widget.idTache, fetchOuvriers));
+              .add(OuvrierDTache.fromOuvrier(e, widget.idTache, widget.update));
         }
       });
     }
