@@ -7,11 +7,13 @@ import 'package:flutter/material.dart';
 class AllOuvriers extends StatefulWidget {
   List<OuvrierCard> listOuvriersDispo;
   List<OuvrierCard> listOuvriersOcup;
-  AllOuvriers(
-      {Key? key,
-      required this.listOuvriersDispo,
-      required this.listOuvriersOcup})
-      : super(key: key);
+  Function update;
+  AllOuvriers({
+    Key? key,
+    required this.listOuvriersDispo,
+    required this.listOuvriersOcup,
+    required this.update,
+  }) : super(key: key);
 
   @override
   _AllOuvriersState createState() => _AllOuvriersState();
@@ -29,7 +31,9 @@ class _AllOuvriersState extends State<AllOuvriers> {
       barrierColor: Colors.transparent,
       context: context,
       builder: (context) {
-        return AddOuvrier();
+        return AddOuvrier(
+          update: widget.update,
+        );
       },
     );
   }

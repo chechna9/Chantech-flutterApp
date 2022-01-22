@@ -40,6 +40,7 @@ class OuvrierDansChantierState extends State<OuvrierDansChantier> {
   }
 
   Future<void> fetchOuvriers() async {
+    _listOuvriers = [];
     final response = await http
         .get(Uri.parse(localhost + 'ouvrier/idChantier/${widget.idChantier}'));
 
@@ -59,6 +60,7 @@ class OuvrierDansChantierState extends State<OuvrierDansChantier> {
                     MaterialPageRoute<void>(
                       builder: (BuildContext context) => OuvrierDetaille(
                         id: e.id,
+                        update: fetchOuvriers,
                       ),
                     ),
                   );
@@ -150,6 +152,7 @@ class OuvrierDansChantierState extends State<OuvrierDansChantier> {
             ),
             const SizedBox(height: 10),
             OuvrierDChantierCard(
+              update: fetchRespo,
               idChantier: widget.idChantier,
               idOuvrier: _respo == null ? 0 : _respo!.id,
               nom: _respo == null ? '/' : _respo!.nom,

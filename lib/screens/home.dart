@@ -32,6 +32,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   Future<void> fetchOuvriers() async {
+    print('update list ouvriers');
+    //init list
+    listOuvriersDispo = [];
+    listOuvriersOcup = [];
     final responseDispo = await http.get(Uri.parse(urlOuvrierDispo));
     final responseOcup = await http.get(Uri.parse(urlOuvrierOcup));
     //getting ouvrier disponible
@@ -49,6 +53,7 @@ class _HomeState extends State<Home> {
                 MaterialPageRoute<void>(
                   builder: (BuildContext context) => OuvrierDetaille(
                     id: e.id,
+                    update: fetchOuvriers,
                   ),
                 ),
               );
@@ -73,6 +78,7 @@ class _HomeState extends State<Home> {
                 MaterialPageRoute<void>(
                   builder: (BuildContext context) => OuvrierDetaille(
                     id: e.id,
+                    update: fetchOuvriers,
                   ),
                 ),
               );
@@ -220,6 +226,7 @@ class _HomeState extends State<Home> {
               ? AllOuvriers(
                   listOuvriersDispo: listOuvriersDispo,
                   listOuvriersOcup: listOuvriersOcup,
+                  update: fetchOuvriers,
                 )
               : AllEquipements(
                   listEquipementsDispo: listEquipementsDispo,

@@ -7,8 +7,9 @@ import 'package:http/http.dart' as http;
 
 class EditOuvrier extends StatelessWidget {
   final int idOuvrier;
-
-  EditOuvrier({Key? key, required this.idOuvrier}) : super(key: key);
+  final Function update;
+  EditOuvrier({Key? key, required this.idOuvrier, required this.update})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +127,7 @@ class EditOuvrier extends StatelessWidget {
                                   final editOuvrierUrl = localhost +
                                       'ouvrier/id/$idOuvrier/nom/$nom/prenom/$prenom/numero/$numTele/email/$email/specialite/$spec';
                                   await http.put(Uri.parse(editOuvrierUrl));
-
+                                  await update();
                                   Navigator.pop(context);
                                 }
                               }

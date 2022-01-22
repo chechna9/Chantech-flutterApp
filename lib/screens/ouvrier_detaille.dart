@@ -9,7 +9,12 @@ import 'package:http/http.dart' as http;
 
 class OuvrierDetaille extends StatefulWidget {
   final int id;
-  const OuvrierDetaille({Key? key, required this.id}) : super(key: key);
+  final Function update;
+  const OuvrierDetaille({
+    Key? key,
+    required this.id,
+    required this.update,
+  }) : super(key: key);
 
   @override
   _OuvrierDetailleState createState() => _OuvrierDetailleState();
@@ -22,6 +27,7 @@ class _OuvrierDetailleState extends State<OuvrierDetaille> {
       builder: (context) {
         return EditOuvrier(
           idOuvrier: widget.id,
+          update: fetchOuvrier,
         );
       },
     );
@@ -37,7 +43,7 @@ class _OuvrierDetailleState extends State<OuvrierDetaille> {
 
           final response = await http.delete(Uri.parse(urlDeleteOuvrier));
           final data = jsonDecode(response.body);
-          print(data);
+
           Navigator.pop(context);
         },
       ),
@@ -97,7 +103,9 @@ class _OuvrierDetailleState extends State<OuvrierDetaille> {
               ),
               child: IconButton(
                 color: myBlue,
-                onPressed: () {
+                onPressed: () async {
+                  await widget.update();
+                  print('100%');
                   Navigator.pop(context);
                 },
                 icon: const Icon(
@@ -205,8 +213,8 @@ class _DescriptOuvrierState extends State<DescriptOuvrier> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Align(
-                child: const Icon(
+              const Align(
+                child: Icon(
                   Icons.person,
                   color: Colors.white,
                   size: 50,

@@ -21,6 +21,8 @@ class _AddOuvrierDTacheState extends State<AddOuvrierDTache> {
   List<OuvrierDTache> listOuvriersDispo = [];
   List<OuvrierDTache> listOuvriersOcup = [];
   Future<void> fetchOuvriers() async {
+    List<OuvrierDTache> listOuvriersDispo = [];
+    List<OuvrierDTache> listOuvriersOcup = [];
     final responseDispo = await http
         .get(Uri.parse(localhost + 'chantier/id/${widget.idChantier}/libre'));
     final responseOcup = await http
@@ -32,7 +34,8 @@ class _AddOuvrierDTacheState extends State<AddOuvrierDTache> {
           .toList();
       setState(() {
         for (Ouvrier e in _listData) {
-          listOuvriersDispo.add(OuvrierDTache.fromOuvrier(e, widget.idTache));
+          listOuvriersDispo
+              .add(OuvrierDTache.fromOuvrier(e, widget.idTache, fetchOuvriers));
         }
       });
     }
@@ -44,7 +47,8 @@ class _AddOuvrierDTacheState extends State<AddOuvrierDTache> {
 
       setState(() {
         for (Ouvrier e in _listData) {
-          listOuvriersOcup.add(OuvrierDTache.fromOuvrier(e, widget.idTache));
+          listOuvriersOcup
+              .add(OuvrierDTache.fromOuvrier(e, widget.idTache, fetchOuvriers));
         }
       });
     }

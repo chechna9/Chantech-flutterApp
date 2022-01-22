@@ -31,6 +31,8 @@ class _AllTachesState extends State<AllTaches> {
   }
 
   Future<void> fetchTaches() async {
+    _listTachesEncours = [];
+    _listTachesTermine = [];
     final responseEnCours = await http.get(
         Uri.parse(localhost + 'chantier/idChantier/${widget.id}/tacheCourant'));
     final responseTerminer = await http.get(Uri.parse(

@@ -10,17 +10,20 @@ class OuvrierDChantierCard extends StatefulWidget {
   final String nom;
   final String prenom;
   final String spec;
-
+  final Function update;
   OuvrierDChantierCard({
     Key? key,
+    required this.update,
     required this.idChantier,
     required this.idOuvrier,
     required this.nom,
     required this.prenom,
     required this.spec,
   }) : super(key: key);
-  factory OuvrierDChantierCard.fromOuvrier(Ouvrier e, int idChantier) {
+  factory OuvrierDChantierCard.fromOuvrier(
+      Ouvrier e, int idChantier, Function update) {
     return OuvrierDChantierCard(
+      update: update,
       nom: e.nom,
       prenom: e.prenom,
       spec: e.spec,
@@ -42,6 +45,7 @@ class _OuvrierDChantierCardState extends State<OuvrierDChantierCard> {
           MaterialPageRoute<void>(
             builder: (BuildContext context) => OuvrierDetaille(
               id: widget.idOuvrier,
+              update: widget.update,
             ),
           ),
         );

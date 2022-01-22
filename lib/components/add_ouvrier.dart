@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class AddOuvrier extends StatelessWidget {
-  AddOuvrier({Key? key}) : super(key: key);
+  final Function update;
+  AddOuvrier({Key? key, required this.update}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -98,6 +99,7 @@ class AddOuvrier extends StatelessWidget {
                                 final addOuvrierUrl = localhost +
                                     'ouvrier/nom/$nom/prenom/$prenom/numero/$numTele/email/$email/specialite/$spec';
                                 await http.post(Uri.parse(addOuvrierUrl));
+                                await update();
                                 Navigator.pop(context);
                               }
                             },

@@ -7,9 +7,13 @@ class TacheCard extends StatelessWidget {
   final int id;
   final String nom;
   final int dure;
-  const TacheCard(
-      {Key? key, required this.nom, required this.dure, required this.id})
-      : super(key: key);
+
+  const TacheCard({
+    Key? key,
+    required this.nom,
+    required this.dure,
+    required this.id,
+  }) : super(key: key);
   factory TacheCard.fromTache(Tache e) {
     return TacheCard(
       nom: e.nom,

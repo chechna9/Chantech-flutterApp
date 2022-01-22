@@ -9,16 +9,19 @@ class OuvrierDTache extends StatelessWidget {
   final String nom;
   final String prenom;
   final String spec;
+  final Function update;
   OuvrierDTache(
       {Key? key,
+      required this.update,
       required this.idTache,
       required this.idOuvrier,
       required this.nom,
       required this.prenom,
       required this.spec})
       : super(key: key);
-  factory OuvrierDTache.fromOuvrier(Ouvrier e, int idTache) {
+  factory OuvrierDTache.fromOuvrier(Ouvrier e, int idTache, Function update) {
     return OuvrierDTache(
+      update: update,
       nom: e.nom,
       prenom: e.prenom,
       spec: e.spec,

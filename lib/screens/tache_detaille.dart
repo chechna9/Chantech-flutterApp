@@ -12,6 +12,7 @@ import 'package:http/http.dart' as http;
 
 class TacheDetaille extends StatefulWidget {
   final int id;
+
   const TacheDetaille({Key? key, required this.id}) : super(key: key);
 
   @override
@@ -66,6 +67,7 @@ class _TacheDetailleState extends State<TacheDetaille> {
               MaterialPageRoute<void>(
                 builder: (BuildContext context) => OuvrierDetaille(
                   id: e.id,
+                  update: fetchOuvriers,
                 ),
               ),
             );
