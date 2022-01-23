@@ -101,16 +101,16 @@ class _OuvrierDChantierCardState extends State<OuvrierDChantierCard> {
               ),
               TextButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          AffectRespo(idChantier: widget.idChantier),
-                    ),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) =>
+                  //         AffectRespo(idChantier: widget.idChantier),
+                  //   ),
+                  // );
                 },
                 child: const Text(
-                  'Changer',
+                  'Responsable',
                   style: TextStyle(color: Colors.white),
                 ),
                 style: myBottomStyle(myBlue),

@@ -4,6 +4,7 @@ import 'package:chantech/components/edit_chantier.dart';
 import 'package:chantech/consts.dart';
 import 'package:chantech/models/chantier.dart';
 import 'package:chantech/screens/all_taches.dart';
+import 'package:chantech/screens/equipement_dans_chantier.dart';
 
 import 'package:chantech/screens/ouvrier_dans_chantier.dart';
 import 'package:flutter/material.dart';
@@ -223,7 +224,16 @@ class _ChantierDetailleState extends State<ChantierDetaille> {
                     Expanded(
                       child: TextButton(
                         style: myBottomStyle(myYellow),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EquipementDansChantier(
+                                idChantier: widget.id,
+                              ),
+                            ),
+                          );
+                        },
                         child: const Text(
                           'Equipements',
                           style: TextStyle(

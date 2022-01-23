@@ -1,9 +1,17 @@
+import 'dart:convert';
 import 'package:chantech/components/equipement_card.dart';
 import 'package:chantech/consts.dart';
+import 'package:chantech/models/equipement.dart';
+import 'package:chantech/screens/equipement_detaille.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class AddEquipementDansChantier extends StatefulWidget {
-  AddEquipementDansChantier({Key? key}) : super(key: key);
+  final Function update;
+  final int idChantier;
+  AddEquipementDansChantier(
+      {Key? key, required this.update, required this.idChantier})
+      : super(key: key);
 
   @override
   _AddEquipementDansChantierState createState() =>
@@ -12,13 +20,41 @@ class AddEquipementDansChantier extends StatefulWidget {
 
 class _AddEquipementDansChantierState extends State<AddEquipementDansChantier> {
   List<EquipementCard> _listEquipement = [];
+  Future<void> fetchEquipements() async {
+    _listEquipement = [];
+    final response =
+        await http.get(Uri.parse(localhost + 'equipement/disponible'));
 
-  bool? disponible;
+    if (response.statusCode == 200) {
+      final List _listData = jsonDecode(response.body)['data']
+          .map((data) => Equipement.fromJson(data))
+          .toList();
+      setState(
+        () {
+          for (Equipement e in _listData) {
+            _listEquipement.add(
+              EquipementCard.fromEquipement(
+                e,
+                () async {
+                  final addOuvrierUrl = localhost +
+                      'equipement/numEquipement/${e.numEquipement}/chantier/${widget.idChantier}/nbArticle/1';
+                  await http.post(Uri.parse(addOuvrierUrl));
+                  await widget.update();
+                  Navigator.pop(context);
+                },
+              ),
+            );
+          }
+        },
+      );
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    disponible = true;
+    fetchEquipements();
   }
 
   @override
@@ -40,7 +76,9 @@ class _AddEquipementDansChantierState extends State<AddEquipementDansChantier> {
               ),
               child: IconButton(
                 color: myBlue,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
                 icon: const Icon(
                   Icons.arrow_back_rounded,
                   size: 30,
@@ -61,45 +99,7 @@ class _AddEquipementDansChantierState extends State<AddEquipementDansChantier> {
         child: Column(
           children: [
             //Buttons
-            Row(
-              children: [
-                TextButton(
-                  style: myBottomStyle(
-                      disponible == true ? myYellow : Colors.white),
-                  onPressed: () {
-                    setState(() {
-                      disponible = true;
-                    });
-                  },
-                  child: Text(
-                    'Disponible',
-                    style: TextStyle(
-                      color: disponible! ? Colors.white : myBlue,
-                      fontWeight: FontWeight.w100,
-                      fontSize: 15,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                TextButton(
-                  style: myBottomStyle(
-                      disponible == false ? myYellow : Colors.white),
-                  onPressed: () {
-                    setState(() {
-                      disponible = false;
-                    });
-                  },
-                  child: Text(
-                    'Ocuppé',
-                    style: TextStyle(
-                      color: disponible! == false ? Colors.white : myBlue,
-                      fontWeight: FontWeight.w100,
-                      fontSize: 15,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+
             const SizedBox(height: 10),
             SizedBox(
               height: 400,

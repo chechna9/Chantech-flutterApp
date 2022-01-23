@@ -26,8 +26,8 @@ void main() {
         // '/allTaches': (context) => AllTaches(),
         // '/tacheDetaille': (context) => const TacheDetaille(),
         // '/addOuvrierDansChantier': (context) => AddOuvrierDChantier(),
-        '/equipementDansChantier': (context) => const EquipementDansChantier(),
-        '/addEquipementDansChantier': (context) => AddEquipementDansChantier(),
+        // '/equipementDansChantier': (context) => const EquipementDansChantier(),
+        // '/addEquipementDansChantier': (context) => AddEquipementDansChantier(),
       },
     ),
   );
