@@ -1,6 +1,7 @@
 import 'package:chantech/consts.dart';
 import 'package:chantech/models/chantier.dart';
 import 'package:chantech/screens/chantier_detaille.dart';
+import 'package:chantech/var_glob.dart';
 import 'package:flutter/material.dart';
 
 class ChantierCard extends StatelessWidget {
@@ -30,13 +31,14 @@ class ChantierCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ChantierDetaille(
-                      update: update,
-                      id: id,
-                    )));
+        if (!IsProp!)
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ChantierDetaille(
+                        update: update,
+                        id: id,
+                      )));
       },
       style: TextButton.styleFrom(
         padding: const EdgeInsets.all(20),

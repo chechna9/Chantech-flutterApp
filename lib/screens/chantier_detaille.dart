@@ -7,6 +7,7 @@ import 'package:chantech/screens/all_taches.dart';
 import 'package:chantech/screens/equipement_dans_chantier.dart';
 
 import 'package:chantech/screens/ouvrier_dans_chantier.dart';
+import 'package:chantech/var_glob.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -81,14 +82,16 @@ class _ChantierDetailleState extends State<ChantierDetaille> {
       final data = jsonDecode(response.body);
       final heurData = jsonDecode(heurResponse.body);
       if (data['status'] == 200) {
-        setState(() {
-          heurData['data'][0]['heureTravaillerChantier'] == null
-              ? heureTravaille = 0
-              : heureTravaille =
-                  int.parse(heurData['data'][0]['heureTravaillerChantier']);
-          _chantier = Chantier.fromJson(data['data'][0]);
-          // print(data['data'][0]);
-        });
+        setState(
+          () {
+            heurData['data'][0]['heureTravaillerChantier'] == null
+                ? heureTravaille = 0
+                : heureTravaille =
+                    int.parse(heurData['data'][0]['heureTravaillerChantier']);
+            _chantier = Chantier.fromJson(data['data'][0]);
+            // print(data['data'][0]);
+          },
+        );
       }
     }
   }
@@ -293,47 +296,50 @@ class _DescriptChantierState extends State<DescriptChantier> {
       child: Stack(
         clipBehavior: Clip.none,
         children: [
-          Positioned(
-            right: 0,
-            child: IconButton(
-              onPressed: () {
-                widget.edit();
-              },
-              icon: const Icon(
-                Icons.settings,
-                color: myBlue,
-                size: 35,
+          if (IsAdmin! || IsResp!)
+            Positioned(
+              right: 0,
+              child: IconButton(
+                onPressed: () {
+                  widget.edit();
+                },
+                icon: const Icon(
+                  Icons.settings,
+                  color: myBlue,
+                  size: 35,
+                ),
               ),
             ),
-          ),
-          Positioned(
-            bottom: -20,
-            right: 0,
-            child: IconButton(
-              onPressed: () {
-                widget.delete();
-              },
-              icon: const Icon(
-                Icons.delete,
-                color: myBlue,
-                size: 35,
+          if (IsAdmin! || IsResp!)
+            Positioned(
+              bottom: -20,
+              right: 0,
+              child: IconButton(
+                onPressed: () {
+                  widget.delete();
+                },
+                icon: const Icon(
+                  Icons.delete,
+                  color: myBlue,
+                  size: 35,
+                ),
               ),
             ),
-          ),
-          Positioned(
-            bottom: -20,
-            left: 0,
-            child: IconButton(
-              onPressed: () {
-                widget.done();
-              },
-              icon: const Icon(
-                Icons.cloud_done,
-                color: myBlue,
-                size: 35,
+          if (IsAdmin! || IsResp!)
+            Positioned(
+              bottom: -20,
+              left: 0,
+              child: IconButton(
+                onPressed: () {
+                  widget.done();
+                },
+                icon: const Icon(
+                  Icons.cloud_done,
+                  color: myBlue,
+                  size: 35,
+                ),
               ),
             ),
-          ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

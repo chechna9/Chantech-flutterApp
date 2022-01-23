@@ -4,6 +4,7 @@ import 'package:chantech/components/add_tache.dart';
 import 'package:chantech/components/tache_card.dart';
 import 'package:chantech/consts.dart';
 import 'package:chantech/models/tache.dart';
+import 'package:chantech/var_glob.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -108,18 +109,20 @@ class _AllTachesState extends State<AllTaches> {
           const SizedBox(width: 20),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        elevation: 0,
-        backgroundColor: myYellow,
-        child: const Icon(
-          Icons.add,
-          size: 50,
-          color: myBlue,
-        ),
-        onPressed: () {
-          addTache();
-        },
-      ),
+      floatingActionButton: (IsAdmin! || IsResp!)
+          ? FloatingActionButton(
+              elevation: 0,
+              backgroundColor: myYellow,
+              child: const Icon(
+                Icons.add,
+                size: 50,
+                color: myBlue,
+              ),
+              onPressed: () {
+                addTache();
+              },
+            )
+          : null,
       backgroundColor: myBlue,
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 40),

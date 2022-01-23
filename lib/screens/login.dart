@@ -1,4 +1,5 @@
 import 'package:chantech/consts.dart';
+import 'package:chantech/var_glob.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -120,7 +121,9 @@ class _LoginCardState extends State<LoginCard> {
                       onPressed: () async {
                         _emailExist = true;
                         _passwordCorrect = true;
+
                         if (_formKey.currentState!.validate()) {
+                          //cannot sent header after resent
                           final repsonseEmail = await http.get(
                               Uri.parse(localhost + 'personne/email/$email'));
                           final userDataE = jsonDecode(repsonseEmail.body);
@@ -139,9 +142,24 @@ class _LoginCardState extends State<LoginCard> {
                             userDataP['status'] == 100
                                 ? _passwordCorrect = false
                                 : _passwordCorrect = true;
-                          }
-                          if (_formKey.currentState!.validate()) {
-                            // Navigator.pushReplacementNamed(context, '/home');
+                            if (_formKey.currentState!.validate()) {
+                              IsAdmin = userDataP['role'] == 'admin';
+                              IsOuvrier = userDataP['role'] == 'ouvrier';
+                              IsResp = userDataP['role'] == 'responsable';
+                              IsProp = userDataP['role'] == '<UKN>';
+                              idGlob = userDataE['data'][0]['idPersonne'];
+                              print('admin $IsAdmin');
+                              print('resp $IsResp');
+                              print('ouvr $IsOuvrier');
+                              print('prop $IsProp');
+                              if (IsAdmin!) {
+                                Navigator.pushReplacementNamed(
+                                    context, '/home');
+                              } else {
+                                Navigator.pushReplacementNamed(
+                                    context, '/homeLite');
+                              }
+                            }
                           }
                         }
                       },

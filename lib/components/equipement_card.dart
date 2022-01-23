@@ -1,6 +1,7 @@
 import 'package:chantech/consts.dart';
 import 'package:chantech/models/equipement.dart';
 import 'package:chantech/screens/equipement_detaille.dart';
+import 'package:chantech/var_glob.dart';
 import 'package:flutter/material.dart';
 
 class EquipementCard extends StatelessWidget {
@@ -27,7 +28,7 @@ class EquipementCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        action();
+        if (IsAdmin! || IsResp!) action();
       },
       style: myBottomStyle(myYellow),
       child: Row(

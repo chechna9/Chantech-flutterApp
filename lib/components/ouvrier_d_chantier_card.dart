@@ -2,6 +2,7 @@ import 'package:chantech/consts.dart';
 import 'package:chantech/models/ouvrier.dart';
 import 'package:chantech/screens/affect_respo.dart';
 import 'package:chantech/screens/ouvrier_detaille.dart';
+import 'package:chantech/var_glob.dart';
 import 'package:flutter/material.dart';
 
 class OuvrierDChantierCard extends StatefulWidget {
@@ -40,15 +41,16 @@ class _OuvrierDChantierCardState extends State<OuvrierDChantierCard> {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute<void>(
-            builder: (BuildContext context) => OuvrierDetaille(
-              id: widget.idOuvrier,
-              update: widget.update,
+        if (IsAdmin! || IsResp!)
+          Navigator.push(
+            context,
+            MaterialPageRoute<void>(
+              builder: (BuildContext context) => OuvrierDetaille(
+                id: widget.idOuvrier,
+                update: widget.update,
+              ),
             ),
-          ),
-        );
+          );
       },
       style: TextButton.styleFrom(
         padding: const EdgeInsets.all(20),

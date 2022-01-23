@@ -7,6 +7,7 @@ import 'package:chantech/models/ouvrier.dart';
 import 'package:chantech/models/tache.dart';
 import 'package:chantech/screens/ajout_ouvrier_d_tache.dart';
 import 'package:chantech/screens/ouvrier_detaille.dart';
+import 'package:chantech/var_glob.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -105,26 +106,28 @@ class _TacheDetailleState extends State<TacheDetaille> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        elevation: 0,
-        backgroundColor: myYellow,
-        child: const Icon(
-          Icons.add,
-          size: 50,
-          color: myBlue,
-        ),
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AddOuvrierDTache(
-                  idChantier: _tache!.idChantier,
-                  idTache: widget.id,
-                  update: fetchOuvriers,
-                ),
-              ));
-        },
-      ),
+      floatingActionButton: (IsAdmin! || IsResp!)
+          ? FloatingActionButton(
+              elevation: 0,
+              backgroundColor: myYellow,
+              child: const Icon(
+                Icons.add,
+                size: 50,
+                color: myBlue,
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddOuvrierDTache(
+                        idChantier: _tache!.idChantier,
+                        idTache: widget.id,
+                        update: fetchOuvriers,
+                      ),
+                    ));
+              },
+            )
+          : null,
       backgroundColor: myBlue,
       appBar: AppBar(
         elevation: 0,
@@ -251,34 +254,36 @@ class _DescriptTacheState extends State<DescriptTache> {
       child: Stack(
         clipBehavior: Clip.none,
         children: [
-          Positioned(
-            bottom: -20,
-            right: 0,
-            child: IconButton(
-              onPressed: () {
-                widget.delete();
-              },
-              icon: const Icon(
-                Icons.delete,
-                color: myBlue,
-                size: 35,
+          if (IsAdmin! || IsResp!)
+            Positioned(
+              bottom: -20,
+              right: 0,
+              child: IconButton(
+                onPressed: () {
+                  widget.delete();
+                },
+                icon: const Icon(
+                  Icons.delete,
+                  color: myBlue,
+                  size: 35,
+                ),
               ),
             ),
-          ),
-          Positioned(
-            bottom: -20,
-            left: 0,
-            child: IconButton(
-              onPressed: () {
-                widget.done();
-              },
-              icon: const Icon(
-                Icons.cloud_done,
-                color: myBlue,
-                size: 35,
+          if (IsAdmin! || IsResp!)
+            Positioned(
+              bottom: -20,
+              left: 0,
+              child: IconButton(
+                onPressed: () {
+                  widget.done();
+                },
+                icon: const Icon(
+                  Icons.cloud_done,
+                  color: myBlue,
+                  size: 35,
+                ),
               ),
             ),
-          ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

@@ -6,6 +6,7 @@ import 'package:chantech/consts.dart';
 import 'package:chantech/models/ouvrier.dart';
 import 'package:chantech/screens/add_ouvrier_d_chantier.dart';
 import 'package:chantech/screens/ouvrier_detaille.dart';
+import 'package:chantech/var_glob.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -118,24 +119,27 @@ class OuvrierDansChantierState extends State<OuvrierDansChantier> {
           const SizedBox(width: 20),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        elevation: 0,
-        backgroundColor: myYellow,
-        child: const Icon(
-          Icons.add,
-          size: 50,
-          color: myBlue,
-        ),
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AddOuvrierDChantier(
-                  idChantier: widget.idChantier,
-                ),
-              ));
-        },
-      ),
+      floatingActionButton: (IsAdmin! || IsResp!)
+          ? FloatingActionButton(
+              elevation: 0,
+              backgroundColor: myYellow,
+              child: const Icon(
+                Icons.add,
+                size: 50,
+                color: myBlue,
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddOuvrierDChantier(
+                        idChantier: widget.idChantier,
+                        update: fetchOuvriers,
+                      ),
+                    ));
+              },
+            )
+          : null,
       body: Container(
         margin: const EdgeInsets.only(top: 18),
         padding: const EdgeInsets.symmetric(horizontal: 40),

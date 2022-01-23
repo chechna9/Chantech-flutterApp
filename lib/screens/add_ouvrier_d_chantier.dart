@@ -8,7 +8,10 @@ import 'package:http/http.dart' as http;
 
 class AddOuvrierDChantier extends StatefulWidget {
   final int idChantier;
-  AddOuvrierDChantier({Key? key, required this.idChantier}) : super(key: key);
+  final Function update;
+  AddOuvrierDChantier(
+      {Key? key, required this.idChantier, required this.update})
+      : super(key: key);
 
   @override
   _AddOuvrierDChantierState createState() => _AddOuvrierDChantierState();
@@ -57,6 +60,7 @@ class _AddOuvrierDChantierState extends State<AddOuvrierDChantier> {
               final addOuvrierUrl = localhost +
                   'ouvrier/idOuvrier/${e.id}/idChantier/${widget.idChantier}';
               await http.post(Uri.parse(addOuvrierUrl));
+              await widget.update();
               Navigator.pop(context);
             },
           ));
@@ -93,7 +97,8 @@ class _AddOuvrierDChantierState extends State<AddOuvrierDChantier> {
               ),
               child: IconButton(
                 color: myBlue,
-                onPressed: () {
+                onPressed: () async {
+                  await widget.update();
                   Navigator.pop(context);
                 },
                 icon: const Icon(
