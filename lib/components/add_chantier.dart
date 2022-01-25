@@ -24,6 +24,7 @@ class _AddChantierState extends State<AddChantier> {
   Widget build(BuildContext context) {
     bool _propExist = true;
     bool _respExist = true;
+    bool _dejaRespo = false;
     final _formkey = GlobalKey<FormState>();
     String nom = "";
     String prop = "";
@@ -77,11 +78,13 @@ class _AddChantierState extends State<AddChantier> {
                     TextFormField(
                       decoration: myTFFDecoration('Email du Responsable'),
                       onChanged: (value) => respo = value,
-                      validator: (val) => !_respExist
-                          ? 'Responsable n\'existe pas'
-                          : val!.isEmpty
-                              ? 'Remplir ce champ'
-                              : null,
+                      validator: (val) => _dejaRespo
+                          ? 'Responsable existe deja'
+                          : !_respExist
+                              ? 'Responsable n\'existe pas'
+                              : val!.isEmpty
+                                  ? 'Remplir ce champ'
+                                  : null,
                     ),
 
                     const SizedBox(height: 40),
@@ -110,7 +113,7 @@ class _AddChantierState extends State<AddChantier> {
                             onPressed: () async {
                               _propExist = true;
                               _respExist = true;
-
+                              _dejaRespo = false;
                               if (_formkey.currentState!.validate()) {
                                 // 120 ouvrier // personne 100 // error
                                 final respResponse = await http
@@ -132,36 +135,36 @@ class _AddChantierState extends State<AddChantier> {
                                 }
 
                                 if (_formkey.currentState!.validate()) {
-                                  //getting responsable
-                                  final fetchResponsableResponse =
-                                      await http.get(Uri.parse(localhost +
-                                          'ouvrier/info/email/$respo'));
-                                  final responsableData = jsonDecode(
-                                      fetchResponsableResponse.body)['data'][0];
-                                  Ouvrier responsable =
-                                      Ouvrier.fromJson(responsableData);
-                                  // getting proprietaire
-                                  final proprietaireData =
-                                      jsonDecode(propResponse.body)['data'][0];
-
                                   final addChantierUrl = localhost +
                                       'chantier/nomchantier/$nom/emailproprietaire/$prop/emailresponsable/$respo/address/$adr';
-                                  await http.post(Uri.parse(addChantierUrl));
-                                  setState(
-                                    () {
-                                      widget.updateListEncours.add(
-                                        ChantierCard(
-                                          nom: nom,
-                                          respo: respo,
-                                          prop: prop,
-                                          id: 0,
-                                          update: () {},
-                                        ),
-                                      );
-                                    },
-                                  );
 
-                                  Navigator.pop(context);
+                                  try {
+                                    final result = await http
+                                        .post(Uri.parse(addChantierUrl));
+                                    print(result.body);
+                                    if (jsonDecode(result.body)['status'] ==
+                                        100) _dejaRespo = true;
+                                    print(result.body);
+                                  } catch (e) {
+                                    print('error');
+                                  }
+                                  if (_formkey.currentState!.validate()) {
+                                    setState(
+                                      () {
+                                        widget.updateListEncours.add(
+                                          ChantierCard(
+                                            nom: nom,
+                                            respo: respo,
+                                            prop: prop,
+                                            id: 0,
+                                            update: () {},
+                                          ),
+                                        );
+                                      },
+                                    );
+
+                                    Navigator.pop(context);
+                                  }
                                 }
                               }
                             },

@@ -1,9 +1,9 @@
 import 'package:chantech/consts.dart';
 
-bool? IsAdmin;
-bool? IsOuvrier;
-bool? IsProp;
-bool? IsResp;
+bool? IsAdmin = true;
+bool? IsOuvrier = false;
+bool? IsProp = false;
+bool? IsResp = false;
 String? emailGlob;
 int? idGlob;
 String urlResponsable = localhost + 'ouvrier/idOuvrier/$idGlob/responsable';

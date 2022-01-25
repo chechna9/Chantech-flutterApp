@@ -8,20 +8,26 @@ import 'package:http/http.dart' as http;
 class EditOuvrier extends StatelessWidget {
   final int idOuvrier;
   final Function update;
-  EditOuvrier({Key? key, required this.idOuvrier, required this.update})
+  final Ouvrier? ouvrier;
+  EditOuvrier(
+      {Key? key,
+      required this.idOuvrier,
+      required this.update,
+      required this.ouvrier})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final _formkey = GlobalKey<FormState>();
     bool _userExists = true;
+    bool _phoneExist = false;
 
-    String nom = "";
-    String prenom = "";
+    String nom = ouvrier != null ? ouvrier!.nom : '';
+    String prenom = ouvrier != null ? ouvrier!.prenom : '';
 
-    String spec = "";
-    int numTele = 0;
-    String email = "";
+    String spec = ouvrier != null ? ouvrier!.spec : '';
+    int numTele = ouvrier != null ? ouvrier!.numero : 0;
+    String email = ouvrier != null ? ouvrier!.email : '';
     return Scaffold(
       backgroundColor: const Color(0x44ffffff),
       body: Padding(
@@ -42,6 +48,7 @@ class EditOuvrier extends StatelessWidget {
                     TextFormField(
                       decoration: myTFFDecoration('Nom'),
                       onChanged: (value) => nom = value,
+                      initialValue: nom,
                       validator: (val) =>
                           val!.isEmpty ? 'Remplir ce champ' : null,
                     ),
@@ -50,6 +57,7 @@ class EditOuvrier extends StatelessWidget {
                     TextFormField(
                       decoration: myTFFDecoration('Prénom'),
                       onChanged: (value) => prenom = value,
+                      initialValue: prenom,
                       validator: (val) =>
                           val!.isEmpty ? 'Remplir ce champ' : null,
                     ),
@@ -58,6 +66,7 @@ class EditOuvrier extends StatelessWidget {
                     TextFormField(
                       decoration: myTFFDecoration('Specialité'),
                       onChanged: (value) => spec = value,
+                      initialValue: spec,
                       validator: (val) =>
                           val!.isEmpty ? 'Remplir ce champ' : null,
                     ),
@@ -67,14 +76,19 @@ class EditOuvrier extends StatelessWidget {
                       keyboardType: TextInputType.phone,
                       decoration: myTFFDecoration('Numero de télephone'),
                       onChanged: (value) => numTele = int.parse(value),
-                      validator: (val) =>
-                          val!.isEmpty ? 'Remplir ce champ' : null,
+                      initialValue: numTele.toString(),
+                      validator: (val) => _phoneExist
+                          ? 'numero existe deja'
+                          : val!.isEmpty
+                              ? 'Remplir ce champ'
+                              : null,
                     ),
                     const SizedBox(height: 20),
                     //email
                     TextFormField(
                       decoration: myTFFDecoration('Email'),
                       onChanged: (value) => email = value,
+                      initialValue: email,
                       validator: (val) => _userExists
                           ? 'Email existe déja'
                           : val!.isEmpty
@@ -107,10 +121,11 @@ class EditOuvrier extends StatelessWidget {
                             style: myBottomStyle(myBlue),
                             onPressed: () async {
                               _userExists = false;
+                              _phoneExist = false;
                               if (_formkey.currentState!.validate()) {
                                 final userResponse = await http
                                     .get(Uri.parse(urlRespVal + email));
-                                print(userResponse.body);
+                                print("email response ${userResponse.body}");
 
                                 if (jsonDecode(userResponse.body)['status'] ==
                                     120) {
@@ -122,12 +137,26 @@ class EditOuvrier extends StatelessWidget {
                                     _userExists = true;
                                   }
                                 }
+                                final repsonsePhone = await http.get(Uri.parse(
+                                    localhost + 'personne/numero/$numTele'));
 
+                                final userDataP =
+                                    jsonDecode(repsonsePhone.body);
+                                print("phone response ${userDataP}");
+
+                                if (userDataP['status'] == 200 &&
+                                    userDataP['data'][0]['idPersonne'] !=
+                                        idOuvrier) {
+                                  _phoneExist = true;
+                                } else {
+                                  _phoneExist = false;
+                                }
                                 if (_formkey.currentState!.validate()) {
                                   final editOuvrierUrl = localhost +
                                       'ouvrier/id/$idOuvrier/nom/$nom/prenom/$prenom/numero/$numTele/email/$email/specialite/$spec';
                                   await http.put(Uri.parse(editOuvrierUrl));
                                   await update();
+
                                   Navigator.pop(context);
                                 }
                               }

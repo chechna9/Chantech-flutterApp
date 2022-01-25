@@ -258,7 +258,7 @@ class _SecondRegisterCardState extends State<SecondRegisterCard> {
                           final rgisterUrl = localhost +
                               'personne/nom/$nom/prenom/$prenom/numero/$phoneNumber/email/$email/mdp/$password';
                           await http.post(Uri.parse(rgisterUrl));
-                          // Navigator.pushReplacementNamed(context, '/home');
+                          Navigator.pushReplacementNamed(context, '/login');
                         }
                       }
                     },

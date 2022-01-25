@@ -21,6 +21,8 @@ class EditChantier extends StatelessWidget {
   Widget build(BuildContext context) {
     bool _propExist = true;
     bool _respExist = true;
+    bool _dejaRespo = false;
+
     final _formkey = GlobalKey<FormState>();
     String nom = chantier.nomChantier;
     String prop = chantier.emailProprietaire;
@@ -78,11 +80,13 @@ class EditChantier extends StatelessWidget {
                       decoration: myTFFDecoration('Email du Responsable'),
                       onChanged: (value) => respo = value,
                       initialValue: respo,
-                      validator: (val) => !_respExist
-                          ? 'Responsable n\'existe pas'
-                          : val!.isEmpty
-                              ? 'Remplir ce champ'
-                              : null,
+                      validator: (val) => _dejaRespo
+                          ? 'Responsable existe deja'
+                          : !_respExist
+                              ? 'Responsable n\'existe pas'
+                              : val!.isEmpty
+                                  ? 'Remplir ce champ'
+                                  : null,
                     ),
 
                     const SizedBox(height: 40),
@@ -111,7 +115,7 @@ class EditChantier extends StatelessWidget {
                             onPressed: () async {
                               _propExist = true;
                               _respExist = true;
-
+                              _dejaRespo = false;
                               if (_formkey.currentState!.validate()) {
                                 // 120 ouvrier // personne 100 // error
                                 final respResponse = await http
@@ -140,13 +144,16 @@ class EditChantier extends StatelessWidget {
                                   try {
                                     final result = await http
                                         .put(Uri.parse(editChantierUrl));
+                                    if (jsonDecode(result.body)['status'] ==
+                                        100) _dejaRespo = true;
                                     print(result.body);
                                   } catch (e) {
                                     print('error');
                                   }
-
-                                  await update();
-                                  // Navigator.pop(context);
+                                  if (_formkey.currentState!.validate()) {
+                                    await update();
+                                    Navigator.pop(context);
+                                  }
                                 }
                               }
                             },

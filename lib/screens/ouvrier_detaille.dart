@@ -28,6 +28,7 @@ class _OuvrierDetailleState extends State<OuvrierDetaille> {
         return EditOuvrier(
           idOuvrier: widget.id,
           update: fetchOuvrier,
+          ouvrier: _ouvrier,
         );
       },
     );

@@ -9,8 +9,12 @@ import 'package:http/http.dart' as http;
 class AddOuvrierDChantier extends StatefulWidget {
   final int idChantier;
   final Function update;
+  final List<OuvrierCard> dejaDansChantier;
   AddOuvrierDChantier(
-      {Key? key, required this.idChantier, required this.update})
+      {Key? key,
+      required this.idChantier,
+      required this.update,
+      required this.dejaDansChantier})
       : super(key: key);
 
   @override
@@ -21,6 +25,8 @@ class _AddOuvrierDChantierState extends State<AddOuvrierDChantier> {
   List<OuvrierCard> listOuvriersDispo = [];
   List<OuvrierCard> listOuvriersOcup = [];
   Future<void> fetchOuvriers() async {
+    listOuvriersDispo = [];
+    listOuvriersOcup = [];
     final responseDispo = await http.get(Uri.parse(urlOuvrierDispo));
     final responseOcup = await http.get(Uri.parse(urlOuvrierOcup));
     //getting ouvrier disponible
@@ -28,6 +34,7 @@ class _AddOuvrierDChantierState extends State<AddOuvrierDChantier> {
       final List _listData = jsonDecode(responseDispo.body)['data']
           .map((data) => Ouvrier.fromJson(data))
           .toList();
+      // _listData.removeWhere((e)=>widget.dejaDansChantier.contains(e[]));
       setState(
         () {
           for (Ouvrier e in _listData) {
@@ -38,6 +45,7 @@ class _AddOuvrierDChantierState extends State<AddOuvrierDChantier> {
                   final addOuvrierUrl = localhost +
                       'ouvrier/idOuvrier/${e.id}/idChantier/${widget.idChantier}';
                   await http.post(Uri.parse(addOuvrierUrl));
+                  await widget.update();
                   Navigator.pop(context);
                 },
               ),

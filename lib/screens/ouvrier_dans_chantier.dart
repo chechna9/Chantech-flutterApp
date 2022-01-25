@@ -135,6 +135,7 @@ class OuvrierDansChantierState extends State<OuvrierDansChantier> {
                       builder: (context) => AddOuvrierDChantier(
                         idChantier: widget.idChantier,
                         update: fetchOuvriers,
+                        dejaDansChantier: _listOuvriers,
                       ),
                     ));
               },

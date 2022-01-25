@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:chantech/consts.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -9,6 +11,9 @@ class AddOuvrier extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _formkey = GlobalKey<FormState>();
+    bool _emailExist = false;
+    bool _phoneExist = false;
+
     String nom = "";
     String prenom = "";
     String spec = "";
@@ -59,16 +64,22 @@ class AddOuvrier extends StatelessWidget {
                       keyboardType: TextInputType.phone,
                       decoration: myTFFDecoration('Numero de télephone'),
                       onChanged: (value) => numTele = int.parse(value),
-                      validator: (val) =>
-                          val!.isEmpty ? 'Remplir ce champ' : null,
+                      validator: (val) => _phoneExist
+                          ? 'numero existe deja'
+                          : val!.isEmpty
+                              ? 'Remplir ce champ'
+                              : null,
                     ),
                     const SizedBox(height: 20),
                     //email
                     TextFormField(
                       decoration: myTFFDecoration('Email'),
                       onChanged: (value) => email = value,
-                      validator: (val) =>
-                          val!.isEmpty ? 'Remplir ce champ' : null,
+                      validator: (val) => _emailExist
+                          ? 'email existe deja'
+                          : val!.isEmpty
+                              ? 'Remplir ce champ'
+                              : null,
                     ),
 
                     const SizedBox(height: 40),
@@ -95,12 +106,37 @@ class AddOuvrier extends StatelessWidget {
                           child: TextButton(
                             style: myBottomStyle(myBlue),
                             onPressed: () async {
+                              _emailExist = false;
+                              _phoneExist = false;
                               if (_formkey.currentState!.validate()) {
-                                final addOuvrierUrl = localhost +
-                                    'ouvrier/nom/$nom/prenom/$prenom/numero/$numTele/email/$email/specialite/$spec';
-                                await http.post(Uri.parse(addOuvrierUrl));
-                                await update();
-                                Navigator.pop(context);
+                                final repsonseEmail = await http.get(Uri.parse(
+                                    localhost + 'personne/email/$email'));
+
+                                final userDataE =
+                                    jsonDecode(repsonseEmail.body);
+                                print(userDataE['status']);
+
+                                userDataE['status'] == 200
+                                    ? _emailExist = true
+                                    : _emailExist = false;
+
+                                final repsonsePhone = await http.get(Uri.parse(
+                                    localhost + 'personne/numero/$numTele'));
+
+                                final userDataP =
+                                    jsonDecode(repsonsePhone.body);
+                                print(userDataP['status']);
+
+                                userDataP['status'] == 200
+                                    ? _phoneExist = true
+                                    : _phoneExist = false;
+                                if (_formkey.currentState!.validate()) {
+                                  final addOuvrierUrl = localhost +
+                                      'ouvrier/nom/$nom/prenom/$prenom/numero/$numTele/email/$email/specialite/$spec';
+                                  await http.post(Uri.parse(addOuvrierUrl));
+                                  await update();
+                                  Navigator.pop(context);
+                                }
                               }
                             },
                             child: const Text(
