@@ -9,10 +9,12 @@ import 'package:http/http.dart' as http;
 class AddChantier extends StatefulWidget {
   List<ChantierCard> updateListEncours;
   List<ChantierCard> updateListTerminer;
+  final Function update;
   AddChantier(
       {Key? key,
       required this.updateListEncours,
-      required this.updateListTerminer})
+      required this.updateListTerminer,
+      required this.update})
       : super(key: key);
 
   @override
@@ -149,20 +151,20 @@ class _AddChantierState extends State<AddChantier> {
                                     print('error');
                                   }
                                   if (_formkey.currentState!.validate()) {
-                                    setState(
-                                      () {
-                                        widget.updateListEncours.add(
-                                          ChantierCard(
-                                            nom: nom,
-                                            respo: respo,
-                                            prop: prop,
-                                            id: 0,
-                                            update: () {},
-                                          ),
-                                        );
-                                      },
-                                    );
-
+                                    // setState(
+                                    //   () {
+                                    //     widget.updateListEncours.add(
+                                    //       ChantierCard(
+                                    //         nom: nom,
+                                    //         respo: respo,
+                                    //         prop: prop,
+                                    //         id: 0,
+                                    //         update: widget.update,
+                                    //       ),
+                                    //     );
+                                    //   },
+                                    // );
+                                    widget.update();
                                     Navigator.pop(context);
                                   }
                                 }

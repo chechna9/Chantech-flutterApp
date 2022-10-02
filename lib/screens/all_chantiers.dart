@@ -28,6 +28,7 @@ class _AllChantiersState extends State<AllChantiers> {
         return AddChantier(
           updateListEncours: listChantiersEnCours,
           updateListTerminer: listChantiersTerminer,
+          update: widget.update,
         );
       },
     );

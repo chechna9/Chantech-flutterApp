@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 3))
+    Future.delayed(Duration(seconds: 4))
         .then((value) => Navigator.pushReplacementNamed(context, '/login'));
     _animationController = AnimationController(
       vsync: this,

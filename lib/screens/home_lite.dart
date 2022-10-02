@@ -25,15 +25,22 @@ class _HomeLiteState extends State<HomeLite> {
 
     if (response.statusCode == 200) {
       print(response.body);
-      final List _listData = jsonDecode(response.body)['data']
-          .map((data) => Chantier.fromJson(data))
-          .toList();
-      print(response.body);
-      setState(() {
-        for (Chantier e in _listData) {
-          listChantiers.add(ChantierCard.fromChantier(e, fetchChantiers));
-        }
-      });
+      try {
+        final List _listData = jsonDecode(response.body)['data']
+            .map((data) => Chantier.fromJson(data))
+            .toList();
+        print(response.body);
+        setState(() {
+          for (Chantier e in _listData) {
+            listChantiers.add(ChantierCard.fromChantier(e, fetchChantiers));
+          }
+        });
+      } catch (e) {
+        print('error');
+        setState(() {
+          listChantiers = [];
+        });
+      }
     }
   }
 

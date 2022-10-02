@@ -143,10 +143,11 @@ class _LoginCardState extends State<LoginCard> {
                                 ? _passwordCorrect = false
                                 : _passwordCorrect = true;
                             if (_formKey.currentState!.validate()) {
+                              print(userDataP);
                               IsAdmin = userDataP['role'] == 'admin';
                               IsOuvrier = userDataP['role'] == 'ouvrier';
                               IsResp = userDataP['role'] == 'responsable';
-                              IsProp = userDataP['role'] == '<UKN>';
+                              IsProp = userDataP['role'] == 'proprietaire';
                               idGlob = userDataE['data'][0]['idPersonne'];
                               print('admin $IsAdmin');
                               print('resp $IsResp');
